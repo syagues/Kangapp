@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Kangapp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="str_buscar">Buscar</string>
+    <string name="str_mis_articulos">Mis Articulos</string>
+    <string name="str_mis_tratos">Mis Tratos</string>
+    <string name="str_drawer_close">KangApp</string>
+    <string name="str_drawer_open">Menu</string>
+</resources>
