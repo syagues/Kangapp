@@ -9,4 +9,8 @@
     <string name="str_mis_tratos">Mis Tratos</string>
     <string name="str_drawer_close">KangApp</string>
     <string name="str_drawer_open">Menu</string>
+
+    <string name="menu_search">Search</string>
+    <string name="search_hint">search</string>
+    <string name="search_result">results</string>
 </resources>
