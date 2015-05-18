@@ -68,6 +68,7 @@ public class PrincipalActivity extends ActionBarActivity implements
     // Localitzacio
     GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
+    //
 
     // Cerca
     android.support.v7.widget.SearchView searchView;
