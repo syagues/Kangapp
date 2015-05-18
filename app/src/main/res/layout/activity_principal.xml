@@ -8,11 +8,17 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/map"
+            tools:context="projecte.kangapp.PrincipalActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
     </LinearLayout>
 
     <ListView
         android:id="@+id/list_view"
-        android:layout_width="250dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:paddingTop="5dp"

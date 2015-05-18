@@ -21,6 +21,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
     compile project(':llibreria')
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.google.android.gms:play-services-maps:7.3.0'
+    compile 'com.google.android.gms:play-services-location:7.3.0'
+    compile 'com.mikepenz.materialdrawer:library:2.9.7'
+    compile 'com.mikepenz.aboutlibraries:library:4.7.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.mikepenz.aboutlibraries:library:4.7.2'
 }
