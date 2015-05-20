@@ -45,7 +45,6 @@ import java.util.Locale;
 
 import android.database.MatrixCursor;
 
-
 public class PrincipalActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
