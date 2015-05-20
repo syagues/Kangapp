@@ -4,9 +4,31 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="str_buscar">Buscar</string>
-    <string name="str_mis_articulos">Mis Articulos</string>
-    <string name="str_mis_tratos">Mis Tratos</string>
     <string name="str_drawer_close">KangApp</string>
     <string name="str_drawer_open">Menu</string>
+
+    <string name="str_buscar_ciudad">Buscar ciudad</string>
+
+    <!-- Login i Registre -->
+    <string name="str_nombre">Nombre</string>
+    <string name="str_contraseña">Contraseña</string>
+    <string name="str_confirmar_contraseña">Confirmar Contraseña</string>
+    <string name="str_registrarse">Registrarse</string>
+    <string name="str_acceder">Acceder</string>
+    <string name="str_acceso">Acceso</string>
+    <string name="str_correo_electronico">Correo Electrónico</string>
+    <string name="str_nick">Nick</string>
+    <string name="str_enviar_datos">Enviar Datos</string>
+    <string name="str_apellidos">Apellidos</string>
+
+    <!-- Menu Lateral -->
+    <string name="str_buscar">Buscar</string>
+    <string name="str_mis_articulos">Mis Articulos</string>
+    <string name="str_chat">Chat</string>
+    <string name="str_mis_tratos">Mis Tratos</string>
+    <string name="str_como_kanger">Como Kanger</string>
+    <string name="str_como_arrend">Como Arrendatario</string>
+    <string name="str_publicar">Publicar</string>
+    <string name="str_perfil">Perfil</string>
+    <string name="str_ajustes">Ajustes</string>
 </resources>

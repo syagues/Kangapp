@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/primary"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"></LinearLayout>
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/bRegistre"
+        android:text="@string/str_registrarse"
+        android:layout_width="150dp"
+        android:background="@color/white"
+        android:textColor="@color/primary"
+        android:layout_height="20dp"
+        android:elevation="20dp"
+        android:layout_weight="1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="1"></LinearLayout>
+
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/str_nombre"
+        android:layout_weight="1"
+        android:id="@+id/etNom"
+        android:padding="10sp"
+        android:selectAllOnFocus="true"
+        android:elevation="0dp"
+        android:background="#ffffff"
+        android:layout_width="200dp"
+        android:textSize="12sp"
+        android:layout_height="2dp"
+        android:singleLine="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"></LinearLayout>
+
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/str_contraseña"
+        android:layout_weight="1"
+        android:id="@+id/etContrasenya"
+        android:inputType="textPassword"
+        android:background="@color/white"
+        android:layout_width="200dp"
+        android:textSize="12sp"
+        android:padding="10sp"
+        android:elevation="0dp"
+        android:selectAllOnFocus="true"
+        android:layout_height="2dp"
+        android:singleLine="true"/>
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:text="@string/str_acceder"
+        android:layout_margin="20dp"
+        android:elevation="20dp"
+        android:id="@+id/bAcces"
+        android:layout_weight="1"
+        android:layout_width="150dp"
+        android:background="#ffffff"
+        android:textColor="@color/primary"
+        android:enabled="false"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"></LinearLayout>
+
+</LinearLayout>

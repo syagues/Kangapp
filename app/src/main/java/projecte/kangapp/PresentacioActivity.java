@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import projecte.llibreria.Techniques;
-import projecte.llibreria.YoYo;
+import projecte.animations.Techniques;
+import projecte.animations.YoYo;
 
 /**
  * Created by sergi on 15/5/15.
@@ -36,7 +36,7 @@ public class PresentacioActivity extends Activity {
     }
 
     public void iniciarApp() {
-        Intent intent = new Intent(this, PrincipalActivity.class);
+        Intent intent = new Intent(this, RegistreActivity.class);
         startActivity(intent);
         finish();
     }
