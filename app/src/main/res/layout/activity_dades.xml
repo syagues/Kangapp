@@ -24,16 +24,17 @@
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/etCorreuElectronicDades"
                 android:hint="@string/str_correo_electronico"
                 android:layout_width="match_parent"
+                android:singleLine="true"
                 android:padding="10sp"
                 android:layout_gravity="center_horizontal"
                 android:selectAllOnFocus="true"
@@ -41,8 +42,7 @@
                 android:layout_weight="2"
                 android:layout_margin="8dp"
                 android:textSize="12sp"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+                android:layout_height="match_parent" />
 
             <EditText
                 android:id="@+id/etNomDades"
@@ -55,11 +55,11 @@
                 android:layout_margin="8dp"
                 android:textSize="12sp"
                 android:padding="10sp"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+                android:layout_height="match_parent" />
 
             <EditText
                 android:layout_margin="8dp"
+                android:singleLine="true"
                 android:layout_weight="2"
                 android:layout_width="match_parent"
                 android:id="@+id/etApellido"
@@ -69,14 +69,15 @@
                 android:textSize="12sp"
                 android:padding="10sp"
                 android:background="@color/white"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+
+                android:layout_height="match_parent" />
 
 
             <EditText
                 android:layout_weight="2"
                 android:layout_width="match_parent"
                 android:id="@+id/etNick"
+                android:singleLine="true"
                 android:hint="@string/str_nick"
                 android:layout_gravity="center_horizontal"
                 android:selectAllOnFocus="true"
@@ -84,8 +85,7 @@
                 android:layout_margin="8dp"
                 android:padding="10sp"
                 android:textSize="12sp"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+                android:layout_height="match_parent" />
 
             <EditText
                 android:layout_weight="2"
@@ -93,14 +93,14 @@
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:hint="@string/str_contraseña"
+                android:singleLine="true"
                 android:layout_gravity="center_horizontal"
                 android:selectAllOnFocus="true"
                 android:layout_margin="8dp"
                 android:textSize="12sp"
                 android:padding="10sp"
                 android:background="@color/white"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+                android:layout_height="match_parent" />
 
             <EditText
                 android:layout_weight="2"
@@ -111,10 +111,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
                 android:textSize="12sp"
+                android:singleLine="true"
                 android:padding="10sp"
                 android:background="@color/white"
-                android:layout_height="match_parent"
-                android:singleLine="true"/>
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/bEnviarDades"
