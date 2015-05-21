@@ -2,13 +2,18 @@ package projecte.kangapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import projecte.animations.Techniques;
@@ -37,8 +42,12 @@ public class DadesActivity extends Activity  {
         final Button benvDades = (Button) findViewById(R.id.bEnviarDades);
         final EditText etNom = (EditText) findViewById(R.id.etNomDades);
         final EditText etContrasenya = (EditText) findViewById(R.id.etContrasenyaDades);
+        etContrasenya.setTypeface(Typeface.DEFAULT);
+        etContrasenya.setTransformationMethod(new PasswordTransformationMethod());
         final EditText etCorreu = (EditText) findViewById(R.id.etCorreuElectronicDades);
         final EditText etConfCont = (EditText) findViewById(R.id.etConfirmaContrasenya);
+        etConfCont.setTypeface(Typeface.DEFAULT);
+        etConfCont.setTransformationMethod(new PasswordTransformationMethod());
         final EditText etNick = (EditText) findViewById(R.id.etNick);
         final EditText etCognoms = (EditText) findViewById(R.id.etApellido);
 
@@ -200,17 +209,31 @@ public class DadesActivity extends Activity  {
             public void onClick(View v) {
                 if (!isValidEmail(etCorreu.getText().toString())){
                     YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etCorreuElectronicDades));
-                    Toast.makeText(getApplicationContext(), "EL MAIL INTRODUICIDO NO ES CORRECTO", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "EL MAIL INTRODUICIDO NO ES CORRECTO", Toast.LENGTH_LONG);
+                    LinearLayout linearLayout = (LinearLayout) toast.getView();
+                    TextView messageTextView = (TextView) linearLayout.getChildAt(0);
+                    messageTextView.setTextSize(12);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     etCorreu.setBackground(getResources().getDrawable(R.drawable.validacioincorrecta));
                 } else {
                     if (etNick.getText().toString().equals("raul")) {
-                        Toast.makeText(getApplicationContext(), "EL NICK ELEGIDO YA HA SIDO ELEGIDO POR OTRO USUARIO", Toast.LENGTH_LONG).show();
+                        Toast tolast = Toast.makeText(getApplicationContext(), "EL NICK ELEGIDO YA HA SIDO ELEGIDO POR OTRO USUARIO", Toast.LENGTH_LONG);
+                        LinearLayout linearLayout = (LinearLayout) tolast.getView();
+                        TextView messageTextView = (TextView) linearLayout.getChildAt(0);
+                        messageTextView.setTextSize(12);
+                        tolast.setGravity(Gravity.CENTER,0,0);
+                        tolast.show();
                         YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etNick));
                         etNick.setBackground(getResources().getDrawable(R.drawable.validacioincorrecta));
                     }
                     else{
-                        Intent in = new Intent(getApplicationContext(),CalendariActivity.class);
-                        startActivity(in);
+                        Intent email = new Intent(Intent.ACTION_SEND);
+                        email.putExtra(Intent.EXTRA_EMAIL,etCorreu.getText().toString());
+                        email.putExtra(Intent.EXTRA_SUBJECT, "Bienvenido " + etNick.getText().toString());
+                        email.putExtra(Intent.EXTRA_TEXT, "Hola " + etNick.getText().toString() + "!!\bPara completar la validación de la cuenta visita el link.");
+                        email.setType("message/rfc822");
+                        startActivity(Intent.createChooser(email, "Tria: "));
                     }
 
                 }
