@@ -1,13 +1,14 @@
 package projecte.kangapp;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,16 +17,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.common.ConnectionResult;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -36,10 +38,13 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import android.support.v7.widget.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import android.database.MatrixCursor;
 
 public class PrincipalActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
@@ -60,6 +65,7 @@ public class PrincipalActivity extends AppCompatActivity implements
     // Layout actual
     int layoutActual = 0;
 
+    // Toolbar
     Bundle savedInstanceState = null;
 
     @Override
@@ -96,7 +102,7 @@ public class PrincipalActivity extends AppCompatActivity implements
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header3)
+                .withHeaderBackground(R.drawable.header_amber)
                 .addProfiles(
                         profile
                 )
@@ -126,10 +132,16 @@ public class PrincipalActivity extends AppCompatActivity implements
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
 
                         if (drawerItem != null) {
-                            if (drawerItem.getIdentifier() == 1) {
-                                setContentView(R.layout.activity_prova);
-                                setupToolbar();
+                            Intent intent = null;
+                            switch (drawerItem.getIdentifier()){
+                                case 8:
+                                    intent = new Intent(getApplicationContext(), PerfilActivity.class);
+                                    break;
+                                default:
+                                    break;
                             }
+                            if(intent != null)
+                                startActivity(intent);
                         }
 
                     }
@@ -283,17 +295,19 @@ public class PrincipalActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextChange(String query) {
                 Log.i(TAG, "Query = " + query);
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                try {
-                    if(query.length() > 3){
-                        List<Address> addresses = geocoder.getFromLocationName(query,1);
-                        for (Address address : addresses){
-                            Log.i(TAG, address.toString());
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                // Comprovar localitzacions que troba
+//                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+//                try {
+//                    if(query.length() > 3){
+//                        List<Address> addresses = geocoder.getFromLocationName(query,1);
+//                        Log.i(TAG, addresses.get(0).toString());
+//                        for (Address address : addresses){
+//                            Log.i(TAG, address.toString());
+//                        }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 return false;
             }
         });
