@@ -1,11 +1,15 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RatingBar;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -16,6 +20,7 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.nineoldandroids.view.ViewHelper;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import scrolls.ObservableScrollView;
 import scrolls.ObservableScrollViewCallbacks;
@@ -35,6 +40,14 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
     // Toolbar
     Bundle savedInstanceState = null;
 
+    private View mFab;
+    private int mFabMargin;
+    private boolean mFabIsShown;
+    private int mFlexibleSpaceShowFabOffset;
+    private int mFlexibleSpaceImageHeight;
+    private int mActionBarSize;
+    private View mOverlayView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +64,25 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
         mScrollView.setScrollViewCallbacks(this);
 
         mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
+                startActivity(intent);
+            }
+        });
+        showFab();
+
+//        RatingBar rb = (RatingBar) findViewById(R.id.ratingBar);
+//
+//        LayerDrawable stars = DrawableCompat.unwrap(rb.getProgressDrawable());
+//        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP); // Estrella plena
+//        stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.light_grey), PorterDuff.Mode.SRC_ATOP); // Estrella mig plena
+//        stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.light_grey), PorterDuff.Mode.SRC_ATOP); // Estrella buida
+//
+//        rb.setIsIndicator(true);
+//        rb.setRating(3.5f);
     }
 
     public void setupToolbar(){
@@ -137,5 +169,21 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
+    }
+
+    private void showFab() {
+        if (!mFabIsShown) {
+            ViewPropertyAnimator.animate(mFab).cancel();
+            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
+            mFabIsShown = true;
+        }
+    }
+
+    private void hideFab() {
+        if (mFabIsShown) {
+            ViewPropertyAnimator.animate(mFab).cancel();
+            ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
+            mFabIsShown = false;
+        }
     }
 }
