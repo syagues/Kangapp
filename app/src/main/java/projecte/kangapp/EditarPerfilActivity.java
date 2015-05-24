@@ -1,7 +1,5 @@
 package projecte.kangapp;
 
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,9 +10,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.Calendar;
+
+import projecte.kangapp.adapter.DatePickerFragment;
 
 /**
  * Created by sergi on 22/5/15.

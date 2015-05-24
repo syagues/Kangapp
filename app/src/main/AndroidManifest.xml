@@ -42,6 +42,16 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
+            android:name=".ComoKangerActivity"
+            android:label="@string/str_como_kanger"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".ComoArrendatarioActivity"
+            android:label="@string/str_como_arrend"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".PerfilActivity"
             android:label="@string/str_miperfil"
             android:screenOrientation="portrait"

@@ -134,6 +134,12 @@ public class PrincipalActivity extends AppCompatActivity implements
                         if (drawerItem != null) {
                             Intent intent = null;
                             switch (drawerItem.getIdentifier()){
+                                case 6:
+                                    intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
+                                    break;
+                                case 7:
+                                    intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
+                                    break;
                                 case 8:
                                     intent = new Intent(getApplicationContext(), PerfilActivity.class);
                                     break;

@@ -29,6 +29,17 @@
     <string name="str_perfil">Perfil</string>
     <string name="str_ajustes">Ajustes</string>
 
+    <!-- Como kanger -->
+    <string name="str_foto">Foto</string>
+    <string name="str_marca_mod">MacLaren Banderburger</string>
+    <string name="str_usuario">Usuario</string>
+    <string name="str_encurso">En curso</string>
+    <string name="str_precio">40 €</string>
+    <string name="str_ini_fin">3/5 - 5/5</string>
+    <string name="str_btn_chat">Chat</string>
+
+    <!-- Como arrendatario -->
+
     <!-- Perfil -->
     <string name="str_miperfil">Mi perfil</string>
     <string name="str_editar_perfil">Editar perfil</string>

@@ -1,4 +1,4 @@
-package projecte.kangapp;
+package projecte.kangapp.adapter;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;

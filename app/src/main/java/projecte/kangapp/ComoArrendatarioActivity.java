@@ -1,15 +1,16 @@
 package projecte.kangapp;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.RatingBar;
+import android.widget.ImageView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -19,66 +20,42 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 
-import scrolls.ObservableScrollView;
-import scrolls.ObservableScrollViewCallbacks;
-import scrolls.ScrollState;
-import scrolls.ScrollUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+import projecte.kangapp.adapter.RecyclerAdapter;
+import projecte.kangapp.adapter.RoundImage;
+import projecte.kangapp.listener.HidingScrollListener;
 
 /**
- * Created by sergi on 20/5/15.
+ * Created by sergi on 24/5/15.
  */
-public class PerfilActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
-
-    private View mImageView;
-    private View mToolbarView;
-    private ObservableScrollView mScrollView;
-    private int mParallaxImageHeight;
+public class ComoArrendatarioActivity extends AppCompatActivity {
 
     // Toolbar
     Bundle savedInstanceState = null;
+    Toolbar toolbar;
 
-    private View mFab;
-    private int mFabMargin;
-    private boolean mFabIsShown;
-    private int mFlexibleSpaceShowFabOffset;
-    private int mFlexibleSpaceImageHeight;
-    private int mActionBarSize;
-    private View mOverlayView;
+    // Imatge
+    ImageView imageView;
+    RoundImage roundedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        this.savedInstanceState = savedInstanceState;
+        setContentView(R.layout.activity_como_arrendatario);
+
 
         // Toolbar (Menu lateral)
         setupToolbar();
-
-        mImageView = findViewById(R.id.image);
-        mToolbarView = findViewById(R.id.toolbar);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
-
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        mScrollView.setScrollViewCallbacks(this);
-
-        mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
-                startActivity(intent);
-            }
-        });
-        showFab();
-
+        initRecyclerView();
     }
 
-    public void setupToolbar(){
+    public void setupToolbar() {
         // Handle Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Create a few sample profile
@@ -88,8 +65,7 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header_amber
-                )
+                .withHeaderBackground(R.drawable.header_amber)
                 .addProfiles(
                         profile
                 )
@@ -108,9 +84,9 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
                         new PrimaryDrawerItem().withName(R.string.str_publicar).withIdentifier(4).withIcon(R.drawable.ic_add_circle_grey600_36dp).withCheckable(false),
                         new SectionDrawerItem().withName(R.string.str_mis_tratos).withIdentifier(5),
                         new PrimaryDrawerItem().withName(R.string.str_como_kanger).withIcon(R.drawable.ic_local_mall_grey600_36dp).withIdentifier(6).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_orange_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_orange_36dp).withIdentifier(8).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false)
 
                 ) // add the items we want to use with our Drawer
@@ -120,20 +96,20 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
 
                         if (drawerItem != null) {
                             Intent intent = null;
-                            switch (drawerItem.getIdentifier()){
+                            switch (drawerItem.getIdentifier()) {
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
-                                case 7:
-                                    intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
+                                case 8:
+                                    intent = new Intent(getApplicationContext(), PerfilActivity.class);
                                     break;
                                 default:
                                     break;
                             }
-                            if(intent != null)
+                            if (intent != null)
                                 startActivity(intent);
                         }
 
@@ -146,41 +122,42 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 1
-            result.setSelectionByIdentifier(8, false);
+            result.setSelectionByIdentifier(7, false);
         }
     }
 
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int baseColor = getResources().getColor(R.color.primary);
-        float alpha = Math.min(1, (float) scrollY / mParallaxImageHeight);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
-        ViewHelper.setTranslationY(mImageView, scrollY / 2);
+    private void initRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
+        recyclerView.setAdapter(recyclerAdapter);
+
+        recyclerView.setOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
     }
 
-    @Override
-    public void onDownMotionEvent() {
-
+    private void hideViews() {
+        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
     }
 
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
+    private void showViews() {
+        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private void showFab() {
-        if (!mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
-            mFabIsShown = true;
+    private List<String> createItemList() {
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            itemList.add(getResources().getString(R.string.str_marca_mod));
         }
-    }
-
-    private void hideFab() {
-        if (mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
-            mFabIsShown = false;
-        }
+        return itemList;
     }
 }

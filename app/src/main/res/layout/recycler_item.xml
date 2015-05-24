@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/item2"/>
+
+        <TextView
+            android:id="@+id/tv_modelo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_usuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_below="@+id/tv_modelo"
+            android:text="@string/str_usuario"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_encurso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_below="@+id/tv_usuario"
+            android:text="@string/str_encurso"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_precio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_below="@+id/tv_encurso"
+            android:layout_alignParentBottom="true"
+            android:text="@string/str_precio"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_fechas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_modelo"
+            android:layout_alignParentRight="true"
+            android:text="@string/str_ini_fin"
+            android:textSize="12sp"/>
+
+        <ImageButton
+            android:id="@+id/b_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_encurso"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:background="@color/light_background"
+            android:src="@drawable/ic_chat_grey600_36dp"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
