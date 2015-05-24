@@ -26,7 +26,7 @@
             android:src="@drawable/item2"/>
 
         <TextView
-            android:id="@+id/tv_modelo"
+            android:id="@+id/tv_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/imageView"
@@ -38,8 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/imageView"
-            android:layout_below="@+id/tv_modelo"
-            android:text="@string/str_usuario"
+            android:layout_below="@+id/tv_nombre"
             android:textSize="15sp"/>
 
         <TextView
@@ -48,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/imageView"
             android:layout_below="@+id/tv_usuario"
-            android:text="@string/str_encurso"
             android:textSize="12sp"/>
 
         <TextView
@@ -58,16 +56,14 @@
             android:layout_toRightOf="@+id/imageView"
             android:layout_below="@+id/tv_encurso"
             android:layout_alignParentBottom="true"
-            android:text="@string/str_precio"
             android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/tv_fechas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_modelo"
+            android:layout_below="@+id/tv_nombre"
             android:layout_alignParentRight="true"
-            android:text="@string/str_ini_fin"
             android:textSize="12sp"/>
 
         <ImageButton

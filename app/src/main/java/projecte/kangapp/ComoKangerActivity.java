@@ -1,10 +1,7 @@
 package projecte.kangapp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +24,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 
+import projecte.kangapp.adapter.CardItem;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.adapter.RoundImage;
 import projecte.kangapp.listener.HidingScrollListener;
@@ -49,8 +47,6 @@ public class ComoKangerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_como_kanger);
-
-
 
         // Toolbar (Menu lateral)
         setupToolbar();
@@ -157,10 +153,10 @@ public class ComoKangerActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<String> createItemList() {
-        List<String> itemList = new ArrayList<>();
+    private List<CardItem> createItemList() {
+        List<CardItem> itemList = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            itemList.add(getResources().getString(R.string.str_marca_mod));
+            itemList.add(new CardItem(R.drawable.item1,"MacLaren Banderburguer","Usuario","En curso","40 €","3/5 - 5/5"));
         }
         return itemList;
     }

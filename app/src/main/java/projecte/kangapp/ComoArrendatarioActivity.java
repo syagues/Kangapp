@@ -24,6 +24,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 
+import projecte.kangapp.adapter.CardItem;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.adapter.RoundImage;
 import projecte.kangapp.listener.HidingScrollListener;
@@ -153,10 +154,10 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<String> createItemList() {
-        List<String> itemList = new ArrayList<>();
+    private List<CardItem> createItemList() {
+        List<CardItem> itemList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            itemList.add(getResources().getString(R.string.str_marca_mod));
+            itemList.add(new CardItem(R.drawable.item2,"Chicco Grenny","Usuario","Iniciado","10 €","12/12 - 15/12"));
         }
         return itemList;
     }
