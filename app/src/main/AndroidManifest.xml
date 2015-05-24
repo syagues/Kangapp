@@ -42,10 +42,29 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".PerfilActivity"
-            android:label="@string/app_name"
+            android:name=".ComoKangerActivity"
+            android:label="@string/str_como_kanger"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".ComoArrendatarioActivity"
+            android:label="@string/str_como_arrend"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".PerfilActivity"
+            android:label="@string/str_miperfil"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".EditarPerfilActivity"
+            android:label="@string/str_editar_perfil"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="projecte.kangapp.PerfilActivity" />
+        </activity>
         <activity
             android:name=".CalendariActivity"
             android:screenOrientation="portrait"
