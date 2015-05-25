@@ -30,7 +30,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary)));
 
-        edNacimiento = (EditText) findViewById(R.id.et_nacimiento);
+        edNacimiento = (EditText) findViewById(R.id.ep_et_nacimiento);
         edNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

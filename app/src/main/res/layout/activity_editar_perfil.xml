@@ -3,284 +3,357 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
         android:background="@color/white">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_person_grey600_36dp"/>
-
-            <EditText
-                android:id="@+id/et_nombre"
-                android:layout_weight="1.8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:selectAllOnFocus="true"
-                android:layout_gravity="right"
-                android:hint="@string/str_nombre"
-                android:singleLine="true"/>
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_apellidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_nombre"
-            android:hint="@string/str_apellidos"
-            android:selectAllOnFocus="true"
-            android:layout_marginLeft="62dp"
-            android:layout_marginRight="10dp"
-            android:singleLine="true"/>
-
-        <LinearLayout
-            android:id="@+id/et_homomuj"
+        <ImageView
+            android:id="@+id/ep_ic_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="left"
-                android:text="@string/str_hombre"
-                android:paddingRight="10dp"
-                android:textSize="18dp"
-                android:textColor="@color/light_grey"/>
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="right"
-                android:text="@string/str_mujer"
-                android:paddingLeft="10dp"
-                android:textSize="18dp"
-                android:textColor="@color/light_grey"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_nacimiento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="3dp"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_today_grey600_36dp"/>
-
-            <EditText
-                android:id="@+id/et_nacimiento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
-                android:hint="@string/str_nacimiento"
-                android:editable="false"
-                android:focusableInTouchMode="true"
-                android:inputType="none"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
-                android:singleLine="true"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/et_telefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="1dp"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_call_grey600_36dp"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
-                android:hint="@string/str_telefono"
-                android:inputType="number"
-                android:selectAllOnFocus="true"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
-                android:singleLine="true"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/et_pais"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5dp"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_language_grey600_36dp"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
-                android:hint="@string/str_pais"
-                android:selectAllOnFocus="true"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"
-                android:singleLine="true"/>
-
-        </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_person_grey600_36dp"/>
 
         <EditText
-            android:id="@+id/et_localidad"
+            android:id="@+id/ep_et_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_pais"
-            android:hint="@string/str_localidad"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ep_ic_nombre"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
             android:selectAllOnFocus="true"
-            android:layout_marginLeft="62dp"
-            android:layout_marginRight="10dp"
+            android:hint="@string/str_nombre"
             android:singleLine="true"/>
 
         <EditText
-            android:id="@+id/et_codpostal"
+            android:id="@+id/ep_et_apellidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ep_et_nombre"
+            android:layout_toRightOf="@+id/ep_ic_nombre"
+            android:layout_marginRight="8dp"
+            android:selectAllOnFocus="true"
+            android:hint="@string/str_apellidos"
+            android:singleLine="true"/>
+
+        <RadioButton
+            android:id="@+id/ep_rb_hombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_apellidos"
+            android:layout_toRightOf="@+id/ep_ic_nombre"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"
+            android:textColor="@color/light_grey"
+            android:text="@string/str_hombre"/>
+
+        <RadioButton
+            android:id="@+id/ep_rb_mujer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_apellidos"
+            android:layout_toRightOf="@+id/ep_rb_hombre"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"
+            android:textColor="@color/light_grey"
+            android:text="@string/str_mujer"/>
+
+        <ImageView
+            android:id="@+id/ep_ic_nacimiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_rb_mujer"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_today_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_nacimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/str_nacimiento"
+            android:layout_toRightOf="@+id/ep_ic_nacimiento"
+            android:layout_below="@+id/ep_rb_mujer"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:editable="false"
+            android:focusableInTouchMode="true"
+            android:inputType="none"
+            android:singleLine="true"/>
+
+        <ImageView
+            android:id="@+id/ep_ic_telefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_nacimiento"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_call_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_telefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ep_ic_telefono"
+            android:layout_below="@+id/ep_et_nacimiento"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_telefono"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <ImageView
+            android:id="@+id/ep_ic_pais"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_telefono"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_language_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_pais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_telefono"
+            android:layout_toRightOf="@+id/ep_ic_pais"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_pais"
+            android:inputType="number"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/ep_et_localidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_pais"
+            android:layout_toRightOf="@+id/ep_ic_pais"
+            android:layout_marginRight="8dp"
+            android:hint="@string/str_localidad"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/ep_et_codpostal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:layout_below="@id/et_localidad"
+            android:layout_below="@id/ep_et_localidad"
+            android:layout_toRightOf="@+id/ep_ic_pais"
+            android:layout_marginRight="8dp"
             android:hint="@string/str_codpostal"
             android:selectAllOnFocus="true"
-            android:layout_marginLeft="62dp"
-            android:layout_marginRight="10dp"
             android:singleLine="true"/>
 
-        <LinearLayout
-            android:id="@+id/et_recom_viaj"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/ep_ic_recom"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="10dp"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_explore_grey600_36dp"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
-                android:hint="@string/str_recom_viaj"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="5dp"
-                android:selectAllOnFocus="true"
-                android:layout_gravity="right"
-                android:singleLine="true"/>
-
-        </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_codpostal"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_explore_grey600_36dp"/>
 
         <EditText
-            android:id="@+id/et_gust_viaj"
+            android:id="@+id/ep_et_recom_viaj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_recom_viaj"
+            android:layout_below="@+id/ep_et_codpostal"
+            android:layout_toRightOf="@+id/ep_ic_recom"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_recom_viaj"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/ep_et_gust_viaj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_recom_viaj"
+            android:layout_toRightOf="@+id/ep_ic_recom"
+            android:layout_marginRight="8dp"
             android:hint="@string/str_gust_viaj"
             android:selectAllOnFocus="true"
-            android:layout_marginLeft="62dp"
-            android:layout_marginRight="10dp"
             android:singleLine="true"/>
 
         <EditText
-            android:id="@+id/et_hobbies"
+            android:id="@+id/ep_et_hobbies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_gust_viaj"
+            android:layout_below="@+id/ep_et_gust_viaj"
+            android:layout_toRightOf="@+id/ep_ic_recom"
+            android:layout_marginRight="8dp"
             android:hint="@string/str_hobbies"
             android:selectAllOnFocus="true"
-            android:layout_marginLeft="62dp"
-            android:layout_marginRight="10dp"
             android:singleLine="true"/>
 
-        <LinearLayout
-            android:id="@+id/et_biografia"
+        <ImageView
+            android:id="@+id/ep_ic_biografia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_hobbies"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_book_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_biografia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_below="@+id/ep_et_hobbies"
+            android:layout_toRightOf="@+id/ep_ic_biografia"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_biografia"
+            android:selectAllOnFocus="true"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="left"
-                android:layout_marginLeft="1dp"
-                android:paddingTop="8dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/ic_book_grey600_36dp"/>
+        <ImageView
+            android:id="@+id/ep_ic_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_biografia"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_facebook_grey600_36dp"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.8"
-                android:hint="@string/str_biografia"
-                android:selectAllOnFocus="true"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"/>
+        <EditText
+            android:id="@+id/ep_et_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_biografia"
+            android:layout_toRightOf="@+id/ep_ic_facebook"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_facebook"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/ep_ic_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_facebook"
+            android:layout_marginTop="5dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_twitter_grey600_36dp"/>
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/ep_et_twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_facebook"
+            android:layout_toRightOf="@+id/ep_ic_twitter"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/str_twitter"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <ImageView
+            android:id="@+id/ep_ic_googleplus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_twitter"
+            android:layout_marginTop="5dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_google_plus_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_googleplus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_twitter"
+            android:layout_toRightOf="@+id/ep_ic_googleplus"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/str_googleplus"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <ImageView
+            android:id="@+id/ep_ic_idiomas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ep_et_googleplus"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_flag_grey600_36dp"/>
+
+        <EditText
+            android:id="@+id/ep_et_idiomas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ep_et_googleplus"
+            android:layout_toRightOf="@+id/ep_ic_idiomas"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/str_misidiomas"
+            android:selectAllOnFocus="true"/>
+
+    </RelativeLayout>
 
 </ScrollView>
 
