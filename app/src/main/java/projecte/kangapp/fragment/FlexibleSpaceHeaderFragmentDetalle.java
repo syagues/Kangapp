@@ -31,7 +31,7 @@ import scrolls.ScrollState;
  * Created by sergi on 25/5/15.
  */
 public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements ObservableScrollViewCallbacks {
-    public static final String TAG = "FlexibleSpaceHeaderFragmentMiPerfil";
+    public static final String TAG = "FlexibleSpaceHeaderFragmentDetalle";
 
     @InjectView(R.id.observable_sv)
     ObservableScrollViewWithFling mScrollView;

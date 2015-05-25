@@ -6,4 +6,5 @@
     <color name="grey">#444444</color>
     <color name="light_grey">#888888</color>
     <color name="light_background">#fffafafa</color>
+    <color name="default_background">#eeeeee</color>
 </resources>

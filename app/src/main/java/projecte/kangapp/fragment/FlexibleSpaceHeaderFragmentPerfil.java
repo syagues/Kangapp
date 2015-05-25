@@ -34,8 +34,8 @@ import projecte.kangapp.R;
  * Fragment with Flexible Space Header
  * Created by chomi3 on 09.12.14.
  */
-public class FlexibleSpaceHeaderFragmentMiPerfil extends Fragment implements ObservableScrollViewCallbacks {
-    public static final String TAG = "FlexibleSpaceHeaderFragmentMiPerfil";
+public class FlexibleSpaceHeaderFragmentPerfil extends Fragment implements ObservableScrollViewCallbacks {
+    public static final String TAG = "FlexibleSpaceHeaderFragmentPerfil";
 
     @InjectView(R.id.observable_sv)
     ObservableScrollViewWithFling mScrollView;
@@ -60,7 +60,7 @@ public class FlexibleSpaceHeaderFragmentMiPerfil extends Fragment implements Obs
 
     private int mToolbarBackgroundColor;
 
-    public FlexibleSpaceHeaderFragmentMiPerfil() {
+    public FlexibleSpaceHeaderFragmentPerfil() {
     }
 
 
@@ -73,7 +73,7 @@ public class FlexibleSpaceHeaderFragmentMiPerfil extends Fragment implements Obs
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mi_perfil_flexible_space_header, container, false);
+        View view = inflater.inflate(R.layout.fragment_perfil_flexible_space_header, container, false);
         ButterKnife.inject(this, view);
 
         return view;

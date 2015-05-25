@@ -47,8 +47,7 @@ public class PerfilActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_perfil);
-        setContentView(R.layout.activity_perfil_aux);
+        setContentView(R.layout.activity_perfil);
 
         // Toolbar (Menu lateral)
         setupToolbar();
