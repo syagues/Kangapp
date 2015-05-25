@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DetalleArticuloActivity">
+
+    <item
+        android:id="@+id/btn_alquilar"
+        android:title="@string/str_alquilar"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_shopping_cart_orange_36dp"
+        />
+
+</menu>

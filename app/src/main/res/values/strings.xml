@@ -39,6 +39,13 @@
     <string name="str_btn_chat">Chat</string>
 
     <!-- Como arrendatario -->
+    
+    <!-- Detalle articulos -->
+    <string name="str_dias_1_3">1-3 días</string>
+    <string name="str_dias_4_7">4-7 días</string>
+    <string name="str_dias_8_15">8-15 días</string>
+    <string name="str_dias_16_31">16-31 días</string>
+    <string name="str_alquilar">Alquilar</string>
 
     <!-- Perfil -->
     <string name="str_miperfil">Mi perfil</string>

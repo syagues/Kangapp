@@ -29,6 +29,7 @@ import projecte.kangapp.adapter.CardItem;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.adapter.RoundImage;
 import projecte.kangapp.listener.HidingScrollListener;
+import projecte.kangapp.listener.RecyclerItemClickListener;
 
 /**
  * Created by sergi on 24/5/15.
@@ -39,9 +40,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
     Bundle savedInstanceState = null;
     Toolbar toolbar;
 
-    // Imatge
-    ImageView imageView;
-    RoundImage roundedImage;
+    List<CardItem> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +133,21 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
         recyclerView.setAdapter(recyclerAdapter);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("drawable_id", itemList.get(position).getItemImageId());
+                        bundle.putString("nombre_articulo", itemList.get(position).getItemName());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                })
+        );
+
         recyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
@@ -156,9 +170,9 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
     }
 
     private List<CardItem> createItemList() {
-        List<CardItem> itemList = new ArrayList<>();
+        itemList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            itemList.add(new CardItem(BitmapFactory.decodeResource(getResources(), R.drawable.item2),"Chicco Grenny","Usuario","Iniciado","10 €","12/12 - 15/12"));
+            itemList.add(new CardItem(getResources(), R.drawable.item2,"Chicco Grenny","Usuario","Iniciado","10 €","12/12 - 15/12"));
         }
         return itemList;
     }

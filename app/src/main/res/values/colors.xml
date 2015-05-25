@@ -7,4 +7,5 @@
     <color name="light_grey">#888888</color>
     <color name="light_background">#fffafafa</color>
     <color name="default_background">#eeeeee</color>
+    <color name="grey_filter">#55000000</color>
 </resources>

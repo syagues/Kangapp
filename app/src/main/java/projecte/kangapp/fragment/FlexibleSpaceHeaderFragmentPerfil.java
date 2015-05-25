@@ -300,8 +300,11 @@ public class FlexibleSpaceHeaderFragmentPerfil extends Fragment implements Obser
         ViewHelper.setScaleX(mTitle, 1 + scale);
         ViewHelper.setScaleY(mTitle, 1 + scale);
 
-        int maxTitleTranslation = (int) (mParallaxImageHeight * 0.78f);
-        int titleTranslation = (int) (maxTitleTranslation * ((float) scale / maxScale));
-        ViewHelper.setTranslationY(mTitle, titleTranslation);
+        int maxTitleTranslationY = (int) (mParallaxImageHeight * 0.78f);
+        int maxTitleTranslationX = (int) (mParallaxImageHeight * 0.22f);
+        int titleTranslationY = (int) (maxTitleTranslationY * ((float) scale / maxScale));
+        int titleTranslationX = (int) -(maxTitleTranslationX * ((float) scale / maxScale));
+        ViewHelper.setTranslationY(mTitle, titleTranslationY);
+        ViewHelper.setTranslationX(mTitle, titleTranslationX);
     }
 }

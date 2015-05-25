@@ -52,6 +52,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
         <activity
+            android:name=".DetalleArticuloActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".PerfilActivity"
             android:label="@string/str_miperfil"
             android:screenOrientation="portrait"

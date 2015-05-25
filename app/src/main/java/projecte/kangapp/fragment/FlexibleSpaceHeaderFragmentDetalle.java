@@ -7,9 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -120,14 +123,14 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
     }
 
     private void configureToolbarView() {
-//        ((ActionBarActivity) getActivity()).setSupportActionBar(mToolbarView);
-//        mToolbarView.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-//        mToolbarView.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getActivity().onBackPressed();
-//            }
-//        });
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbarView);
+        mToolbarView.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbarView.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
 
         //Remove toolbars title, as we have our own title implementation
         mToolbarView.post(new Runnable() {
@@ -249,8 +252,7 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
     }
 
     private ObjectAnimator buildAnimation(View view, float from, float to) {
-        return ObjectAnimator
-                .ofFloat(view, View.TRANSLATION_Y, from, to);
+        return ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, from, to);
     }
 
     public void hideFullToolbar() {
@@ -285,7 +287,7 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
             adjustedScrollY = mParallaxImageHeight;
         }
 
-        float maxScale = 0.45f;
+        float maxScale = 0.30f;
         float scale = maxScale * ((float) (mParallaxImageHeight - mToolbarHeight) - adjustedScrollY) / (mParallaxImageHeight - mToolbarHeight);
         if (scale < 0) {
             scale = 0;
@@ -296,8 +298,11 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
         ViewHelper.setScaleX(mTitle, 1 + scale);
         ViewHelper.setScaleY(mTitle, 1 + scale);
 
-        int maxTitleTranslation = (int) (mParallaxImageHeight * 0.78f);
-        int titleTranslation = (int) (maxTitleTranslation * ((float) scale / maxScale));
-        ViewHelper.setTranslationY(mTitle, titleTranslation);
+        int maxTitleTranslationY = (int) (mParallaxImageHeight * 0.78f);
+        int maxTitleTranslationX = (int) (mParallaxImageHeight * 0.20f);
+        int titleTranslationY = (int) (maxTitleTranslationY * ((float) scale / maxScale));
+        int titleTranslationX = (int) -(maxTitleTranslationX * ((float) scale / maxScale));
+        ViewHelper.setTranslationY(mTitle, titleTranslationY);
+        ViewHelper.setTranslationX(mTitle, titleTranslationX);
     }
 }

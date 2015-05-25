@@ -1,5 +1,6 @@
 package projecte.kangapp.adapter;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -8,11 +9,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import projecte.kangapp.R;
+
 /**
  * Created by sergi on 24/5/15.
  */
 public class CardItem {
 
+    private int itemImageId;
     private Bitmap itemImage;
     private String itemName;
     private String userName;
@@ -28,7 +32,25 @@ public class CardItem {
         this.itemPrice = itemPrice;
         this.itemBeginEndDate = itemBeginEndDate;
     }
-    
+
+    public CardItem (Resources res, int itemImageId, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate){
+        this.itemImageId = itemImageId;
+        this.itemImage = BitmapFactory.decodeResource(res, itemImageId);
+        this.itemName = itemName;
+        this.userName = userName;
+        this.itemState = itemState;
+        this.itemPrice = itemPrice;
+        this.itemBeginEndDate = itemBeginEndDate;
+    }
+
+    public void setItemImageId(int itemImageId) {
+        this.itemImageId = itemImageId;
+    }
+
+    public int getItemImageId(){
+        return itemImageId;
+    }
+
     public void setItemImage(Bitmap itemImage){
         this.itemImage = itemImage;
     }

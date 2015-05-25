@@ -33,11 +33,6 @@ import scrolls.ScrollUtils;
  */
 public class PerfilActivity extends AppCompatActivity {
 
-    private View mImageView;
-    private View mToolbarView;
-    private ObservableScrollView mScrollView;
-    private int mParallaxImageHeight;
-
     // Toolbar
     Bundle savedInstanceState = null;
 

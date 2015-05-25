@@ -27,7 +27,7 @@
                     android:layout_height="@dimen/parallax_image_height"
                     android:scaleType="centerCrop"
                     android:src="@drawable/user1"
-                    />
+                    android:tint="@color/grey_filter"/>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -790,8 +790,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="60dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
@@ -803,8 +802,9 @@
             android:minHeight="?attr/actionBarSize"
             android:maxHeight="?attr/actionBarSize"
             android:textColor="@android:color/white"
+            android:paddingLeft="60dp"
             android:background="@android:color/transparent"
-            android:textSize="22sp" />
+            android:textSize="21sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
