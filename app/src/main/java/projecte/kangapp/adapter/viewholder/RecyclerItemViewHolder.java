@@ -45,10 +45,9 @@ public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
         return new RecyclerItemViewHolder(parent, itemImageView, itemNameTextView, userNameTextView, itemStateTextView, itemPriceTextView, itemBeginEndDateTextView);
     }
 
-    public void setItemParameters(View parent, int itemImageId, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate) {
+    public void setItemParameters(Bitmap itemImage, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate) {
         // Imatge
-        Bitmap bm = BitmapFactory.decodeResource(parent.getResources(), itemImageId);
-        RoundImage roundedImage = new RoundImage(bm);
+        RoundImage roundedImage = new RoundImage(itemImage);
         mItemImageView.setImageDrawable(roundedImage);
 
         mItemNameTextView.setText(itemName);

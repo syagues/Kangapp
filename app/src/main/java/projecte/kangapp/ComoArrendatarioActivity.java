@@ -1,6 +1,7 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -157,7 +158,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
     private List<CardItem> createItemList() {
         List<CardItem> itemList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            itemList.add(new CardItem(R.drawable.item2,"Chicco Grenny","Usuario","Iniciado","10 €","12/12 - 15/12"));
+            itemList.add(new CardItem(BitmapFactory.decodeResource(getResources(), R.drawable.item2),"Chicco Grenny","Usuario","Iniciado","10 €","12/12 - 15/12"));
         }
         return itemList;
     }

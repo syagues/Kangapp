@@ -1,21 +1,27 @@
 package projecte.kangapp.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by sergi on 24/5/15.
  */
 public class CardItem {
 
-    private int itemImageId;
+    private Bitmap itemImage;
     private String itemName;
     private String userName;
     private String itemState;
     private String itemPrice;
     private String itemBeginEndDate;
     
-    public CardItem (int itemImageId, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate){
-        this.itemImageId = itemImageId;
+    public CardItem (Bitmap itemImage, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate){
+        this.itemImage = itemImage;
         this.itemName = itemName;
         this.userName = userName;
         this.itemState = itemState;
@@ -23,12 +29,12 @@ public class CardItem {
         this.itemBeginEndDate = itemBeginEndDate;
     }
     
-    public void setItemImageId(int itemImageId){
-        this.itemImageId = itemImageId;
+    public void setItemImage(Bitmap itemImage){
+        this.itemImage = itemImage;
     }
     
-    public int getItemImageId(){
-        return itemImageId;
+    public Bitmap getItemImage(){
+        return itemImage;
     }
     
     public void setItemName(String itemName){

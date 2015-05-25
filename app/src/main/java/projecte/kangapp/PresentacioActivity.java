@@ -36,7 +36,7 @@ public class PresentacioActivity extends Activity {
     }
 
     public void iniciarApp() {
-        Intent intent = new Intent(this, PrincipalActivity.class);
+        Intent intent = new Intent(this, PerfilActivity.class);
         startActivity(intent);
         finish();
     }

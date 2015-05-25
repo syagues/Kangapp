@@ -1,6 +1,7 @@
 package projecte.kangapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_HEADER = 2;
     private static final int TYPE_ITEM = 1;
     private List<CardItem> mItemList;
-    private View view;
 
     public RecyclerAdapter(List<CardItem> itemList) {
         mItemList = itemList;
@@ -31,10 +31,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false);
+            final View view = LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false);
             return RecyclerItemViewHolder.newInstance(view);
         } else if (viewType == TYPE_HEADER) {
-            view = LayoutInflater.from(context).inflate(R.layout.recycler_header, parent, false);
+            final View view = LayoutInflater.from(context).inflate(R.layout.recycler_header, parent, false);
             return new RecyclerHeaderViewHolder(view);
         }
         throw new RuntimeException("There is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -44,13 +44,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (!isPositionHeader(position)) {
             RecyclerItemViewHolder holder = (RecyclerItemViewHolder) viewHolder;
-            int itemImage = mItemList.get(position - 1).getItemImageId();
+            Bitmap itemImage = mItemList.get(position - 1).getItemImage();
             String itemName = mItemList.get(position - 1).getItemName();
             String userName = mItemList.get(position - 1).getUserName();
             String itemState = mItemList.get(position - 1).getItemState();
             String itemPrice = mItemList.get(position - 1).getItemPrice();
             String itemBeginEndDate = mItemList.get(position - 1).getItemBeginEndDate();
-            holder.setItemParameters(view, itemImage, itemName, userName, itemState, itemPrice, itemBeginEndDate);
+            holder.setItemParameters(itemImage, itemName, userName, itemState, itemPrice, itemBeginEndDate);
         }
     }
 

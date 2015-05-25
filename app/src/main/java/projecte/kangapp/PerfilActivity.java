@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -30,7 +31,7 @@ import scrolls.ScrollUtils;
 /**
  * Created by sergi on 20/5/15.
  */
-public class PerfilActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
+public class PerfilActivity extends AppCompatActivity {
 
     private View mImageView;
     private View mToolbarView;
@@ -41,29 +42,17 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
     Bundle savedInstanceState = null;
 
     private View mFab;
-    private int mFabMargin;
     private boolean mFabIsShown;
-    private int mFlexibleSpaceShowFabOffset;
-    private int mFlexibleSpaceImageHeight;
-    private int mActionBarSize;
-    private View mOverlayView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        //setContentView(R.layout.activity_perfil);
+        setContentView(R.layout.activity_perfil_aux);
 
         // Toolbar (Menu lateral)
         setupToolbar();
 
-        mImageView = findViewById(R.id.image);
-        mToolbarView = findViewById(R.id.toolbar);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
-
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        mScrollView.setScrollViewCallbacks(this);
-
-        mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +63,8 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
         });
         showFab();
 
+        TextView tvName = (TextView) findViewById(R.id.name);
+        tvName.setText("Nombre");
     }
 
     public void setupToolbar(){
@@ -148,24 +139,6 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
             // set the selection to the item with the identifier 1
             result.setSelectionByIdentifier(8, false);
         }
-    }
-
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int baseColor = getResources().getColor(R.color.primary);
-        float alpha = Math.min(1, (float) scrollY / mParallaxImageHeight);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
-        ViewHelper.setTranslationY(mImageView, scrollY / 2);
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
     }
 
     private void showFab() {

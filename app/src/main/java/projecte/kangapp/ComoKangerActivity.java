@@ -1,6 +1,7 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -156,7 +157,7 @@ public class ComoKangerActivity extends AppCompatActivity {
     private List<CardItem> createItemList() {
         List<CardItem> itemList = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            itemList.add(new CardItem(R.drawable.item1,"MacLaren Banderburguer","Usuario","En curso","40 €","3/5 - 5/5"));
+            itemList.add(new CardItem(BitmapFactory.decodeResource(getResources(), R.drawable.item1),"MacLaren Banderburguer","Usuario","En curso","40 €","3/5 - 5/5"));
         }
         return itemList;
     }
