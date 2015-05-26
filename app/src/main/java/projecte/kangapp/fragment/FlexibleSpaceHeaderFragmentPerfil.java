@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +48,9 @@ public class FlexibleSpaceHeaderFragmentPerfil extends Fragment implements Obser
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbarView;
+
+    @InjectView(R.id.fabButton)
+    ImageButton mFabButton;
 
     @InjectView(R.id.ll_above_photo)
     protected LinearLayout llTintLayer; //Layout that we're tinting when scrolling
@@ -204,13 +210,26 @@ public class FlexibleSpaceHeaderFragmentPerfil extends Fragment implements Obser
             } else {
                 // Don't hide toolbar yet
             }
+            hideFab();
         } else if (scrollState == ScrollState.DOWN) {
             //Show toolbar as fast as we're starting to scroll down
             if (!mIsToolbarShown) {
                 showFullToolbar(250);
             }
+            showFab();
         }
     }
+
+    private void hideFab() {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mFabButton.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        mFabButton.animate().translationY(mFabButton.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showFab() {
+        mFabButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+    }
+
 
     private void setBackgroundAlpha(View view, float alpha, int baseColor) {
         int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;

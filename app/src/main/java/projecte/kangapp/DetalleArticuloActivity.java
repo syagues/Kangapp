@@ -2,9 +2,13 @@ package projecte.kangapp;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +21,13 @@ import projecte.kangapp.adapter.RoundImage;
  */
 public class DetalleArticuloActivity extends AppCompatActivity {
 
-    private View mFab;
-    private boolean mFabIsShown;
+    // Log
+    protected static final String TAG = "DetalleArticuloActivity";
+
+    private ImageButton mFabButton;
 
     int drawableId;
-    String nombreArticulo;
+    String nombreArticulo, nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +39,38 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         RoundImage roundedImage = new RoundImage(BitmapFactory.decodeResource(getResources(), R.drawable.user1));
         mUserImageView.setImageDrawable(roundedImage);
 
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
-                startActivity(intent);
-            }
-        });
-        showFab();
-
-        TextView tvName = (TextView) findViewById(R.id.name);
-        tvName.setText("Nombre");
+        mFabButton = (ImageButton) findViewById(R.id.fabButton);
+        mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_shopping_cart_white_24dp));
 
         if(this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
             drawableId = bundle.getInt("drawable_id");
             nombreArticulo = bundle.getString("nombre_articulo");
+            nombreUsuario = bundle.getString("nombre_usuario");
 
-            ImageView image = (ImageView) findViewById(R.id.image);
-            image.setImageDrawable(getResources().getDrawable(drawableId));
-            TextView name = (TextView) findViewById(R.id.name);
-            name.setText(nombreArticulo);
+            ImageView ivImage = (ImageView) findViewById(R.id.image);
+            ivImage.setImageDrawable(getResources().getDrawable(drawableId));
+            TextView tvItemName = (TextView) findViewById(R.id.name);
+            TextView tvUserName = (TextView) findViewById(R.id.tv_nombre_usuario);
+            tvItemName.setText(nombreArticulo);
+            tvUserName.setText(nombreUsuario);
         }
-    }
 
-    private void showFab() {
-        if (!mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
-            mFabIsShown = true;
-        }
+        CardView usuarioCard = (CardView) findViewById(R.id.card_usuario);
+        usuarioCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
+
+                Bundle bundle = new Bundle();
+                ImageView userImage = (ImageView) findViewById(R.id.iv_usuario);
+                Log.i(TAG, userImage.getDrawable().toString());
+                bundle.putInt("drawable_id", R.drawable.user1);
+                Log.i(TAG, nombreUsuario);
+                bundle.putString("nombre_usuario", nombreUsuario);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 }

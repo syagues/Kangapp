@@ -13,6 +13,9 @@ import projecte.animations.YoYo;
  */
 public class PresentacioActivity extends Activity {
 
+    // Log
+    protected static final String TAG = "PresentacioActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

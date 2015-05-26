@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -78,10 +79,12 @@ public class PrincipalActivity extends AppCompatActivity implements
         // Toolbar (Menu lateral)
         setupToolbar();
 
+        // Fab button
+        setupFabButton();
+
         // Localitzacio
         buildGoogleApiClient();
         setUpMapIfNeeded();
-
     }
 
     @Override
@@ -161,6 +164,10 @@ public class PrincipalActivity extends AppCompatActivity implements
             // set the selection to the item with the identifier 1
             result.setSelectionByIdentifier(1, false);
         }
+    }
+
+    public void setupFabButton(){
+        ImageButton fabButton = (ImageButton) findViewById(R.id.fabButton);
     }
 
     @Override

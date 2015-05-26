@@ -25,6 +25,8 @@ import projecte.animations.YoYo;
 
 public class DadesActivity extends Activity  {
 
+    // Log
+    protected static final String TAG = "DadesActivity";
 
     boolean eNom=false;
     boolean eCognom=false;

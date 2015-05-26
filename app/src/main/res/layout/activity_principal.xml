@@ -23,6 +23,17 @@
             tools:context="projecte.kangapp.PrincipalActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment" />
 
+        <ImageButton
+            android:id="@+id/fabButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fab_background"
+            android:src="@drawable/ic_view_list_white_24dp"
+            android:elevation="6dp"/>
+
     </FrameLayout>
 
 </LinearLayout>

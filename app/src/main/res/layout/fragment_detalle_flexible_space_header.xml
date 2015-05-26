@@ -376,6 +376,16 @@
         app:popupTheme="@style/Toolbar"
         android:minHeight="?attr/actionBarSize"/>
 
+    <ImageButton
+        android:id="@+id/fabButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/fab_background"
+        android:elevation="6dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

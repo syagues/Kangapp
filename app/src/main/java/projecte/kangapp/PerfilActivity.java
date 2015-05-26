@@ -7,8 +7,14 @@ import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -33,32 +39,62 @@ import scrolls.ScrollUtils;
  */
 public class PerfilActivity extends AppCompatActivity {
 
+    // Log
+    protected static final String TAG = "PerfilActivity";
+
     // Toolbar
     Bundle savedInstanceState = null;
 
-    private View mFab;
-    private boolean mFabIsShown;
+    private ImageButton mFabButton;
+    public static boolean isMiPerfil = false;
+    int drawableId;
+    String nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        // Toolbar (Menu lateral)
-        setupToolbar();
+        if(this.getIntent().getExtras() != null){
+            // Toolbar (Back button)
+            setupBackButton();
 
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
-                startActivity(intent);
-            }
-        });
-        showFab();
+            Bundle bundle = this.getIntent().getExtras();
+            drawableId = bundle.getInt("drawable_id");
+            nombreUsuario = bundle.getString("nombre_usuario");
 
-        TextView tvName = (TextView) findViewById(R.id.name);
-        tvName.setText("Nombre");
+            ImageView ivImage = (ImageView) findViewById(R.id.image);
+            ivImage.setImageDrawable(getResources().getDrawable(drawableId));
+            TextView tvUserName = (TextView) findViewById(R.id.name);
+            Log.i(TAG, nombreUsuario);
+            tvUserName.setText(nombreUsuario);
+
+            mFabButton = (ImageButton) findViewById(R.id.fabButton);
+            mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_chat_white_24dp));
+            mFabButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+        } else {
+            // Toolbar (Menu lateral)
+            setupToolbar();
+
+            mFabButton = (ImageButton) findViewById(R.id.fabButton);
+            mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_white_24dp));
+            mFabButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
+                    startActivity(intent);
+                }
+            });
+            TextView tvName = (TextView) findViewById(R.id.name);
+            tvName.setText("Nombre");
+        }
+
     }
 
     public void setupToolbar(){
@@ -135,19 +171,15 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
-    private void showFab() {
-        if (!mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
-            mFabIsShown = true;
-        }
-    }
-
-    private void hideFab() {
-        if (mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
-            mFabIsShown = false;
-        }
+    public void setupBackButton(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

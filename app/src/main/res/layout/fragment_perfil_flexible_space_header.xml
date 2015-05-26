@@ -787,6 +787,16 @@
         app:popupTheme="@style/Toolbar"
         android:minHeight="?attr/actionBarSize"/>
 
+    <ImageButton
+        android:id="@+id/fabButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/fab_background"
+        android:elevation="6dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -804,7 +814,7 @@
             android:textColor="@android:color/white"
             android:paddingLeft="60dp"
             android:background="@android:color/transparent"
-            android:textSize="21sp" />
+            android:textSize="21sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

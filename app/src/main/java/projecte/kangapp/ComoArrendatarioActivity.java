@@ -36,6 +36,9 @@ import projecte.kangapp.listener.RecyclerItemClickListener;
  */
 public class ComoArrendatarioActivity extends AppCompatActivity {
 
+    // Log
+    protected static final String TAG = "ComoArrendatarioActivity";
+
     // Toolbar
     Bundle savedInstanceState = null;
     Toolbar toolbar;
@@ -142,6 +145,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
                         Bundle bundle = new Bundle();
                         bundle.putInt("drawable_id", itemList.get(position).getItemImageId());
                         bundle.putString("nombre_articulo", itemList.get(position).getItemName());
+                        bundle.putString("nombre_usuario", itemList.get(position).getUserName());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

@@ -20,6 +20,9 @@ import projecte.kangapp.adapter.DatePickerFragment;
  */
 public class EditarPerfilActivity extends AppCompatActivity {
 
+    // Log
+    protected static final String TAG = "EditarPerfilActivity";
+
     // Nacimiento
     EditText edNacimiento;
 
