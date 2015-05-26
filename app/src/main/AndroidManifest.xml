@@ -42,6 +42,11 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
+            android:name=".MisArticulosActivity"
+            android:label="@string/str_mis_articulos"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".ComoKangerActivity"
             android:label="@string/str_como_kanger"
             android:screenOrientation="portrait"
@@ -56,6 +61,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
         <activity
+            android:name=".AlquilarActivity"
+            android:label="@string/str_alquilar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="projecte.kangapp.DetalleArticuloActivity" />
+        </activity>
+        <activity
             android:name=".PerfilActivity"
             android:label="@string/str_miperfil"
             android:screenOrientation="portrait"
@@ -69,10 +83,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="projecte.kangapp.PerfilActivity" />
         </activity>
-        <activity
-            android:name=".CalendariActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

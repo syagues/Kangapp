@@ -29,6 +29,8 @@
     <string name="str_perfil">Perfil</string>
     <string name="str_ajustes">Ajustes</string>
 
+    <!-- Mis Articulos -->
+
     <!-- Como kanger -->
     <string name="str_foto">Foto</string>
     <string name="str_marca_mod">MacLaren Banderburger</string>
@@ -46,6 +48,13 @@
     <string name="str_dias_8_15">8-15 días</string>
     <string name="str_dias_16_31">16-31 días</string>
     <string name="str_alquilar">Alquilar</string>
+    <string name="str_tipo">Tipo</string>
+    <string name="str_tipo1">For sleeping, Crib</string>
+
+    <!-- Alquilar -->
+    <string name="str_alquilar_info">Elige qué día quieres recoger el artículo y qué día quieres devolvérselo a su dueño. Es posible que algunos días ya estén ocupados. Tienes que elegir días libres.</string>
+    <string name="str_fechaini">Fecha inicio</string>
+    <string name="str_fechafin">Fecha fin</string>
 
     <!-- Perfil -->
     <string name="str_miperfil">Mi perfil</string>

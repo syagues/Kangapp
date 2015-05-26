@@ -104,6 +104,9 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
+                                case 2:
+                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;

@@ -287,7 +287,7 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
             adjustedScrollY = mParallaxImageHeight;
         }
 
-        float maxScale = 0.30f;
+        float maxScale = 0.22f;
         float scale = maxScale * ((float) (mParallaxImageHeight - mToolbarHeight) - adjustedScrollY) / (mParallaxImageHeight - mToolbarHeight);
         if (scale < 0) {
             scale = 0;
@@ -299,7 +299,7 @@ public class FlexibleSpaceHeaderFragmentDetalle extends Fragment implements Obse
         ViewHelper.setScaleY(mTitle, 1 + scale);
 
         int maxTitleTranslationY = (int) (mParallaxImageHeight * 0.78f);
-        int maxTitleTranslationX = (int) (mParallaxImageHeight * 0.20f);
+        int maxTitleTranslationX = (int) (mParallaxImageHeight * 0.21f);
         int titleTranslationY = (int) (maxTitleTranslationY * ((float) scale / maxScale));
         int titleTranslationX = (int) -(maxTitleTranslationX * ((float) scale / maxScale));
         ViewHelper.setTranslationY(mTitle, titleTranslationY);

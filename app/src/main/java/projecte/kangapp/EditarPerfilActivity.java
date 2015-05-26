@@ -5,11 +5,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -37,10 +39,17 @@ public class EditarPerfilActivity extends AppCompatActivity {
         edNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    Log.i("Aplicacio", "Naixement listener");
+                if(hasFocus) {
+                    Log.i(TAG, "Naixement onFocus listener");
                     showDatePicker();
                 }
+            }
+        });
+        edNacimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Naixement onClick listener");
+                showDatePicker();
             }
         });
     }
