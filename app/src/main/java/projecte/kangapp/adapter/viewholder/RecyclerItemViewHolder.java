@@ -19,42 +19,46 @@ public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView mItemImageView;
     private final TextView mItemNameTextView;
+    private final TextView mItemTypeTextView;
     private final TextView mUserNameTextView;
-    private final TextView mItemStateTextView;
     private final TextView mItemPriceTextView;
     private final TextView mItemBeginEndDateTextView;
+    private final TextView mItemStateTextView;
 
-    public RecyclerItemViewHolder(final View parent, ImageView mItemImageView, TextView mItemNameTextView, TextView mUserNameTextView, TextView mItemStateTextView, TextView mItemPriceTextView, TextView mItemBeginEndDateTextView) {
+    public RecyclerItemViewHolder(final View parent, ImageView mItemImageView, TextView mItemNameTextView, TextView mItemTypeTextView, TextView mUserNameTextView, TextView mItemPriceTextView, TextView mItemBeginEndDateTextView, TextView mItemStateTextView) {
         super(parent);
         this.mItemImageView = mItemImageView;
         this.mItemNameTextView = mItemNameTextView;
+        this.mItemTypeTextView = mItemTypeTextView;
         this.mUserNameTextView = mUserNameTextView;
-        this.mItemStateTextView = mItemStateTextView;
         this.mItemPriceTextView = mItemPriceTextView;
         this.mItemBeginEndDateTextView = mItemBeginEndDateTextView;
+        this.mItemStateTextView = mItemStateTextView;
     }
 
     public static RecyclerItemViewHolder newInstance(View parent) {
         ImageView itemImageView = (ImageView) parent.findViewById(R.id.imageView);
         TextView itemNameTextView = (TextView) parent.findViewById(R.id.tv_nombre);
+        TextView itemTypeTextView = (TextView) parent.findViewById(R.id.tv_tipo);
         TextView userNameTextView = (TextView) parent.findViewById(R.id.tv_usuario);
-        TextView itemStateTextView = (TextView) parent.findViewById(R.id.tv_encurso);
         TextView itemPriceTextView = (TextView) parent.findViewById(R.id.tv_precio);
         TextView itemBeginEndDateTextView = (TextView) parent.findViewById(R.id.tv_fechas);
+        TextView itemStateTextView = (TextView) parent.findViewById(R.id.tv_encurso);
 
-        return new RecyclerItemViewHolder(parent, itemImageView, itemNameTextView, userNameTextView, itemStateTextView, itemPriceTextView, itemBeginEndDateTextView);
+        return new RecyclerItemViewHolder(parent, itemImageView, itemNameTextView, itemTypeTextView, userNameTextView, itemPriceTextView, itemBeginEndDateTextView, itemStateTextView);
     }
 
-    public void setItemParameters(Bitmap itemImage, String itemName, String userName, String itemState, String itemPrice, String itemBeginEndDate) {
+    public void setItemParameters(Bitmap itemImage, String itemName, String itemType, String userName, String itemPrice, String itemBeginEndDate, String itemState) {
         // Imatge
         RoundImage roundedImage = new RoundImage(itemImage);
         mItemImageView.setImageDrawable(roundedImage);
 
         mItemNameTextView.setText(itemName);
+        mItemTypeTextView.setText(itemType);
         mUserNameTextView.setText(userName);
-        mItemStateTextView.setText(itemState);
         mItemPriceTextView.setText(itemPrice);
         mItemBeginEndDateTextView.setText(itemBeginEndDate);
+        mItemStateTextView.setText(itemState);
     }
 
 }

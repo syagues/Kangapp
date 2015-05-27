@@ -23,7 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 
-import projecte.kangapp.adapter.CardItem;
+import projecte.kangapp.adapter.CardArticulo;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.listener.HidingScrollListener;
 import projecte.kangapp.listener.RecyclerItemClickListener;
@@ -41,7 +41,7 @@ public class MisArticulosActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     // Items List
-    List<CardItem> itemList;
+    List<CardArticulo> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,8 @@ public class MisArticulosActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false)
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -143,8 +144,8 @@ public class MisArticulosActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
-                        bundle.putInt("drawable_id", itemList.get(position).getItemImageId());
-                        bundle.putString("nombre_articulo", itemList.get(position).getItemName());
+                        bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
+                        bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
                         bundle.putString("nombre_usuario", itemList.get(position).getUserName());
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -173,10 +174,10 @@ public class MisArticulosActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<CardItem> createItemList() {
+    private List<CardArticulo> createItemList() {
         itemList = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            itemList.add(new CardItem(getResources(), R.drawable.item3,"Chicco LullaGo","Usuario","En curso","15 €","3/5 - 5/5"));
+            itemList.add(new CardArticulo(getResources(), R.drawable.item3,"Chicco LullaGo","For sleeping, Crib","Usuario","15 €","3/5 - 5/5","En curso"));
         }
         return itemList;
     }
