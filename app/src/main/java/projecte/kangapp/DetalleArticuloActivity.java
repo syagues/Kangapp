@@ -26,6 +26,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
 
     private ImageButton mFabButton;
 
+    boolean isForRent;
     int drawableId;
     String nombreArticulo, nombreUsuario;
 
@@ -39,11 +40,9 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         RoundImage roundedImage = new RoundImage(BitmapFactory.decodeResource(getResources(), R.drawable.user1));
         mUserImageView.setImageDrawable(roundedImage);
 
-        mFabButton = (ImageButton) findViewById(R.id.fabButton);
-        mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_shopping_cart_white_24dp));
-
         if(this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
+            isForRent = bundle.getBoolean("is_for_rent");
             drawableId = bundle.getInt("drawable_id");
             nombreArticulo = bundle.getString("nombre_articulo");
             nombreUsuario = bundle.getString("nombre_usuario");
@@ -54,6 +53,13 @@ public class DetalleArticuloActivity extends AppCompatActivity {
             TextView tvUserName = (TextView) findViewById(R.id.tv_nombre_usuario);
             tvItemName.setText(nombreArticulo);
             tvUserName.setText(nombreUsuario);
+
+            mFabButton = (ImageButton) findViewById(R.id.fabButton);
+            if(isForRent) {
+                mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_shopping_cart_white_24dp));
+            } else {
+                mFabButton.setVisibility(View.GONE);
+            }
         }
 
         CardView usuarioCard = (CardView) findViewById(R.id.card_usuario);

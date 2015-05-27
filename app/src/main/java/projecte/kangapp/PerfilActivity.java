@@ -133,7 +133,8 @@ public class PerfilActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_orange_36dp).withIdentifier(8).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false),
+                        new DividerDrawerItem()
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -154,6 +155,12 @@ public class PerfilActivity extends AppCompatActivity {
                                     break;
                                 case 7:
                                     intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
+                                    break;
+                                case 9:
+                                    intent = new Intent(getApplicationContext(), AjustesActivity.class);
+                                    break;
+                                case 10:
+                                    intent = new Intent(getApplicationContext(), AyudaActivity.class);
                                     break;
                                 default:
                                     break;

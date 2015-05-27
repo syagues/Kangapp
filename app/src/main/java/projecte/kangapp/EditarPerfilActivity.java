@@ -3,7 +3,9 @@ package projecte.kangapp;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -27,14 +30,33 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
     // Nacimiento
     EditText edNacimiento;
+    RadioButton rbHombre, rbMujer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary)));
+        // Toolbar
+        setupBackButton();
 
+        // RadioButtons
+        rbHombre = (RadioButton) findViewById(R.id.ep_rb_hombre);
+        rbMujer = (RadioButton) findViewById(R.id.ep_rb_mujer);
+        rbHombre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbMujer.setChecked(false);
+            }
+        });
+        rbMujer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rbHombre.setChecked(false);
+            }
+        });
+
+        // Nacimiento
         edNacimiento = (EditText) findViewById(R.id.ep_et_nacimiento);
         edNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -80,5 +102,17 @@ public class EditarPerfilActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_editar_perfil, menu);
 
         return true;
+    }
+
+    public void setupBackButton(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

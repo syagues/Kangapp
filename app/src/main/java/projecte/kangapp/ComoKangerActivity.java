@@ -89,7 +89,8 @@ public class ComoKangerActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false),
+                        new DividerDrawerItem()
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -110,6 +111,12 @@ public class ComoKangerActivity extends AppCompatActivity {
                                     break;
                                 case 8:
                                     intent = new Intent(getApplicationContext(), PerfilActivity.class);
+                                    break;
+                                case 9:
+                                    intent = new Intent(getApplicationContext(), AjustesActivity.class);
+                                    break;
+                                case 10:
+                                    intent = new Intent(getApplicationContext(), AyudaActivity.class);
                                     break;
                                 default:
                                     break;
@@ -144,6 +151,7 @@ public class ComoKangerActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
+                        bundle.putBoolean("is_for_rent", false);
                         bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
                         bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
                         bundle.putString("nombre_usuario", itemList.get(position).getUserName());
