@@ -2,11 +2,11 @@ package projecte.kangapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -29,12 +29,12 @@ import projecte.kangapp.listener.HidingScrollListener;
 import projecte.kangapp.listener.RecyclerItemClickListener;
 
 /**
- * Created by sergi on 23/5/15.
+ * Created by sergi on 26/5/15.
  */
-public class ComoKangerActivity extends AppCompatActivity {
+public class MisArticulosActivity extends AppCompatActivity {
 
     // Log
-    protected static final String TAG = "ComoKangerActivity";
+    protected static final String TAG = "MisArticulosActivity";
 
     // Toolbar
     Bundle savedInstanceState = null;
@@ -47,7 +47,7 @@ public class ComoKangerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        setContentView(R.layout.activity_como_kanger);
+        setContentView(R.layout.activity_mis_articulos);
 
         // Toolbar (Menu lateral)
         setupToolbar();
@@ -80,11 +80,11 @@ public class ComoKangerActivity extends AppCompatActivity {
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.str_buscar).withIdentifier(1).withIcon(R.drawable.ic_place_grey600_36dp).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_mis_articulos).withIdentifier(2).withIcon(R.drawable.ic_store_mall_directory_grey600_36dp).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_mis_articulos).withIdentifier(2).withIcon(R.drawable.ic_store_mall_directory_orange_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_chat).withIdentifier(3).withIcon(R.drawable.ic_chat_grey600_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_publicar).withIdentifier(4).withIcon(R.drawable.ic_add_circle_grey600_36dp).withCheckable(false),
                         new SectionDrawerItem().withName(R.string.str_mis_tratos).withIdentifier(5),
-                        new PrimaryDrawerItem().withName(R.string.str_como_kanger).withIcon(R.drawable.ic_local_mall_orange_36dp).withIdentifier(6).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_como_kanger).withIcon(R.drawable.ic_local_mall_grey600_36dp).withIdentifier(6).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
@@ -103,8 +103,8 @@ public class ComoKangerActivity extends AppCompatActivity {
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
-                                case 2:
-                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                case 6:
+                                    intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
                                 case 7:
                                     intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
@@ -134,7 +134,7 @@ public class ComoKangerActivity extends AppCompatActivity {
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 1
-            result.setSelectionByIdentifier(6, false);
+            result.setSelectionByIdentifier(2, false);
         }
     }
 
@@ -185,7 +185,7 @@ public class ComoKangerActivity extends AppCompatActivity {
     private List<CardArticulo> createItemList() {
         itemList = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            itemList.add(new CardArticulo(getResources(), R.drawable.item1,"MacLaren Banderburguer","For walking, Double stroller","Usuario","40 €","3/5 - 5/5","En curso"));
+            itemList.add(new CardArticulo(getResources(), R.drawable.item3,"Chicco LullaGo","For sleeping, Crib","Usuario","15 €","",""));
         }
         return itemList;
     }

@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#ffffff">
 
-    <fragment android:name="projecte.kangapp.fragment.FlexibleSpaceHeaderFragmentPerfil"
+    <fragment android:name="projecte.kangapp.fragment.FlexibleSpaceHeaderFragmentDetalle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>

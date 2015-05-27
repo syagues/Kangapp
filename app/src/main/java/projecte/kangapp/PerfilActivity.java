@@ -7,9 +7,16 @@ import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -30,49 +37,63 @@ import scrolls.ScrollUtils;
 /**
  * Created by sergi on 20/5/15.
  */
-public class PerfilActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
+public class PerfilActivity extends AppCompatActivity {
 
-    private View mImageView;
-    private View mToolbarView;
-    private ObservableScrollView mScrollView;
-    private int mParallaxImageHeight;
+    // Log
+    protected static final String TAG = "PerfilActivity";
 
     // Toolbar
     Bundle savedInstanceState = null;
 
-    private View mFab;
-    private int mFabMargin;
-    private boolean mFabIsShown;
-    private int mFlexibleSpaceShowFabOffset;
-    private int mFlexibleSpaceImageHeight;
-    private int mActionBarSize;
-    private View mOverlayView;
+    private ImageButton mFabButton;
+    public static boolean isMiPerfil = false;
+    int drawableId;
+    String nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        // Toolbar (Menu lateral)
-        setupToolbar();
+        if(this.getIntent().getExtras() != null){
+            // Toolbar (Back button)
+            setupBackButton();
 
-        mImageView = findViewById(R.id.image);
-        mToolbarView = findViewById(R.id.toolbar);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
+            Bundle bundle = this.getIntent().getExtras();
+            drawableId = bundle.getInt("drawable_id");
+            nombreUsuario = bundle.getString("nombre_usuario");
 
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        mScrollView.setScrollViewCallbacks(this);
+            ImageView ivImage = (ImageView) findViewById(R.id.image);
+            ivImage.setImageDrawable(getResources().getDrawable(drawableId));
+            TextView tvUserName = (TextView) findViewById(R.id.name);
+            Log.i(TAG, nombreUsuario);
+            tvUserName.setText(nombreUsuario);
 
-        mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
-                startActivity(intent);
-            }
-        });
-        showFab();
+            mFabButton = (ImageButton) findViewById(R.id.fabButton);
+            mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_chat_white_24dp));
+            mFabButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+        } else {
+            // Toolbar (Menu lateral)
+            setupToolbar();
+
+            mFabButton = (ImageButton) findViewById(R.id.fabButton);
+            mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_white_24dp));
+            mFabButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), EditarPerfilActivity.class);
+                    startActivity(intent);
+                }
+            });
+            TextView tvName = (TextView) findViewById(R.id.name);
+            tvName.setText("Nombre");
+        }
 
     }
 
@@ -111,7 +132,9 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_orange_36dp).withIdentifier(8).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false),
+                        new DividerDrawerItem()
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -124,11 +147,20 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
+                                case 2:
+                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
                                 case 7:
                                     intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
+                                    break;
+                                case 9:
+                                    intent = new Intent(getApplicationContext(), AjustesActivity.class);
+                                    break;
+                                case 10:
+                                    intent = new Intent(getApplicationContext(), AyudaActivity.class);
                                     break;
                                 default:
                                     break;
@@ -150,37 +182,15 @@ public class PerfilActivity extends AppCompatActivity implements ObservableScrol
         }
     }
 
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int baseColor = getResources().getColor(R.color.primary);
-        float alpha = Math.min(1, (float) scrollY / mParallaxImageHeight);
-        mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
-        ViewHelper.setTranslationY(mImageView, scrollY / 2);
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
-    }
-
-    private void showFab() {
-        if (!mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
-            mFabIsShown = true;
-        }
-    }
-
-    private void hideFab() {
-        if (mFabIsShown) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
-            mFabIsShown = false;
-        }
+    public void setupBackButton(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

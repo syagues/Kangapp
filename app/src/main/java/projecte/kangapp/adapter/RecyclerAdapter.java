@@ -1,6 +1,7 @@
 package projecte.kangapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int TYPE_HEADER = 2;
     private static final int TYPE_ITEM = 1;
-    private List<String> mItemList;
+    private List<CardArticulo> mArticuloList;
 
-    public RecyclerAdapter(List<String> itemList) {
-        mItemList = itemList;
+    public RecyclerAdapter(List<CardArticulo> itemList) {
+        mArticuloList = itemList;
     }
 
     @Override
@@ -42,13 +43,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (!isPositionHeader(position)) {
             RecyclerItemViewHolder holder = (RecyclerItemViewHolder) viewHolder;
-            String itemText = mItemList.get(position - 1); // header
-            holder.setItemText(itemText);
+            Bitmap itemImage = mArticuloList.get(position - 1).getArticuloImage();
+            String itemName = mArticuloList.get(position - 1).getArticuloName();
+            String itemType = mArticuloList.get(position - 1).getArticuloType();
+            String userName = mArticuloList.get(position - 1).getUserName();
+            String itemPrice = mArticuloList.get(position - 1).getArticuloPrice();
+            String itemBeginEndDate = mArticuloList.get(position - 1).getArticuloBeginEndDate();
+            String itemState = mArticuloList.get(position - 1).getArticuloState();
+            holder.setItemParameters(itemImage, itemName, itemType, userName, itemPrice, itemBeginEndDate, itemState);
         }
     }
 
     public int getBasicItemCount() {
-        return mItemList == null ? 0 : mItemList.size();
+        return mArticuloList == null ? 0 : mArticuloList.size();
     }
 
 

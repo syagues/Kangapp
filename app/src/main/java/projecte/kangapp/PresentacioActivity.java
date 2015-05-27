@@ -13,6 +13,9 @@ import projecte.animations.YoYo;
  */
 public class PresentacioActivity extends Activity {
 
+    // Log
+    protected static final String TAG = "PresentacioActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,7 @@ public class PresentacioActivity extends Activity {
     }
 
     public void iniciarApp() {
-        Intent intent = new Intent(this, ComoKangerActivity.class);
+        Intent intent = new Intent(this, PrincipalActivity.class);
         startActivity(intent);
         finish();
     }

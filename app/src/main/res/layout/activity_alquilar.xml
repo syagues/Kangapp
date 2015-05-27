@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/primary"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:theme="@style/Toolbar"
+        app:popupTheme="@style/Toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="6dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/default_background">
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/alq_card_articulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/alq_iv_articulo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="16dp"
+                        android:src="@drawable/item1"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_nombre_articulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/alq_iv_articulo"
+                        android:layout_marginTop="16dp"
+                        android:textSize="18sp"
+                        android:text="@string/str_marca_mod"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_tipo_articulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/alq_iv_articulo"
+                        android:layout_below="@+id/alq_tv_nombre_articulo"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="15dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/light_grey"
+                        android:text="@string/str_tipo1"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/alq_card_usuario"
+                android:layout_below="@+id/alq_card_articulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/alq_iv_usuario"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="16dp"
+                        android:src="@drawable/user1"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_nombre_usuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/alq_iv_usuario"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="16dp"
+                        android:textSize="18sp"
+                        android:text="@string/str_nombre"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_pais_usuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/alq_tv_nombre_usuario"
+                        android:layout_toRightOf="@+id/alq_iv_usuario"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/light_grey"
+                        android:text="@string/str_pais"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_user_articulos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="6dp"
+                        android:textSize="15sp"
+                        android:text="3"/>
+
+                    <ImageView
+                        android:id="@+id/alq_ic_user_articulos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/alq_tv_user_articulos"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/light_background"
+                        android:src="@drawable/ic_extension_grey600_18dp"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_user_tratos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/alq_tv_user_articulos"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:text="1"/>
+
+                    <ImageView
+                        android:id="@+id/alq_ic_user_tratos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/alq_tv_user_articulos"
+                        android:layout_toLeftOf="@+id/alq_tv_user_tratos"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/light_background"
+                        android:src="@drawable/ic_done_grey600_18dp"/>
+
+                    <TextView
+                        android:id="@+id/alq_tv_user_puntuacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/alq_tv_user_tratos"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="15sp"
+                        android:text="2.5"/>
+
+                    <ImageView
+                        android:id="@+id/alq_ic_user_puntuacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/alq_tv_user_tratos"
+                        android:layout_toLeftOf="@+id/alq_tv_user_puntuacion"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/light_background"
+                        android:src="@drawable/ic_star_rate_grey600_18dp"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/alq_card_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/alq_card_usuario"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/alq_tv_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:padding="16dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/light_grey"
+                        android:text="@string/str_alquilar_info"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/alq_fechas"
+                android:layout_below="@+id/alq_card_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/alq_card_fechaini"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/alq_title_fechaini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:padding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/primary"
+                            android:text="@string/str_fechaini"/>
+
+                        <TextView
+                            android:id="@+id/alq_tv_fechaini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/alq_title_fechaini"
+                            android:layout_centerHorizontal="true"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="28sp"
+                            android:text="13/12/15"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/alq_card_fechafin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/alq_title_fechafin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:padding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/primary"
+                            android:text="@string/str_fechafin"/>
+
+                        <TextView
+                            android:id="@+id/alq_tv_fechafin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/alq_title_fechafin"
+                            android:layout_centerHorizontal="true"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="28sp"
+                            android:text="23/12/15"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/fabButton"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_below="@+id/alq_fechas"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/fab_background"
+                android:elevation="6dp"
+                android:src="@drawable/ic_play_arrow_white_24dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

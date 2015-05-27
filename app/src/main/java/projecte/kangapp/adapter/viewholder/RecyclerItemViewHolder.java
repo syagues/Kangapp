@@ -2,6 +2,7 @@ package projecte.kangapp.adapter.viewholder;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -16,32 +17,48 @@ import projecte.kangapp.adapter.RoundImage;
  */
 public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
 
-    private final TextView mItemTextView;
+    private final ImageView mItemImageView;
+    private final TextView mItemNameTextView;
+    private final TextView mItemTypeTextView;
+    private final TextView mUserNameTextView;
+    private final TextView mItemPriceTextView;
+    private final TextView mItemBeginEndDateTextView;
+    private final TextView mItemStateTextView;
 
-    public RecyclerItemViewHolder(final View parent, TextView itemTextView) {
+    public RecyclerItemViewHolder(final View parent, ImageView mItemImageView, TextView mItemNameTextView, TextView mItemTypeTextView, TextView mUserNameTextView, TextView mItemPriceTextView, TextView mItemBeginEndDateTextView, TextView mItemStateTextView) {
         super(parent);
-        mItemTextView = itemTextView;
+        this.mItemImageView = mItemImageView;
+        this.mItemNameTextView = mItemNameTextView;
+        this.mItemTypeTextView = mItemTypeTextView;
+        this.mUserNameTextView = mUserNameTextView;
+        this.mItemPriceTextView = mItemPriceTextView;
+        this.mItemBeginEndDateTextView = mItemBeginEndDateTextView;
+        this.mItemStateTextView = mItemStateTextView;
     }
 
     public static RecyclerItemViewHolder newInstance(View parent) {
-        TextView itemTextView = (TextView) parent.findViewById(R.id.tv_modelo);
+        ImageView itemImageView = (ImageView) parent.findViewById(R.id.imageView);
+        TextView itemNameTextView = (TextView) parent.findViewById(R.id.tv_nombre);
+        TextView itemTypeTextView = (TextView) parent.findViewById(R.id.tv_tipo);
+        TextView userNameTextView = (TextView) parent.findViewById(R.id.tv_usuario);
+        TextView itemPriceTextView = (TextView) parent.findViewById(R.id.tv_precio);
+        TextView itemBeginEndDateTextView = (TextView) parent.findViewById(R.id.tv_fechas);
+        TextView itemStateTextView = (TextView) parent.findViewById(R.id.tv_encurso);
 
-        // Imatge
-        ImageView imageView = (ImageView) parent.findViewById(R.id.imageView);
-        Bitmap bm = BitmapFactory.decodeResource(parent.getResources(), R.drawable.item2);
-        RoundImage roundedImage = new RoundImage(bm);
-        if(imageView != null) {
-            imageView.setImageDrawable(roundedImage);
-            Log.i("Aplicacio", "imageview no null");
-        } else {
-            Log.i("Aplicacio", "imageview null");
-        }
-
-        return new RecyclerItemViewHolder(parent, itemTextView);
+        return new RecyclerItemViewHolder(parent, itemImageView, itemNameTextView, itemTypeTextView, userNameTextView, itemPriceTextView, itemBeginEndDateTextView, itemStateTextView);
     }
 
-    public void setItemText(CharSequence text) {
-        mItemTextView.setText(text);
+    public void setItemParameters(Bitmap itemImage, String itemName, String itemType, String userName, String itemPrice, String itemBeginEndDate, String itemState) {
+        // Imatge
+        RoundImage roundedImage = new RoundImage(itemImage);
+        mItemImageView.setImageDrawable(roundedImage);
+
+        mItemNameTextView.setText(itemName);
+        mItemTypeTextView.setText(itemType);
+        mUserNameTextView.setText(userName);
+        mItemPriceTextView.setText(itemPrice);
+        mItemBeginEndDateTextView.setText(itemBeginEndDate);
+        mItemStateTextView.setText(itemState);
     }
 
 }

@@ -23,6 +23,9 @@ import projecte.animations.YoYo;
  */
 public class RegistreActivity extends Activity {
 
+    // Log
+    protected static final String TAG = "RegistreActivity";
+
     boolean cEnt = false;
     boolean nEnt = false;
 

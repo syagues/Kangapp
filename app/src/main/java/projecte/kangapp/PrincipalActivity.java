@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -78,10 +79,12 @@ public class PrincipalActivity extends AppCompatActivity implements
         // Toolbar (Menu lateral)
         setupToolbar();
 
+        // Fab button
+        setupFabButton();
+
         // Localitzacio
         buildGoogleApiClient();
         setUpMapIfNeeded();
-
     }
 
     @Override
@@ -124,7 +127,9 @@ public class PrincipalActivity extends AppCompatActivity implements
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false),
+                        new DividerDrawerItem()
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -133,7 +138,10 @@ public class PrincipalActivity extends AppCompatActivity implements
 
                         if (drawerItem != null) {
                             Intent intent = null;
-                            switch (drawerItem.getIdentifier()){
+                            switch (drawerItem.getIdentifier()) {
+                                case 2:
+                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
@@ -143,10 +151,16 @@ public class PrincipalActivity extends AppCompatActivity implements
                                 case 8:
                                     intent = new Intent(getApplicationContext(), PerfilActivity.class);
                                     break;
+                                case 9:
+                                    intent = new Intent(getApplicationContext(), AjustesActivity.class);
+                                    break;
+                                case 10:
+                                    intent = new Intent(getApplicationContext(), AyudaActivity.class);
+                                    break;
                                 default:
                                     break;
                             }
-                            if(intent != null)
+                            if (intent != null)
                                 startActivity(intent);
                         }
 
@@ -161,6 +175,10 @@ public class PrincipalActivity extends AppCompatActivity implements
             // set the selection to the item with the identifier 1
             result.setSelectionByIdentifier(1, false);
         }
+    }
+
+    public void setupFabButton(){
+        ImageButton fabButton = (ImageButton) findViewById(R.id.fabButton);
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -24,22 +23,24 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 
+import projecte.kangapp.adapter.CardArticulo;
 import projecte.kangapp.adapter.RecyclerAdapter;
-import projecte.kangapp.adapter.RoundImage;
 import projecte.kangapp.listener.HidingScrollListener;
+import projecte.kangapp.listener.RecyclerItemClickListener;
 
 /**
  * Created by sergi on 24/5/15.
  */
 public class ComoArrendatarioActivity extends AppCompatActivity {
 
+    // Log
+    protected static final String TAG = "ComoArrendatarioActivity";
+
     // Toolbar
     Bundle savedInstanceState = null;
     Toolbar toolbar;
 
-    // Imatge
-    ImageView imageView;
-    RoundImage roundedImage;
+    List<CardArticulo> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,9 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_orange_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false)
+                        new PrimaryDrawerItem().withName(R.string.str_ajustes).withIcon(R.drawable.ic_settings_grey600_36dp).withIdentifier(9).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_ayuda).withIcon(R.drawable.ic_help_grey600_36dp).withIdentifier(10).withCheckable(false),
+                        new DividerDrawerItem()
 
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -100,11 +103,20 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
+                                case 2:
+                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
                                 case 8:
                                     intent = new Intent(getApplicationContext(), PerfilActivity.class);
+                                    break;
+                                case 9:
+                                    intent = new Intent(getApplicationContext(), AjustesActivity.class);
+                                    break;
+                                case 10:
+                                    intent = new Intent(getApplicationContext(), AyudaActivity.class);
                                     break;
                                 default:
                                     break;
@@ -132,6 +144,23 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
         recyclerView.setAdapter(recyclerAdapter);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("is_for_rent", true);
+                        bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
+                        bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
+                        bundle.putString("nombre_usuario", itemList.get(position).getUserName());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                })
+        );
+
         recyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
@@ -153,10 +182,10 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<String> createItemList() {
-        List<String> itemList = new ArrayList<>();
+    private List<CardArticulo> createItemList() {
+        itemList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            itemList.add(getResources().getString(R.string.str_marca_mod));
+            itemList.add(new CardArticulo(getResources(), R.drawable.item2,"Chicco Grenny","For the car","Usuario","10 €","12/12 - 15/12","Iniciado"));
         }
         return itemList;
     }

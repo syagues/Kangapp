@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".RegistreActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".DadesActivity"
@@ -33,7 +33,7 @@
         <activity
             android:name=".PrincipalActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/AppTheme.Toolbar" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -41,6 +41,11 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity
+            android:name=".MisArticulosActivity"
+            android:label="@string/str_mis_articulos"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
         <activity
             android:name=".ComoKangerActivity"
             android:label="@string/str_como_kanger"
@@ -52,6 +57,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
         <activity
+            android:name=".DetalleArticuloActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".AlquilarActivity"
+            android:label="@string/str_alquilar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".PerfilActivity"
             android:label="@string/str_miperfil"
             android:screenOrientation="portrait"
@@ -60,15 +74,21 @@
             android:name=".EditarPerfilActivity"
             android:label="@string/str_editar_perfil"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.Toolbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="projecte.kangapp.PerfilActivity" />
         </activity>
         <activity
-            android:name=".CalendariActivity"
+            android:name=".AjustesActivity"
+            android:label="@string/str_ajustes"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".AyudaActivity"
+            android:label="@string/str_ayuda"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
