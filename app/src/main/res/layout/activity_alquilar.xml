@@ -318,6 +318,18 @@
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/fabButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_below="@+id/alq_fechas"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fab_background"
+            android:elevation="6dp"
+            android:src="@drawable/ic_play_arrow_white_24dp"/>
+
     </RelativeLayout>
 
 </ScrollView>

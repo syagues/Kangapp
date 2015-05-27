@@ -62,11 +62,11 @@ public class EditarPerfilActivity extends AppCompatActivity {
         args.putInt("month", calender.get(Calendar.MONTH));
         args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
         date.setArguments(args);
-        date.setCallBack(ondate);
+        date.setCallBack(onDate);
         date.show(getSupportFragmentManager(), "Date Picker");
     }
 
-    OnDateSetListener ondate = new OnDateSetListener() {
+    OnDateSetListener onDate = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             int month = monthOfYear + 1;

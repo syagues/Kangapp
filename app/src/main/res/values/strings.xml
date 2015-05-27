@@ -55,6 +55,8 @@
     <string name="str_alquilar_info">Elige qué día quieres recoger el artículo y qué día quieres devolvérselo a su dueño. Es posible que algunos días ya estén ocupados. Tienes que elegir días libres.</string>
     <string name="str_fechaini">Fecha inicio</string>
     <string name="str_fechafin">Fecha fin</string>
+    <string name="str_aceptar">Aceptar</string>
+    <string name="str_alert_fecha">La fecha no puede ser anterior a la actual</string>
 
     <!-- Perfil -->
     <string name="str_miperfil">Mi perfil</string>
