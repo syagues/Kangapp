@@ -1,11 +1,14 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -19,6 +22,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +49,7 @@ public class MisArticulosActivity extends AppCompatActivity {
 
     // Items List
     List<CardArticulo> itemList;
+    boolean charged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +58,15 @@ public class MisArticulosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mis_articulos);
 
         // Toolbar (Menu lateral)
+        new GetItemByUserIdTask().execute(new ApiConnector());
         setupToolbar();
-        initRecyclerView();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                initRecyclerView();
+            }
+        }, 500);
+
     }
 
     public void setupToolbar(){
@@ -141,7 +156,7 @@ public class MisArticulosActivity extends AppCompatActivity {
     private void initRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getItemList());
         recyclerView.setAdapter(recyclerAdapter);
 
         recyclerView.addOnItemTouchListener(
@@ -182,11 +197,51 @@ public class MisArticulosActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<CardArticulo> createItemList() {
+    private void createItemList(JSONArray jsonArray) {
         itemList = new ArrayList<>();
-        for(int i=0;i<5;i++) {
-            itemList.add(new CardArticulo(getResources(), R.drawable.item3,"Chicco LullaGo","For sleeping, Crib","Usuario","15 €","",""));
+        for(int i=0; i<jsonArray.length();i++){
+
+            JSONObject json = null;
+            try {
+                json = jsonArray.getJSONObject(i);
+                Log.i(TAG, json.getString("company") + " " + json.getString("model"));
+                itemList.add(new CardArticulo(getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private List<CardArticulo> getItemList() {
+        charged = true;
         return itemList;
+    }
+
+    public String getDownloadUrl(String path){
+        String[] pathSplit = path.split("/");
+        String url = "http://46.101.24.238/";
+        for (int i=0; i<pathSplit.length; i++){
+            if(i>4){
+                url += "/" + pathSplit[i];
+            }
+        }
+        return url;
+    }
+
+    private class GetItemByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray>
+    {
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemByUserId();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+
+            createItemList(jsonArray);
+        }
     }
 }

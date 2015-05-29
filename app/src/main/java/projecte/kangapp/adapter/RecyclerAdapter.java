@@ -43,14 +43,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (!isPositionHeader(position)) {
             RecyclerItemViewHolder holder = (RecyclerItemViewHolder) viewHolder;
-            Bitmap itemImage = mArticuloList.get(position - 1).getArticuloImage();
+            //Bitmap itemImage = mArticuloList.get(position - 1).getArticuloImage();
+            String pathImage = mArticuloList.get(position - 1).getPathArticuloImage();
             String itemName = mArticuloList.get(position - 1).getArticuloName();
             String itemType = mArticuloList.get(position - 1).getArticuloType();
             String userName = mArticuloList.get(position - 1).getUserName();
             String itemPrice = mArticuloList.get(position - 1).getArticuloPrice();
             String itemBeginEndDate = mArticuloList.get(position - 1).getArticuloBeginEndDate();
             String itemState = mArticuloList.get(position - 1).getArticuloState();
-            holder.setItemParameters(itemImage, itemName, itemType, userName, itemPrice, itemBeginEndDate, itemState);
+            holder.setItemParameters(pathImage, itemName, itemType, userName, itemPrice, itemBeginEndDate, itemState);
         }
     }
 
