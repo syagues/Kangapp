@@ -4,8 +4,17 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -16,6 +25,7 @@ import projecte.kangapp.R;
  */
 public class CardArticulo {
 
+    private String pathArticuloImage;
     private int articuloImageId;
     private Bitmap articuloImage;
     private String articuloName;
@@ -24,6 +34,17 @@ public class CardArticulo {
     private String articuloPrice;
     private String articuloBeginEndDate;
     private String articuloState;
+
+    public CardArticulo(String pathArticuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+
+        this.pathArticuloImage = pathArticuloImage;
+        this.articuloName = articuloName;
+        this.articuloType = articuloType;
+        this.userName = userName;
+        this.articuloPrice = articuloPrice;
+        this.articuloBeginEndDate = articuloBeginEndDate;
+        this.articuloState = articuloState;
+    }
 
     public CardArticulo(Bitmap articuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
         this.articuloImage = articuloImage;
@@ -44,6 +65,14 @@ public class CardArticulo {
         this.articuloPrice = articuloPrice;
         this.articuloBeginEndDate = articuloBeginEndDate;
         this.articuloState = articuloState;
+    }
+
+    public void setPathArticuloImage(String pathArticuloImage) {
+        this.pathArticuloImage = pathArticuloImage;
+    }
+
+    public String getPathArticuloImage() {
+        return pathArticuloImage;
     }
 
     public void setArticuloImageId(int articuloImageId) {

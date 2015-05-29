@@ -1,6 +1,7 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -59,6 +60,12 @@ public class PrincipalActivity extends AppCompatActivity implements
     // Localitzacio
     GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
+    double latitudeActual, longitudeActual;
+    float bearingActual, zoomActual, tiltActual;
+
+    // Preferencies
+    SharedPreferences prefs;
+    String prefsNom = "localitzacio";
 
     // Cerca
     android.support.v7.widget.SearchView searchView;
@@ -91,6 +98,13 @@ public class PrincipalActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveActualLocation();
     }
 
     public void setupToolbar(){
@@ -160,8 +174,10 @@ public class PrincipalActivity extends AppCompatActivity implements
                                 default:
                                     break;
                             }
-                            if (intent != null)
+                            if (intent != null) {
+                                saveActualLocation();
                                 startActivity(intent);
+                            }
                         }
 
                     }
@@ -268,9 +284,9 @@ public class PrincipalActivity extends AppCompatActivity implements
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
-            double latitude = mLastLocation.getLatitude();
-            double longitude = mLastLocation.getLongitude();
-            goToLocation(latitude,longitude);
+            latitudeActual = mLastLocation.getLatitude();
+            longitudeActual = mLastLocation.getLongitude();
+            goToLocationInitial(latitudeActual, longitudeActual);
         } else {
             Toast.makeText(this, "No data about Location", Toast.LENGTH_LONG).show();
         }
@@ -299,7 +315,7 @@ public class PrincipalActivity extends AppCompatActivity implements
                 Log.i(TAG, "Query = " + query + " : submitted");
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                 try {
-                    if(query.length() > 3) {
+                    if (query.length() > 3) {
                         List<Address> addresses = geocoder.getFromLocationName(query, 1);
                         Address address = null;
                         if (!addresses.isEmpty()) {
@@ -318,34 +334,64 @@ public class PrincipalActivity extends AppCompatActivity implements
 
             @Override
             public boolean onQueryTextChange(String query) {
-                Log.i(TAG, "Query = " + query);
-                // Comprovar localitzacions que troba
-//                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-//                try {
-//                    if(query.length() > 3){
-//                        List<Address> addresses = geocoder.getFromLocationName(query,1);
-//                        Log.i(TAG, addresses.get(0).toString());
-//                        for (Address address : addresses){
-//                            Log.i(TAG, address.toString());
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                Log.i(TAG, "Query final = " + query);
                 return false;
             }
         });
     }
 
+    public void goToLocationInitial(double latitude, double longitude) {
+
+        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(prefs.getFloat("latitude", (float) latitude), prefs.getFloat("longitude", (float) longitude)))
+                .bearing(prefs.getFloat("bearing", 0))
+                .tilt(prefs.getFloat("tilt", 0))
+                .zoom(prefs.getFloat("zoom", 12))
+                .build();
+
+        latitudeActual = prefs.getFloat("latitude", (float) latitude);
+        longitudeActual = prefs.getFloat("longitude", (float) longitude);
+        bearingActual = prefs.getFloat("bearing", 0);
+        zoomActual = prefs.getFloat("zoom", 12);
+        tiltActual = prefs.getFloat("tilt", 0);
+
+        mMap.animateCamera(
+                CameraUpdateFactory.newCameraPosition(cameraPosition),
+                1,
+                new GoogleMap.CancelableCallback() {
+
+                    @Override
+                    public void onFinish() {
+                        saveLocation(latitudeActual, longitudeActual, bearingActual, zoomActual, tiltActual);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+                }
+        );
+
+//        Log.i(TAG, "initial latitude " + prefs.getFloat("latitude", (float) latitude));
+//        Log.i(TAG, "initial longitude " + prefs.getFloat("longitude", (float) longitude));
+//        Log.i(TAG, "initial zoom " + prefs.getFloat("zoom", (float) 12));
+    }
+
     public void goToLocation(double latitude, double longitude){
 
-        CameraPosition cameraPosition =
-                new CameraPosition.Builder()
-                        .target(new LatLng(latitude,longitude))
-                        .bearing(0)
-                        .tilt(0)
-                        .zoom(12)
-                        .build();
+        latitudeActual = latitude;
+        longitudeActual = longitude;
+        bearingActual = 0;
+        zoomActual = 12;
+        tiltActual = 0;
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latitude, longitude))
+                .bearing(0)
+                .tilt(0)
+                .zoom(12)
+                .build();
 
         mMap.animateCamera(
                 CameraUpdateFactory.newCameraPosition(cameraPosition),
@@ -354,6 +400,7 @@ public class PrincipalActivity extends AppCompatActivity implements
 
                     @Override
                     public void onFinish() {
+                        saveLocation(latitudeActual, longitudeActual, bearingActual, zoomActual, tiltActual);
                     }
 
                     @Override
@@ -361,5 +408,30 @@ public class PrincipalActivity extends AppCompatActivity implements
                     }
                 }
         );
+
+//        Log.i(TAG, "goto latitude " + latitude);
+//        Log.i(TAG, "goto longitude " + longitude);
+//        Log.i(TAG, "goto zoom " + 12);
+    }
+
+    public void saveLocation(double latitude, double longitude, float bearing, float zoom, float tilt){
+
+        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putFloat("latitude", (float) latitude);
+        editor.putFloat("longitude", (float) longitude);
+        editor.putFloat("bearing", bearing);
+        editor.putFloat("zoom", zoom);
+        editor.putFloat("tilt", tilt);
+        editor.commit();
+
+//        Log.i(TAG, "saved latitude " + latitudeActual);
+//        Log.i(TAG, "saved longitude " + longitudeActual);
+//        Log.i(TAG, "saved zoom " + zoom);
+    }
+
+    public void saveActualLocation(){
+        CameraPosition mCam = mMap.getCameraPosition();
+        saveLocation(mCam.target.latitude, mCam.target.longitude, mCam.bearing, mCam.zoom, mCam.tilt);
     }
 }
