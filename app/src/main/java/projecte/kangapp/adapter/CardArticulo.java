@@ -25,6 +25,7 @@ import projecte.kangapp.R;
  */
 public class CardArticulo {
 
+    private int articuloId;
     private String pathArticuloImage;
     private int articuloImageId;
     private Bitmap articuloImage;
@@ -35,8 +36,9 @@ public class CardArticulo {
     private String articuloBeginEndDate;
     private String articuloState;
 
-    public CardArticulo(String pathArticuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+    public CardArticulo(int articuloId, String pathArticuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
 
+        this.articuloId = articuloId;
         this.pathArticuloImage = pathArticuloImage;
         this.articuloName = articuloName;
         this.articuloType = articuloType;
@@ -46,7 +48,9 @@ public class CardArticulo {
         this.articuloState = articuloState;
     }
 
-    public CardArticulo(Bitmap articuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+    public CardArticulo(int articuloId, Bitmap articuloImage, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+
+        this.articuloId = articuloId;
         this.articuloImage = articuloImage;
         this.articuloName = articuloName;
         this.articuloType = articuloType;
@@ -56,7 +60,9 @@ public class CardArticulo {
         this.articuloState = articuloState;
     }
 
-    public CardArticulo(Resources res, int articuloImageId, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+    public CardArticulo(int articuloId, Resources res, int articuloImageId, String articuloName, String articuloType, String userName, String articuloPrice, String articuloBeginEndDate, String articuloState){
+
+        this.articuloId = articuloId;
         this.articuloImageId = articuloImageId;
         this.articuloImage = BitmapFactory.decodeResource(res, articuloImageId);
         this.articuloName = articuloName;
@@ -65,6 +71,14 @@ public class CardArticulo {
         this.articuloPrice = articuloPrice;
         this.articuloBeginEndDate = articuloBeginEndDate;
         this.articuloState = articuloState;
+    }
+
+    public void setArticuloId(int articuloId) {
+        this.articuloId = articuloId;
+    }
+
+    public int getArticuloId() {
+        return articuloId;
     }
 
     public void setPathArticuloImage(String pathArticuloImage) {

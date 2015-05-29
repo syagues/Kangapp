@@ -185,7 +185,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
     private List<CardArticulo> createItemList() {
         itemList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            itemList.add(new CardArticulo(getResources(), R.drawable.item2,"Chicco Grenny","For the car","Usuario","10 €","12/12 - 15/12","Iniciado"));
+            itemList.add(new CardArticulo(1, getResources(), R.drawable.item2,"Chicco Grenny","For the car","Usuario","10 €","12/12 - 15/12","Iniciado"));
         }
         return itemList;
     }

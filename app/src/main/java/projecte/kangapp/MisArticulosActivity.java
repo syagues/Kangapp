@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import projecte.kangapp.adapter.CardArticulo;
 import projecte.kangapp.adapter.RecyclerAdapter;
@@ -58,15 +59,8 @@ public class MisArticulosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mis_articulos);
 
         // Toolbar (Menu lateral)
-        new GetItemByUserIdTask().execute(new ApiConnector());
         setupToolbar();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                initRecyclerView();
-            }
-        }, 500);
-
+        new GetItemByUserIdTask().execute(new ApiConnector());
     }
 
     public void setupToolbar(){
@@ -167,9 +161,7 @@ public class MisArticulosActivity extends AppCompatActivity {
 
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("is_for_rent", false);
-                        bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
-                        bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
-                        bundle.putString("nombre_usuario", itemList.get(position).getUserName());
+                        bundle.putInt("item_id", itemList.get(position-1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -205,7 +197,7 @@ public class MisArticulosActivity extends AppCompatActivity {
             try {
                 json = jsonArray.getJSONObject(i);
                 Log.i(TAG, json.getString("company") + " " + json.getString("model"));
-                itemList.add(new CardArticulo(getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                itemList.add(new CardArticulo(json.getInt("id"),getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -229,19 +221,19 @@ public class MisArticulosActivity extends AppCompatActivity {
         return url;
     }
 
-    private class GetItemByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray>
-    {
+    private class GetItemByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
         @Override
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetItemByUserId();
+            return params[0].GetItemByUserId(24);
         }
 
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
-
             createItemList(jsonArray);
+            initRecyclerView();
         }
     }
 }

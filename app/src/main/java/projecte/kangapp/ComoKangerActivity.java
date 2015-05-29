@@ -185,7 +185,7 @@ public class ComoKangerActivity extends AppCompatActivity {
     private List<CardArticulo> createItemList() {
         itemList = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            itemList.add(new CardArticulo(getResources(), R.drawable.item1,"MacLaren Banderburguer","For walking, Double stroller","Usuario","40 €","3/5 - 5/5","En curso"));
+            itemList.add(new CardArticulo(1, getResources(), R.drawable.item1,"MacLaren Banderburguer","For walking, Double stroller","Usuario","40 €","3/5 - 5/5","En curso"));
         }
         return itemList;
     }

@@ -54,7 +54,7 @@ public class ProvaBDActivity extends AppCompatActivity {
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetItemByUserId();
+            return params[0].GetItemByUserId(24);
         }
 
         @Override

@@ -1,8 +1,10 @@
 package projecte.kangapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -13,6 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import projecte.kangapp.adapter.RoundImage;
 
@@ -27,8 +38,9 @@ public class DetalleArticuloActivity extends AppCompatActivity {
     private ImageButton mFabButton;
 
     boolean isForRent;
-    int drawableId;
+    int articuloId;
     String nombreArticulo, nombreUsuario;
+    ImageView ivImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +55,10 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         if(this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
             isForRent = bundle.getBoolean("is_for_rent");
-            drawableId = bundle.getInt("drawable_id");
-            nombreArticulo = bundle.getString("nombre_articulo");
-            nombreUsuario = bundle.getString("nombre_usuario");
+            articuloId = bundle.getInt("item_id");
 
-            ImageView ivImage = (ImageView) findViewById(R.id.image);
-            ivImage.setImageDrawable(getResources().getDrawable(drawableId));
-            TextView tvItemName = (TextView) findViewById(R.id.name);
-            TextView tvUserName = (TextView) findViewById(R.id.tv_nombre_usuario);
-            tvItemName.setText(nombreArticulo);
-            tvUserName.setText(nombreUsuario);
+            Log.i(TAG, "item_id = " + Integer.toString(articuloId));
+            new GetItemDetailsByIdTask().execute(new ApiConnector());
 
             mFabButton = (ImageButton) findViewById(R.id.fabButton);
             if(isForRent) {
@@ -87,5 +93,90 @@ public class DetalleArticuloActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void setView(JSONArray jsonArray) {
+        ivImage = (ImageView) findViewById(R.id.image);
+        TextView tvItemName = (TextView) findViewById(R.id.name);
+        TextView tvType = (TextView) findViewById(R.id.tv_tipo);
+        TextView tvUserName = (TextView) findViewById(R.id.tv_nombre_usuario);
+        TextView tvUserCountry = (TextView) findViewById(R.id.tv_pais_usuario);
+        TextView tvPrice1 = (TextView) findViewById(R.id.tv_precio1);
+        TextView tvPrice2 = (TextView) findViewById(R.id.tv_precio2);
+        TextView tvPrice3 = (TextView) findViewById(R.id.tv_precio3);
+        TextView tvPrice4 = (TextView) findViewById(R.id.tv_precio4);
+
+        JSONObject json = null;
+        try {
+            json = jsonArray.getJSONObject(0);
+
+            LoadImageFromURL loadImage = new LoadImageFromURL();
+            loadImage.execute(getDownloadUrl(json.getString("path_item")));
+            tvItemName.setText(json.getString("company") + " " + json.getString("model"));
+            tvType.setText(json.getString("type"));
+            tvUserName.setText(json.getString("username") + " " + json.getString("surname"));
+            tvUserCountry.setText(json.getString("geo"));
+            tvPrice1.setText(json.getString("price_day") + " €");
+            tvPrice2.setText(json.getString("price_week") + " €");
+            tvPrice3.setText(json.getString("price_halfmonth") + " €");
+            tvPrice4.setText(json.getString("price_month") + " €");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getDownloadUrl(String path){
+        String[] pathSplit = path.split("/");
+        String url = "http://46.101.24.238/";
+        for (int i=0; i<pathSplit.length; i++){
+            if(i>4){
+                url += "/" + pathSplit[i];
+            }
+        }
+        return url;
+    }
+
+    private class GetItemDetailsByIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemDetailsById(articuloId);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setView(jsonArray);
+        }
+    }
+
+    public class LoadImageFromURL extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            try {
+                URL url = new URL(params[0]);
+                InputStream is = url.openConnection().getInputStream();
+                Bitmap bitMap = BitmapFactory.decodeStream(is);
+                return bitMap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            ivImage.setImageBitmap(result);
+        }
+
     }
 }
