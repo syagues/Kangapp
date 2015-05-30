@@ -1,10 +1,13 @@
 package projecte.kangapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.CursorAdapter;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +43,8 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import android.support.v7.widget.*;
 
@@ -64,8 +70,8 @@ public class PrincipalActivity extends AppCompatActivity implements
     float bearingActual, zoomActual, tiltActual;
 
     // Preferencies
-    SharedPreferences prefs;
-    String prefsNom = "localitzacio";
+    String prefsLoc = "localitzacio";
+    String prefsUser = "user";
 
     // Cerca
     android.support.v7.widget.SearchView searchView;
@@ -112,9 +118,27 @@ public class PrincipalActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return null;
+            }
+        });
+
         // Create a few sample profile
-        // NOTE you have to define the loader logic too. See the CustomApplication for more details
-        final IProfile profile = new ProfileDrawerItem().withName("Usuari user").withEmail("usuari@gmail.com").withIcon(getResources().getDrawable(R.drawable.user1));
+        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url","http://kangapp.com/uploads/gallery/undefined.png"));
 
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
@@ -342,7 +366,7 @@ public class PrincipalActivity extends AppCompatActivity implements
 
     public void goToLocationInitial(double latitude, double longitude) {
 
-        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsLoc, MODE_PRIVATE);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(prefs.getFloat("latitude", (float) latitude), prefs.getFloat("longitude", (float) longitude)))
@@ -416,7 +440,7 @@ public class PrincipalActivity extends AppCompatActivity implements
 
     public void saveLocation(double latitude, double longitude, float bearing, float zoom, float tilt){
 
-        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsLoc, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putFloat("latitude", (float) latitude);
         editor.putFloat("longitude", (float) longitude);

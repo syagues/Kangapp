@@ -1,8 +1,15 @@
 package projecte.kangapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,8 +33,19 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import scrolls.ObservableScrollView;
 import scrolls.ObservableScrollViewCallbacks;
@@ -49,6 +67,11 @@ public class PerfilActivity extends AppCompatActivity {
     public static boolean isMiPerfil = false;
     int drawableId;
     String nombreUsuario;
+
+    // Preferencies
+    String prefsUser = "user";
+    int userId;
+    ImageView ivImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +102,8 @@ public class PerfilActivity extends AppCompatActivity {
             });
 
         } else {
+            new GetUserDetailsByIdTask().execute(new ApiConnector());
+
             // Toolbar (Menu lateral)
             setupToolbar();
 
@@ -91,8 +116,6 @@ public class PerfilActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            TextView tvName = (TextView) findViewById(R.id.name);
-            tvName.setText("Nombre");
         }
 
     }
@@ -102,9 +125,27 @@ public class PerfilActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return null;
+            }
+        });
+
         // Create a few sample profile
-        // NOTE you have to define the loader logic too. See the CustomApplication for more details
-        final IProfile profile = new ProfileDrawerItem().withName("Usuari user").withEmail("usuari@gmail.com").withIcon(getResources().getDrawable(R.drawable.user1));
+        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url", "http://kangapp.com/uploads/gallery/undefined.png"));
 
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
@@ -192,5 +233,108 @@ public class PerfilActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void setView(JSONArray jsonArray) {
+        ivImage = (ImageView) findViewById(R.id.image);
+        TextView tvUserName = (TextView) findViewById(R.id.name);
+        TextView tvPuntuation = (TextView) findViewById(R.id.tv_puntuacion);
+        TextView tvGeo = (TextView) findViewById(R.id.tv_nombre_pais);
+        TextView tvLocation = (TextView) findViewById(R.id.tv_nombre_ciudad);
+        TextView tvShowCity = (TextView) findViewById(R.id.tv_quiero_mostrar);
+        TextView tvShareInfo = (TextView) findViewById(R.id.tv_quiero_compartir);
+        TextView tvBiography = (TextView) findViewById(R.id.tv_txt_biografia);
+        TextView tvHobbies = (TextView) findViewById(R.id.tv_txt_hobbies);
+        TextView tvRecomendTravel = (TextView) findViewById(R.id.tv_nombre_recom);
+        TextView tvWishTravel = (TextView) findViewById(R.id.tv_nombre_gust);
+        TextView tvFacebook = (TextView) findViewById(R.id.tv_txt_facebook);
+        TextView tvTwitter = (TextView) findViewById(R.id.tv_txt_twitter);
+        TextView tvGooglePlus = (TextView) findViewById(R.id.tv_txt_googleplus);
+        TextView tvLang = (TextView) findViewById(R.id.tv_idioma1);
+        TextView tvLangLevel = (TextView) findViewById(R.id.tv_nivel1);
+
+        JSONObject json = null;
+        try {
+            json = jsonArray.getJSONObject(0);
+
+            LoadImageFromURL loadImage = new LoadImageFromURL();
+            loadImage.execute(getDownloadUrl(json.getString("path")));
+            tvUserName.setText(json.getString("name") + " " + json.getString("surname"));
+            tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
+            tvGeo.setText(json.getString("geo"));
+            tvLocation.setText(json.getString("location"));
+            if(json.getInt("want_show_city") != 1)
+                tvShowCity.setVisibility(View.GONE);
+            if(json.getInt("want_inform_city") != 1)
+                tvShareInfo.setVisibility(View.GONE);
+            tvBiography.setText(json.getString("biography"));
+            tvHobbies.setText(json.getString("hobbies"));
+            tvRecomendTravel.setText(json.getString("destination_suggesstions"));
+            tvWishTravel.setText(json.getString("destination_wishes"));
+            tvFacebook.setText(json.getString("facebook"));
+            tvTwitter.setText(json.getString("twitter"));
+            tvGooglePlus.setText(json.getString("googlePlus"));
+            tvLang.setText(json.getString("language"));
+            tvLangLevel.setText(json.getString("level"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getDownloadUrl(String path){
+        String[] pathSplit = path.split("/");
+        String url = "http://46.101.24.238";
+        for (int i=0; i<pathSplit.length; i++){
+            if(i>4){
+                url += "/" + pathSplit[i];
+            }
+        }
+        return url;
+    }
+
+    private class GetUserDetailsByIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+            userId = prefs.getInt("id", 0);
+            return params[0].GetUserDetailsById(userId);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setView(jsonArray);
+        }
+    }
+
+    public class LoadImageFromURL extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            try {
+                URL url = new URL(params[0]);
+                InputStream is = url.openConnection().getInputStream();
+                Bitmap bitMap = BitmapFactory.decodeStream(is);
+                return bitMap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            ivImage.setImageBitmap(result);
+        }
+
     }
 }

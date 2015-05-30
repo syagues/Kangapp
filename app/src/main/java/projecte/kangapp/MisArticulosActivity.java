@@ -1,6 +1,10 @@
 package projecte.kangapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -22,6 +27,8 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +57,9 @@ public class MisArticulosActivity extends AppCompatActivity {
 
     // Items List
     List<CardArticulo> itemList;
-    boolean charged = false;
+
+    // Preferencies
+    String prefsUser = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +77,27 @@ public class MisArticulosActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return null;
+            }
+        });
+
         // Create a few sample profile
-        // NOTE you have to define the loader logic too. See the CustomApplication for more details
-        final IProfile profile = new ProfileDrawerItem().withName("Usuari user").withEmail("usuari@gmail.com").withIcon(getResources().getDrawable(R.drawable.user1));
+        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url", "http://kangapp.com/uploads/gallery/undefined.png"));
 
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
@@ -197,7 +224,7 @@ public class MisArticulosActivity extends AppCompatActivity {
             try {
                 json = jsonArray.getJSONObject(i);
                 Log.i(TAG, json.getString("company") + " " + json.getString("model"));
-                itemList.add(new CardArticulo(json.getInt("id"),getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                itemList.add(new CardArticulo(json.getInt("id"),getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -206,13 +233,12 @@ public class MisArticulosActivity extends AppCompatActivity {
     }
 
     private List<CardArticulo> getItemList() {
-        charged = true;
         return itemList;
     }
 
     public String getDownloadUrl(String path){
         String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238/";
+        String url = "http://46.101.24.238";
         for (int i=0; i<pathSplit.length; i++){
             if(i>4){
                 url += "/" + pathSplit[i];

@@ -113,7 +113,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
             LoadImageFromURL loadImage = new LoadImageFromURL();
             loadImage.execute(getDownloadUrl(json.getString("path_item")));
             tvItemName.setText(json.getString("company") + " " + json.getString("model"));
-            tvType.setText(json.getString("type"));
+            tvType.setText(json.getString("category") + ", " + json.getString("type"));
             tvUserName.setText(json.getString("username") + " " + json.getString("surname"));
             tvUserCountry.setText(json.getString("geo"));
             tvPrice1.setText(json.getString("price_day") + " €");
@@ -128,7 +128,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
 
     public String getDownloadUrl(String path){
         String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238/";
+        String url = "http://46.101.24.238";
         for (int i=0; i<pathSplit.length; i++){
             if(i>4){
                 url += "/" + pathSplit[i];
