@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.CursorAdapter;
@@ -53,6 +54,10 @@ import java.util.List;
 import java.util.Locale;
 
 import android.database.MatrixCursor;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PrincipalActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
@@ -258,7 +263,7 @@ public class PrincipalActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
+                new GetAllItemsLocationTask().execute(new ApiConnector());
             }
         }
     }
@@ -266,11 +271,19 @@ public class PrincipalActivity extends AppCompatActivity implements
     /**
      * Per afegir Marcadors al Mapa
      */
-    private void setUpMap() {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(41.615221, 2.087232))
-                .title("Marcador de Prova")
-                .snippet("Modelo Vydo"));
+    private void setUpMap(JSONArray jsonArray) {
+        JSONObject json = null;
+        for (int i = 0; i < jsonArray.length(); i++){
+            try {
+                json = jsonArray.getJSONObject(i);
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude")))
+                        .title(json.getString("company") + " " + json.getString("model"))
+                        .snippet(json.getString("category") + ", " + json.getString("type")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -457,5 +470,19 @@ public class PrincipalActivity extends AppCompatActivity implements
     public void saveActualLocation(){
         CameraPosition mCam = mMap.getCameraPosition();
         saveLocation(mCam.target.latitude, mCam.target.longitude, mCam.bearing, mCam.zoom, mCam.tilt);
+    }
+
+    private class GetAllItemsLocationTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+            // it is executed on Background thread
+            return params[0].GetAllItemsLocation();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setUpMap(jsonArray);
+        }
     }
 }

@@ -184,4 +184,84 @@ public class ApiConnector {
         return jsonArray;
     }
 
+    public JSONArray GetItemLocationById(int itemId) {
+
+        String url = "http://46.101.24.238/mobile/android/getItemLocationById.php?item_id="+itemId;
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetAllItemsLocation() {
+
+        String url = "http://46.101.24.238/mobile/android/getAllItemsLocation.php";
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
 }
