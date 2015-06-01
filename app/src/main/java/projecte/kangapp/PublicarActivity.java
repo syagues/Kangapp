@@ -6,15 +6,16 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -27,46 +28,78 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import projecte.kangapp.adapter.CardArticulo;
-import projecte.kangapp.adapter.RecyclerAdapter;
-import projecte.kangapp.listener.HidingScrollListener;
-import projecte.kangapp.listener.RecyclerItemClickListener;
+import scrolls.ObservableScrollView;
+import scrolls.ObservableScrollViewCallbacks;
+import scrolls.ScrollState;
+import scrolls.ScrollUtils;
 
 /**
- * Created by sergi on 23/5/15.
+ * Created by RA�L on 21/05/2015.
  */
-public class ComoKangerActivity extends AppCompatActivity {
+public class PublicarActivity extends AppCompatActivity {
 
-    // Log
-    protected static final String TAG = "ComoKangerActivity";
+    private View mImageView;
+    private View mToolbarView;
+    private ObservableScrollView mScrollView;
+    private int mParallaxImageHeight;
 
     // Toolbar
     Bundle savedInstanceState = null;
-    Toolbar toolbar;
-
-    // Items List
-    List<CardArticulo> itemList;
 
     // Preferencies
     String prefsUser = "user";
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.savedInstanceState = savedInstanceState;
-        setContentView(R.layout.activity_como_kanger);
+        setContentView(R.layout.activity_publicar);
 
-        // Toolbar (Menu lateral)
         setupToolbar();
-        initRecyclerView();
+
+        String uso[] = {"Para Dormir", "Para Pasear", "Para el Coche", "Para el Baño", "Para Jugar", "Otros"};
+
+        Spinner sp_uso = (Spinner) findViewById(R.id.sp_uso);
+        ArrayAdapter<String> sp_AA_Uso = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, uso);
+        sp_AA_Uso.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_uso.setAdapter(sp_AA_Uso);
+
+        String que[] = {"Silla Coche", "Bañera", "Silla Coche", "Cuna", "Parque de Juegos", "Otros"};
+        Spinner sp_que = (Spinner) findViewById(R.id.sp_que);
+        ArrayAdapter<String> sp_AA_Que = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, que);
+        sp_AA_Que.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_que.setAdapter(sp_AA_Que);
+
+
+//        final EditText et1_3 = (EditText) findViewById(R.id.et_1_3dies);
+//        final EditText et4_7 = (EditText) findViewById(R.id.et_4_7dies);
+//        final EditText et8_15 = (EditText) findViewById(R.id.et_8_15dies);
+//        final EditText et16_31 = (EditText) findViewById(R.id.et_16_31dies);
+//        final EditText et_depostio = (EditText) findViewById(R.id.et_deposito);
+//        final EditText et_extras = (EditText) findViewById(R.id.et_extras);
+//        final EditText et_precio_extras = (EditText) findViewById(R.id.et_precio_extras);
+//        final CheckBox cbox_extras = (CheckBox) findViewById(R.id.check_extras);
+//
+//        cbox_extras.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (cbox_extras.isChecked()) {
+//                    et_extras.setEnabled(true);
+//                    et_precio_extras.setEnabled(true);
+//                }
+//                else{
+//                    et_extras.setEnabled(false);
+//                    et_precio_extras.setEnabled(false);
+//                }
+//            }
+//        });
+
     }
 
-    public void setupToolbar(){
+
+    public void setupToolbar() {
         // Handle Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
@@ -94,7 +127,8 @@ public class ComoKangerActivity extends AppCompatActivity {
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header_amber)
+                .withHeaderBackground(R.drawable.header_amber
+                )
                 .addProfiles(
                         profile
                 )
@@ -110,9 +144,9 @@ public class ComoKangerActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.str_buscar).withIdentifier(1).withIcon(R.drawable.ic_place_grey600_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_mis_articulos).withIdentifier(2).withIcon(R.drawable.ic_store_mall_directory_grey600_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_chat).withIdentifier(3).withIcon(R.drawable.ic_chat_grey600_36dp).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_publicar).withIdentifier(4).withIcon(R.drawable.ic_add_circle_grey600_36dp).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_publicar).withIdentifier(4).withIcon(R.drawable.ic_add_circle_orange_36dp).withCheckable(false),
                         new SectionDrawerItem().withName(R.string.str_mis_tratos).withIdentifier(5),
-                        new PrimaryDrawerItem().withName(R.string.str_como_kanger).withIcon(R.drawable.ic_local_mall_orange_36dp).withIdentifier(6).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_como_kanger).withIcon(R.drawable.ic_local_mall_grey600_36dp).withIdentifier(6).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_como_arrend).withIcon(R.drawable.ic_shopping_cart_grey600_36dp).withIdentifier(7).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.str_perfil).withIcon(R.drawable.ic_person_grey600_36dp).withIdentifier(8).withCheckable(false),
@@ -137,8 +171,8 @@ public class ComoKangerActivity extends AppCompatActivity {
                                 case 3:
                                     intent = new Intent(getApplicationContext(), ChatActivity.class);
                                     break;
-                                case 4:
-                                    intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                                case 6:
+                                    intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
                                 case 7:
                                     intent = new Intent(getApplicationContext(), ComoArrendatarioActivity.class);
@@ -168,59 +202,7 @@ public class ComoKangerActivity extends AppCompatActivity {
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 1
-            result.setSelectionByIdentifier(6, false);
+            result.setSelectionByIdentifier(4, false);
         }
-    }
-
-    private void initRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
-        recyclerView.setAdapter(recyclerAdapter);
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean("is_for_rent", false);
-                        bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
-                        bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
-                        bundle.putString("nombre_usuario", itemList.get(position).getUserName());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                })
-        );
-
-        recyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                hideViews();
-            }
-
-            @Override
-            public void onShow() {
-                showViews();
-            }
-        });
-    }
-
-    private void hideViews() {
-        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-    }
-
-    private void showViews() {
-        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-    }
-
-    private List<CardArticulo> createItemList() {
-        itemList = new ArrayList<>();
-        for(int i=0;i<5;i++) {
-            itemList.add(new CardArticulo(1, getResources(), R.drawable.item1,"MacLaren Banderburguer","For walking, Double stroller","Usuario","40 €","3/5 - 5/5","En curso"));
-        }
-        return itemList;
     }
 }

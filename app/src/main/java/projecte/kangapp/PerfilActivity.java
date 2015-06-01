@@ -191,6 +191,12 @@ public class PerfilActivity extends AppCompatActivity {
                                 case 2:
                                     intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
                                     break;
+                                case 3:
+                                    intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                    break;
+                                case 4:
+                                    intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
@@ -255,27 +261,30 @@ public class PerfilActivity extends AppCompatActivity {
 
         JSONObject json = null;
         try {
-            json = jsonArray.getJSONObject(0);
+            if(jsonArray != null){
 
-            LoadImageFromURL loadImage = new LoadImageFromURL();
-            loadImage.execute(getDownloadUrl(json.getString("path")));
-            tvUserName.setText(json.getString("name") + " " + json.getString("surname"));
-            tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
-            tvGeo.setText(json.getString("geo"));
-            tvLocation.setText(json.getString("location"));
-            if(json.getInt("want_show_city") != 1)
-                tvShowCity.setVisibility(View.GONE);
-            if(json.getInt("want_inform_city") != 1)
-                tvShareInfo.setVisibility(View.GONE);
-            tvBiography.setText(json.getString("biography"));
-            tvHobbies.setText(json.getString("hobbies"));
-            tvRecomendTravel.setText(json.getString("destination_suggesstions"));
-            tvWishTravel.setText(json.getString("destination_wishes"));
-            tvFacebook.setText(json.getString("facebook"));
-            tvTwitter.setText(json.getString("twitter"));
-            tvGooglePlus.setText(json.getString("googlePlus"));
-            tvLang.setText(json.getString("language"));
-            tvLangLevel.setText(json.getString("level"));
+                json = jsonArray.getJSONObject(0);
+
+                LoadImageFromURL loadImage = new LoadImageFromURL();
+                loadImage.execute(getDownloadUrl(json.getString("path")));
+                tvUserName.setText(json.getString("name") + " " + json.getString("surname"));
+                tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
+                tvGeo.setText(json.getString("geo"));
+                tvLocation.setText(json.getString("location"));
+                if(json.getInt("want_show_city") != 1)
+                    tvShowCity.setVisibility(View.GONE);
+                if(json.getInt("want_inform_city") != 1)
+                    tvShareInfo.setVisibility(View.GONE);
+                tvBiography.setText(json.getString("biography"));
+                tvHobbies.setText(json.getString("hobbies"));
+                tvRecomendTravel.setText(json.getString("destination_suggesstions"));
+                tvWishTravel.setText(json.getString("destination_wishes"));
+                tvFacebook.setText(json.getString("facebook"));
+                tvTwitter.setText(json.getString("twitter"));
+                tvGooglePlus.setText(json.getString("googlePlus"));
+                tvLang.setText(json.getString("language"));
+                tvLangLevel.setText(json.getString("level"));
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

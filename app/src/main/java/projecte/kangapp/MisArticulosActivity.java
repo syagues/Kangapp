@@ -139,6 +139,12 @@ public class MisArticulosActivity extends AppCompatActivity {
                                 case 1:
                                     intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                                     break;
+                                case 3:
+                                    intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                    break;
+                                case 4:
+                                    intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
@@ -218,16 +224,16 @@ public class MisArticulosActivity extends AppCompatActivity {
 
     private void createItemList(JSONArray jsonArray) {
         itemList = new ArrayList<>();
-        for(int i=0; i<jsonArray.length();i++){
-
-            JSONObject json = null;
-            try {
-                json = jsonArray.getJSONObject(i);
-                Log.i(TAG, json.getString("company") + " " + json.getString("model"));
-                itemList.add(new CardArticulo(json.getInt("id"),getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = null;
+                try {
+                    json = jsonArray.getJSONObject(i);
+                    //Log.i(TAG, json.getString("company") + " " + json.getString("model"));
+                    itemList.add(new CardArticulo(json.getInt("id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

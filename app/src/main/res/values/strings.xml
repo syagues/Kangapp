@@ -32,6 +32,26 @@
 
     <!-- Mis Articulos -->
 
+    <!-- Chat -->
+
+    <!-- Publicar -->
+    <string name="str_marca">Marca</string>
+    <string name="str_modelo">Modelo</string>
+    <string name="str_alq_1_3">Alquiler de 1 a 3 días</string>
+    <string name="str_alq_4_7">Alquiler de 4 a 7 días</string>
+    <string name="str_alq_8_15">Alquiler de 8 a 15 días</string>
+    <string name="str_alq_16_31">Alquiler de 16 a 31 días</string>
+    <string name="str_deposito">Deposito (fianza)</string>
+    <string name="str_precios">Precios</string>
+    <string name="str_info">Información</string>
+    <string name="str_para_3_dias">Precio por día. (Hasta 3 días)</string>
+    <string name="str_para_7_dias">Precio por día. (Hasta 7 días)</string>
+    <string name="str_para_15_dias">Precio por día. (Hasta 15 días)</string>
+    <string name="str_para_31_dias">Precio por día. (Hasta 31 días)</string>
+    <string name="str_extras">Extras</string>
+    <string name="str_precio_extras">Precio</string>
+    <string name="str_comentarios">Comentarios</string>
+
     <!-- Como kanger -->
     <string name="str_foto">Foto</string>
     <string name="str_marca_mod">MacLaren Banderburger</string>

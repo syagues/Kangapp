@@ -185,6 +185,12 @@ public class PrincipalActivity extends AppCompatActivity implements
                                 case 2:
                                     intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
                                     break;
+                                case 3:
+                                    intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                    break;
+                                case 4:
+                                    intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                                    break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
                                     break;
@@ -241,19 +247,7 @@ public class PrincipalActivity extends AppCompatActivity implements
     }
 
     /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
+     * Inicia el mapa si es possible fer-ho (Play services correctes)
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -273,15 +267,18 @@ public class PrincipalActivity extends AppCompatActivity implements
      */
     private void setUpMap(JSONArray jsonArray) {
         JSONObject json = null;
-        for (int i = 0; i < jsonArray.length(); i++){
-            try {
-                json = jsonArray.getJSONObject(i);
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude")))
-                        .title(json.getString("company") + " " + json.getString("model"))
-                        .snippet(json.getString("category") + ", " + json.getString("type")));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    json = jsonArray.getJSONObject(i);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude")))
+                            .title(json.getString("company") + " " + json.getString("model"))
+                            .snippet(json.getString("category") + ", " + json.getString("type")));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

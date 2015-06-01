@@ -63,13 +63,15 @@ public class PresentacioActivity extends Activity {
         JSONObject json = null;
 
         try {
-            json = jsonArray.getJSONObject(0);
-            editor.putInt("id", json.getInt("id"));
-            editor.putString("name", json.getString("name") + " " + json.getString("surname"));
-            editor.putString("email", json.getString("email"));
-            editor.putString("url", getDownloadUrl(json.getString("path")));
+            if(jsonArray != null) {
+                json = jsonArray.getJSONObject(0);
+                editor.putInt("id", json.getInt("id"));
+                editor.putString("name", json.getString("name") + " " + json.getString("surname"));
+                editor.putString("email", json.getString("email"));
+                editor.putString("url", getDownloadUrl(json.getString("path")));
 
-            editor.commit();
+                editor.commit();
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -94,7 +96,7 @@ public class PresentacioActivity extends Activity {
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetUserById(24);
+            return params[0].GetUserById(1);
         }
 
         @Override
