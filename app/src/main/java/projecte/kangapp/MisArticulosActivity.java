@@ -60,6 +60,7 @@ public class MisArticulosActivity extends AppCompatActivity {
 
     // Preferencies
     String prefsUser = "user";
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,7 +260,9 @@ public class MisArticulosActivity extends AppCompatActivity {
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetItemByUserId(24);
+            SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+            userId = prefs.getInt("id", 0);
+            return params[0].GetItemByUserId(userId);
         }
 
         @Override

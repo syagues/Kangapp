@@ -16,4 +16,15 @@
         android:theme="@style/TemaProva"
         android:elevation="6dp"/>
 
+    <ImageButton
+        android:id="@+id/addbutton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/fab2_background"
+        android:src="@drawable/ic_add_white_24dp"
+        android:elevation="6dp"/>
+
 </FrameLayout>

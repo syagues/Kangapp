@@ -26,6 +26,8 @@ public class PresentacioActivity extends Activity {
     SharedPreferences prefs;
     String prefsUser = "user";
 
+    int userId = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +98,7 @@ public class PresentacioActivity extends Activity {
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetUserById(1);
+            return params[0].GetUserById(userId);
         }
 
         @Override
