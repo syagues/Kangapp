@@ -381,10 +381,16 @@
                             android:layout_below="@+id/tv_biografia"
                             android:layout_toRightOf="@+id/ic_biografia"
                             android:paddingTop="3dp"
-                            android:paddingBottom="10dp"
                             android:textSize="12sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_txt_biografia"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_txt_biografia"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/white"/>
 
                     </RelativeLayout>
 
@@ -513,10 +519,16 @@
                             android:layout_below="@+id/tv_gust_viaj"
                             android:layout_toRightOf="@+id/ic_viajar"
                             android:paddingTop="3dp"
-                            android:paddingBottom="10dp"
                             android:textSize="14sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_nombre"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_nombre_gust"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/white"/>
 
                     </RelativeLayout>
 

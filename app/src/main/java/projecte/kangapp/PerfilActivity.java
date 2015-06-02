@@ -65,12 +65,11 @@ public class PerfilActivity extends AppCompatActivity {
 
     private ImageButton mFabButton;
     public static boolean isMiPerfil = false;
-    int drawableId;
-    String nombreUsuario;
 
     // Preferencies
     String prefsUser = "user";
     int userId;
+    boolean perfilPublic = false;
     ImageView ivImage;
 
     @Override
@@ -83,14 +82,10 @@ public class PerfilActivity extends AppCompatActivity {
             setupBackButton();
 
             Bundle bundle = this.getIntent().getExtras();
-            drawableId = bundle.getInt("drawable_id");
-            nombreUsuario = bundle.getString("nombre_usuario");
+            userId = bundle.getInt("userid");
+            perfilPublic = true;
 
-            ImageView ivImage = (ImageView) findViewById(R.id.image);
-            ivImage.setImageDrawable(getResources().getDrawable(drawableId));
-            TextView tvUserName = (TextView) findViewById(R.id.name);
-            Log.i(TAG, nombreUsuario);
-            tvUserName.setText(nombreUsuario);
+            new GetUserDetailsByIdTask().execute(new ApiConnector());
 
             mFabButton = (ImageButton) findViewById(R.id.fabButton);
             mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_chat_white_24dp));
@@ -271,19 +266,75 @@ public class PerfilActivity extends AppCompatActivity {
                 tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
                 tvGeo.setText(json.getString("geo"));
                 tvLocation.setText(json.getString("location"));
+                // Quiero mostrar ciudad
                 if(json.getInt("want_show_city") != 1)
                     tvShowCity.setVisibility(View.GONE);
+                // Quiero informar ciudad
                 if(json.getInt("want_inform_city") != 1)
                     tvShareInfo.setVisibility(View.GONE);
-                tvBiography.setText(json.getString("biography"));
-                tvHobbies.setText(json.getString("hobbies"));
-                tvRecomendTravel.setText(json.getString("destination_suggesstions"));
-                tvWishTravel.setText(json.getString("destination_wishes"));
-                tvFacebook.setText(json.getString("facebook"));
-                tvTwitter.setText(json.getString("twitter"));
-                tvGooglePlus.setText(json.getString("googlePlus"));
-                tvLang.setText(json.getString("language"));
-                tvLangLevel.setText(json.getString("level"));
+                // Biografia
+                if(json.getString("biography") != "null") {
+                    tvBiography.setText(json.getString("biography"));
+                } else {
+                    findViewById(R.id.ic_biografia).setVisibility(View.GONE);
+                    findViewById(R.id.tv_biografia).setVisibility(View.GONE);
+                    tvBiography.setVisibility(View.GONE);
+                }
+                // Hobbies
+                if(json.getString("hobbies") != "null") {
+                    tvHobbies.setText(json.getString("hobbies"));
+                } else {
+                    findViewById(R.id.ic_hobbies).setVisibility(View.GONE);
+                    findViewById(R.id.tv_hobbies).setVisibility(View.GONE);
+                    tvHobbies.setVisibility(View.GONE);
+                }
+                // Donde recomiendo viajar
+                if(json.getString("destination_suggesstions") != "null") {
+                    tvRecomendTravel.setText(json.getString("destination_suggesstions"));
+                } else {
+                    findViewById(R.id.tv_recom_viaj).setVisibility(View.GONE);
+                    tvRecomendTravel.setVisibility(View.GONE);
+                }
+                // Donde me gustaria viajar
+                if(json.getString("destination_wishes") != "null") {
+                    tvWishTravel.setText(json.getString("destination_wishes"));
+                } else {
+                    findViewById(R.id.tv_gust_viaj).setVisibility(View.GONE);
+                    tvWishTravel.setVisibility(View.GONE);
+                }
+                if(json.getString("destination_suggesstions") == "null" && json.getString("destination_wishes") == "null")
+                    findViewById(R.id.ic_viajar).setVisibility(View.GONE);
+                // Facebook
+                if(json.getString("facebook") != "null") {
+                    tvFacebook.setText(json.getString("facebook"));
+                } else {
+                    findViewById(R.id.ic_facebook).setVisibility(View.GONE);
+                    findViewById(R.id.tv_facebook).setVisibility(View.GONE);
+                    tvFacebook.setVisibility(View.GONE);
+                }
+                // Twitter
+                if(json.getString("twitter") != "null") {
+                    tvTwitter.setText(json.getString("twitter"));
+                } else {
+                    findViewById(R.id.ic_twitter).setVisibility(View.GONE);
+                    findViewById(R.id.tv_twitter).setVisibility(View.GONE);
+                    tvTwitter.setVisibility(View.GONE);
+                }
+                // Google +
+                if(json.getString("googlePlus") != "null") {
+                    tvGooglePlus.setText(json.getString("googlePlus"));
+                } else {
+                    findViewById(R.id.ic_googleplus).setVisibility(View.GONE);
+                    findViewById(R.id.tv_googleplus).setVisibility(View.GONE);
+                    tvGooglePlus.setVisibility(View.GONE);
+                }
+                // Languages
+                if(json.getString("language") != "null") {
+                    tvLang.setText(json.getString("language"));
+                    tvLangLevel.setText(json.getString("level"));
+                } else {
+                    findViewById(R.id.card_idiomas).setVisibility(View.GONE);
+                }
             }
 
         } catch (JSONException e) {
@@ -308,8 +359,10 @@ public class PerfilActivity extends AppCompatActivity {
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
-            userId = prefs.getInt("id", 0);
+            if(!perfilPublic){
+                SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+                userId = prefs.getInt("id", 0);
+            }
             return params[0].GetUserDetailsById(userId);
         }
 

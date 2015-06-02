@@ -41,6 +41,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
     int articuloId;
     String nombreArticulo, nombreUsuario;
     ImageView ivImage, ivUser;
+    int articuloUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +72,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
 
                 Bundle bundle = new Bundle();
                 ImageView userImage = (ImageView) findViewById(R.id.iv_usuario);
-                Log.i(TAG, userImage.getDrawable().toString());
-                bundle.putInt("drawable_id", R.drawable.user1);
-                Log.i(TAG, nombreUsuario);
-                bundle.putString("nombre_usuario", nombreUsuario);
+                bundle.putInt("userid", articuloUserId);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -106,6 +104,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         try {
             json = jsonArray.getJSONObject(0);
 
+            articuloUserId = json.getInt("userid");
             LoadItemImageFromURL loadItemImage = new LoadItemImageFromURL();
             loadItemImage.execute(getDownloadUrl(json.getString("path_item")));
             LoadUserImageFromURL loadUserImage = new LoadUserImageFromURL();
