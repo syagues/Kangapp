@@ -52,6 +52,10 @@
     <string name="str_precio_extras">Precio extras</string>
     <string name="str_comentarios">Comentarios</string>
     <string name="str_anadir_foto">Añadir fotos</string>
+    <string name="str_activar_loc">Activar localización actual</string>
+    <string name="str_desactivar_loc">Desactivar localización actual</string>
+    <string name="str_selec_loc">Selecciona una localización...</string>
+    <string name="msg_activity_no_contr">Resultado no controlado...</string>
 
     <!-- Como kanger -->
     <string name="str_foto">Foto</string>

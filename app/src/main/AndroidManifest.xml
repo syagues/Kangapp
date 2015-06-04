@@ -57,6 +57,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
         <activity
+            android:name=".SelecLocationActivity"
+            android:label="@string/str_selec_loc"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".ComoKangerActivity"
             android:label="@string/str_como_kanger"
             android:screenOrientation="portrait"

@@ -85,7 +85,7 @@
                 android:singleLine="true"/>
 
             <Spinner
-                android:id="@+id/sp_uso"
+                android:id="@+id/sp_categoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_modelo"
@@ -95,10 +95,10 @@
                 android:textSize="12sp"/>
 
             <Spinner
-                android:id="@+id/sp_que"
+                android:id="@+id/sp_tipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sp_uso"
+                android:layout_below="@+id/sp_categoria"
                 android:layout_toRightOf="@id/im_marca"
                 android:layout_marginRight="40dp"
                 android:textSize="12sp" />
@@ -107,7 +107,7 @@
                 android:id="@+id/et_extras"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sp_que"
+                android:layout_below="@id/sp_tipo"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/im_marca"
                 android:layout_marginRight="8dp"
@@ -281,7 +281,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/okbutton"
+        android:id="@+id/okButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom|right"

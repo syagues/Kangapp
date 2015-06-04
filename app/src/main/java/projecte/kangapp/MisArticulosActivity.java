@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -62,6 +63,9 @@ public class MisArticulosActivity extends AppCompatActivity {
     String prefsUser = "user";
     int userId;
 
+    // Recycler View
+    boolean recyclerCreat = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,16 @@ public class MisArticulosActivity extends AppCompatActivity {
         // Toolbar (Menu lateral)
         setupToolbar();
         new GetItemByUserIdTask().execute(new ApiConnector());
+
+        // Publicar button
+        ImageButton publicarButton = (ImageButton)findViewById(R.id.publicarButton);
+        publicarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void setupToolbar(){
@@ -182,10 +196,12 @@ public class MisArticulosActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getItemList());
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerCreat = true;
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -230,7 +246,6 @@ public class MisArticulosActivity extends AppCompatActivity {
                 JSONObject json = null;
                 try {
                     json = jsonArray.getJSONObject(i);
-                    //Log.i(TAG, json.getString("company") + " " + json.getString("model"));
                     itemList.add(new CardArticulo(json.getInt("id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -244,12 +259,17 @@ public class MisArticulosActivity extends AppCompatActivity {
     }
 
     public String getDownloadUrl(String path){
-        String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238";
-        for (int i=0; i<pathSplit.length; i++){
-            if(i>4){
-                url += "/" + pathSplit[i];
+        String url;
+        if(path != "null") {
+            String[] pathSplit = path.split("/");
+            url = "http://46.101.24.238";
+            for (int i = 0; i < pathSplit.length; i++) {
+                if (i > 4) {
+                    url += "/" + pathSplit[i];
+                }
             }
+        } else {
+            return null;
         }
         return url;
     }
@@ -269,6 +289,7 @@ public class MisArticulosActivity extends AppCompatActivity {
         protected void onPostExecute(JSONArray jsonArray) {
             createItemList(jsonArray);
             initRecyclerView();
+            recyclerCreat = true;
         }
     }
 }

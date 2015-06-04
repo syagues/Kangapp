@@ -105,10 +105,14 @@ public class DetalleArticuloActivity extends AppCompatActivity {
             json = jsonArray.getJSONObject(0);
 
             articuloUserId = json.getInt("userid");
+            // Imatge item
             LoadItemImageFromURL loadItemImage = new LoadItemImageFromURL();
-            loadItemImage.execute(getDownloadUrl(json.getString("path_item")));
+            if(getDownloadUrl(json.getString("path_item")) != null)
+                loadItemImage.execute(getDownloadUrl(json.getString("path_item")));
+            // Imatge user
             LoadUserImageFromURL loadUserImage = new LoadUserImageFromURL();
-            loadUserImage.execute(getDownloadUrl(json.getString("path_user")));
+            if(getDownloadUrl(json.getString("path_user")) != null)
+                loadUserImage.execute(getDownloadUrl(json.getString("path_user")));
             tvItemName.setText(json.getString("company") + " " + json.getString("model"));
             tvType.setText(json.getString("category") + ", " + json.getString("type"));
             tvUserName.setText(json.getString("username") + " " + json.getString("surname"));
@@ -124,12 +128,17 @@ public class DetalleArticuloActivity extends AppCompatActivity {
     }
 
     public String getDownloadUrl(String path){
-        String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238";
-        for (int i=0; i<pathSplit.length; i++){
-            if(i>4){
-                url += "/" + pathSplit[i];
+        String url;
+        if(path != "null") {
+            String[] pathSplit = path.split("/");
+            url = "http://46.101.24.238";
+            for (int i = 0; i < pathSplit.length; i++) {
+                if (i > 4) {
+                    url += "/" + pathSplit[i];
+                }
             }
+        } else {
+            return null;
         }
         return url;
     }

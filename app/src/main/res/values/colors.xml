@@ -9,5 +9,5 @@
     <color name="default_background">#eeeeee</color>
     <color name="grey_filter">#55000000</color>
     <color name="shadow">#31000000</color>
-    <color name="green">@color/md_green_300</color>
+    <color name="green">#00ab23</color>
 </resources>

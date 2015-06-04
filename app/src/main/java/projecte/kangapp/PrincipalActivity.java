@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -102,7 +103,16 @@ public class PrincipalActivity extends AppCompatActivity implements
 
         // Localitzacio
         buildGoogleApiClient();
-        setUpMapIfNeeded();
+
+        // Publicar button
+        ImageButton publicarButton = (ImageButton)findViewById(R.id.publicarButton);
+        publicarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -259,6 +269,8 @@ public class PrincipalActivity extends AppCompatActivity implements
             if (mMap != null) {
                 new GetAllItemsLocationTask().execute(new ApiConnector());
             }
+        } else {
+            new GetAllItemsLocationTask().execute(new ApiConnector());
         }
     }
 
@@ -266,6 +278,8 @@ public class PrincipalActivity extends AppCompatActivity implements
      * Per afegir Marcadors al Mapa
      */
     private void setUpMap(JSONArray jsonArray) {
+        // Netejem el mapa i tornem a afegir els markers
+        mMap.clear();
         JSONObject json = null;
         if(jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {

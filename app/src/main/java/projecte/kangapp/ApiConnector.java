@@ -264,4 +264,139 @@ public class ApiConnector {
         return jsonArray;
     }
 
+    public JSONArray GetAllItemCategoriesByLocale(String locale) {
+
+        String url = "http://46.101.24.238/mobile/android/getAllItemCategoriesByLocale.php?locale="+locale;
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetAllItemTypesByLocale(String locale) {
+
+        String url = "http://46.101.24.238/mobile/android/getAllItemTypesByLocale.php?locale="+locale;
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray InsertItem(int userextend_id, int itemcategory_id, int itemtype_id, String model, String company, double price_day, double price_week, double price_halfmonth, double price_month, double deposit, int state, String extras, double extras_price, String comments, double latitude, double longitude) {
+
+        String url = "http://46.101.24.238/mobile/android/insertItem.php?"
+                +"userextend_id="+userextend_id
+                +"&itemcategory_id="+itemcategory_id
+                +"&itemtype_id="+itemtype_id
+                +"&model="+model
+                +"&company="+company
+                +"&price_day="+price_day
+                +"&price_week="+price_week
+                +"&price_halfmonth="+price_halfmonth
+                +"&price_month="+price_month
+                +"&deposit="+deposit
+                +"&state="+state
+                +"&extras="+extras
+                +"&extras_price="+extras_price
+                +"&comments="+comments
+                +"&latitude="+latitude
+                +"&longitude="+longitude;
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
 }
