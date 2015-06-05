@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class PresentacioActivity extends Activity {
     SharedPreferences prefs;
     String prefsUser = "user";
 
-    int userId = 8;
+    int userId = 13; // 8
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class PresentacioActivity extends Activity {
         try {
             if(jsonArray != null) {
                 json = jsonArray.getJSONObject(0);
+                Log.i(TAG, "UserId: " + json.getInt("id"));
                 editor.putInt("id", json.getInt("id"));
                 editor.putString("name", json.getString("name") + " " + json.getString("surname"));
                 editor.putString("email", json.getString("email"));

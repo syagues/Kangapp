@@ -82,16 +82,12 @@ public class PrincipalActivity extends AppCompatActivity implements
     // Cerca
     android.support.v7.widget.SearchView searchView;
 
-    // Layout actual
-    int layoutActual = 0;
-
     // Toolbar
     Bundle savedInstanceState = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layoutActual = 0;
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_principal);
 
@@ -111,6 +107,17 @@ public class PrincipalActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PublicarActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Articulos button
+        ImageButton articulosButton = (ImageButton)findViewById(R.id.articulosButton);
+        articulosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ArticulosActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
     }

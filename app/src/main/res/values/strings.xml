@@ -30,6 +30,9 @@
     <string name="str_ajustes">Ajustes</string>
     <string name="str_ayuda">Ayuda y Sugerencias</string>
 
+    <!-- Articulos -->
+    <string name="str_opciones">Opciones</string>
+
     <!-- Mis Articulos -->
 
     <!-- Chat -->

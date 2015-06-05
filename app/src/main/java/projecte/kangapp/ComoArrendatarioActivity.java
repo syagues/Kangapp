@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +56,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
 
     // Preferencies
     String prefsUser = "user";
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,7 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
 
         // Toolbar (Menu lateral)
         setupToolbar();
-        initRecyclerView();
+        new GetItemsAsArrenderByUserIdTask().execute(new ApiConnector());
     }
 
     public void setupToolbar() {
@@ -173,9 +179,10 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList());
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getItemList());
         recyclerView.setAdapter(recyclerAdapter);
 
         recyclerView.addOnItemTouchListener(
@@ -185,10 +192,8 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean("is_for_rent", true);
-                        bundle.putInt("drawable_id", itemList.get(position).getArticuloImageId());
-                        bundle.putString("nombre_articulo", itemList.get(position).getArticuloName());
-                        bundle.putString("nombre_usuario", itemList.get(position).getUserName());
+                        bundle.putBoolean("is_for_rent", false);
+                        bundle.putInt("item_id", itemList.get(position - 1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -216,11 +221,56 @@ public class ComoArrendatarioActivity extends AppCompatActivity {
         toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
-    private List<CardArticulo> createItemList() {
+    private void createItemList(JSONArray jsonArray) {
         itemList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            itemList.add(new CardArticulo(1, getResources(), R.drawable.item2,"Chicco Grenny","For the car","Usuario","10 €","12/12 - 15/12","Iniciado"));
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = null;
+                try {
+                    json = jsonArray.getJSONObject(i);
+                    itemList.add(new CardArticulo(json.getInt("item_id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+
+    private List<CardArticulo> getItemList() {
         return itemList;
+    }
+
+    public String getDownloadUrl(String path){
+        String url;
+        if(path != "null") {
+            String[] pathSplit = path.split("/");
+            url = "http://46.101.24.238";
+            for (int i = 0; i < pathSplit.length; i++) {
+                if (i > 4) {
+                    url += "/" + pathSplit[i];
+                }
+            }
+        } else {
+            return null;
+        }
+        return url;
+    }
+
+    private class GetItemsAsArrenderByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+            userId = prefs.getInt("id", 0);
+            return params[0].GetItemsAsArrenderByUserId(userId, "es");
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            createItemList(jsonArray);
+            initRecyclerView();
+        }
     }
 }

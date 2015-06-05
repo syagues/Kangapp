@@ -42,6 +42,11 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
+            android:name=".ArticulosActivity"
+            android:label="@string/str_articulos"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".MisArticulosActivity"
             android:label="@string/str_mis_articulos"
             android:screenOrientation="portrait"

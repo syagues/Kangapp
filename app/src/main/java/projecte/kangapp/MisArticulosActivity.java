@@ -63,8 +63,6 @@ public class MisArticulosActivity extends AppCompatActivity {
     String prefsUser = "user";
     int userId;
 
-    // Recycler View
-    boolean recyclerCreat = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +199,6 @@ public class MisArticulosActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getItemList());
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerCreat = true;
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -289,7 +286,6 @@ public class MisArticulosActivity extends AppCompatActivity {
         protected void onPostExecute(JSONArray jsonArray) {
             createItemList(jsonArray);
             initRecyclerView();
-            recyclerCreat = true;
         }
     }
 }
