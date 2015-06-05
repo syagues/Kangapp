@@ -57,10 +57,10 @@ public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
 
     public void setItemParameters(String pathImage, String itemName, String itemType, String userName, String itemPrice, String itemBeginEndDate, String itemState) {
         // Imatge
-        //RoundImage roundedImage = new RoundImage(itemImage);
-        //mItemImageView.setImageDrawable(roundedImage);
-        LoadImageFromURL loadImage = new LoadImageFromURL();
-        loadImage.execute(pathImage);
+        if(pathImage != null) {
+            LoadImageFromURL loadImage = new LoadImageFromURL();
+            loadImage.execute(pathImage);
+        }
 
         mItemNameTextView.setText(itemName);
         mItemTypeTextView.setText(itemType);

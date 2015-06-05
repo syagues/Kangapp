@@ -3,6 +3,7 @@ package projecte.kangapp;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -27,7 +28,7 @@ public class ProvaBDActivity extends AppCompatActivity {
 
         responseTextView = (TextView) findViewById(R.id.bd_nom);
 
-        new GetItemByUserIdTask().execute(new ApiConnector());
+        new GetItemLocationByIdTask().execute(new ApiConnector());
     }
 
     public void setTextToTextView(JSONArray jsonArray) {
@@ -37,7 +38,7 @@ public class ProvaBDActivity extends AppCompatActivity {
             JSONObject json = null;
             try {
                 json = jsonArray.getJSONObject(i);
-                s = s + "UserId: " + json.getString("userextend_id") + ", Company: " + json.getString("company") + ", Model: " + json.getString("model") + "\n";
+                s = s + json.getString("location");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -48,13 +49,13 @@ public class ProvaBDActivity extends AppCompatActivity {
     }
 
 
-    private class GetItemByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray>
+    private class GetItemLocationByIdTask extends AsyncTask<ApiConnector,Long,JSONArray>
     {
         @Override
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            return params[0].GetItemByUserId(24);
+            return params[0].GetItemLocationById(183);
         }
 
         @Override

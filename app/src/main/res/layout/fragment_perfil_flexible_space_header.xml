@@ -26,7 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/parallax_image_height"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user1"
                     android:tint="@color/grey_filter"/>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -105,7 +104,7 @@
                                 android:paddingRight="10dp"
                                 android:paddingBottom="10dp"
                                 android:textSize="30sp"
-                                android:text="3"/>
+                                android:text="0"/>
 
                         </RelativeLayout>
 
@@ -160,7 +159,7 @@
                                 android:paddingRight="10dp"
                                 android:paddingBottom="10dp"
                                 android:textSize="30sp"
-                                android:text="1"/>
+                                android:text="0"/>
 
                         </RelativeLayout>
 
@@ -215,7 +214,7 @@
                                 android:paddingRight="10dp"
                                 android:paddingBottom="10dp"
                                 android:textSize="30sp"
-                                android:text="2.5"/>
+                                android:text="0"/>
 
                         </RelativeLayout>
 
@@ -382,106 +381,16 @@
                             android:layout_below="@+id/tv_biografia"
                             android:layout_toRightOf="@+id/ic_biografia"
                             android:paddingTop="3dp"
-                            android:paddingBottom="10dp"
                             android:textSize="12sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_txt_biografia"/>
 
-                    </RelativeLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/card_idiomas"
-                    android:layout_below="@+id/card_perfil"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/title_idiomas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:padding="10dp"
-                            android:textSize="15sp"
-                            android:textColor="@color/primary"
-                            android:text="@string/str_misidiomas"/>
-
                         <View
-                            android:id="@+id/idiomas_separator"
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@+id/title_idiomas"
-                            android:background="@color/default_background"/>
-
-                        <ImageView
-                            android:id="@+id/ic_idiomas"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/idiomas_separator"
-                            android:layout_alignParentLeft="true"
-                            android:paddingTop="10dp"
-                            android:paddingLeft="10dp"
-                            android:layout_marginRight="15dp"
-                            android:scaleX="0.7"
-                            android:scaleY="0.7"
-                            android:background="@color/light_background"
-                            android:src="@drawable/ic_flag_grey600_36dp"/>
-
-                        <TextView
-                            android:id="@+id/tv_idioma1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/idiomas_separator"
-                            android:layout_toRightOf="@+id/ic_idiomas"
-                            android:paddingTop="10dp"
-                            android:textSize="15sp"
-                            android:text="@string/str_idioma"/>
-
-                        <TextView
-                            android:id="@+id/tv_nivel1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_idioma1"
-                            android:layout_toRightOf="@+id/ic_idiomas"
-                            android:paddingTop="3dp"
-                            android:paddingBottom="5dp"
-                            android:textSize="14sp"
-                            android:textColor="@color/light_grey"
-                            android:text="@string/str_nivel"/>
-
-                        <TextView
-                            android:id="@+id/tv_idioma2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_nivel1"
-                            android:layout_toRightOf="@+id/ic_idiomas"
-                            android:paddingTop="10dp"
-                            android:textSize="15sp"
-                            android:text="@string/str_idioma"/>
-
-                        <TextView
-                            android:id="@+id/tv_nivel2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_idioma2"
-                            android:layout_toRightOf="@+id/ic_idiomas"
-                            android:paddingTop="3dp"
-                            android:paddingBottom="10dp"
-                            android:textSize="14sp"
-                            android:textColor="@color/light_grey"
-                            android:text="@string/str_nivel"/>
+                            android:layout_below="@+id/tv_txt_biografia"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/white"/>
 
                     </RelativeLayout>
 
@@ -490,7 +399,7 @@
                 <android.support.v7.widget.CardView
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/card_intereses"
-                    android:layout_below="@+id/card_idiomas"
+                    android:layout_below="@+id/card_perfil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -610,10 +519,16 @@
                             android:layout_below="@+id/tv_gust_viaj"
                             android:layout_toRightOf="@+id/ic_viajar"
                             android:paddingTop="3dp"
-                            android:paddingBottom="10dp"
                             android:textSize="14sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_nombre"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_nombre_gust"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/white"/>
 
                     </RelativeLayout>
 
@@ -685,7 +600,7 @@
                             android:layout_toRightOf="@+id/ic_facebook"
                             android:paddingTop="3dp"
                             android:paddingBottom="10dp"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_nombre"/>
 
@@ -760,6 +675,102 @@
                             android:textSize="14sp"
                             android:textColor="@color/light_grey"
                             android:text="@string/str_nombre"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/card_idiomas"
+                    android:layout_below="@+id/card_social"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/title_idiomas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:padding="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/primary"
+                            android:text="@string/str_misidiomas"/>
+
+                        <View
+                            android:id="@+id/idiomas_separator"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/title_idiomas"
+                            android:background="@color/default_background"/>
+
+                        <ImageView
+                            android:id="@+id/ic_idiomas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/idiomas_separator"
+                            android:layout_alignParentLeft="true"
+                            android:paddingTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:background="@color/light_background"
+                            android:src="@drawable/ic_flag_grey600_36dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_idioma1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/idiomas_separator"
+                            android:layout_toRightOf="@+id/ic_idiomas"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp"
+                            android:text="@string/str_idioma"/>
+
+                        <TextView
+                            android:id="@+id/tv_nivel1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_idioma1"
+                            android:layout_toRightOf="@+id/ic_idiomas"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="5dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/light_grey"
+                            android:text="@string/str_nivel"/>
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_idioma2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tv_nivel1"-->
+                            <!--android:layout_toRightOf="@+id/ic_idiomas"-->
+                            <!--android:paddingTop="10dp"-->
+                            <!--android:textSize="15sp"-->
+                            <!--android:text="@string/str_idioma"/>-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_nivel2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tv_idioma2"-->
+                            <!--android:layout_toRightOf="@+id/ic_idiomas"-->
+                            <!--android:paddingTop="3dp"-->
+                            <!--android:paddingBottom="10dp"-->
+                            <!--android:textSize="14sp"-->
+                            <!--android:textColor="@color/light_grey"-->
+                            <!--android:text="@string/str_nivel"/>-->
 
                     </RelativeLayout>
 

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/primary"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:theme="@style/Toolbar"
+        app:popupTheme="@style/Toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="6dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:paddingTop="8dp"
+            android:paddingBottom="20dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/title_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/primary"
+                android:text="@string/str_info"/>
+
+            <View
+                android:id="@+id/info_separator"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/title_info"
+                android:background="@color/default_background"/>
+
+            <ImageView
+                android:id="@+id/im_marca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/info_separator"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_info_grey600_36dp"/>
+
+            <EditText
+                android:id="@+id/et_marca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/info_separator"
+                android:layout_toRightOf="@+id/im_marca"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:hint="@string/str_marca"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/et_modelo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_marca"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/im_marca"
+                android:layout_marginRight="8dp"
+                android:selectAllOnFocus="true"
+                android:hint="@string/str_modelo"
+                android:singleLine="true"/>
+
+            <Spinner
+                android:id="@+id/sp_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_modelo"
+                android:layout_toRightOf="@id/im_marca"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"/>
+
+            <Spinner
+                android:id="@+id/sp_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sp_categoria"
+                android:layout_toRightOf="@id/im_marca"
+                android:layout_marginRight="40dp"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_extras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sp_tipo"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/im_marca"
+                android:layout_marginRight="8dp"
+                android:selectAllOnFocus="true"
+                android:hint="@string/str_extras"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/et_comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_extras"
+                android:layout_toRightOf="@+id/im_marca"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="8dp"
+                android:selectAllOnFocus="true"
+                android:hint="@string/str_comentarios"/>
+
+            <TextView
+                android:id="@+id/title_precios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_comentarios"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/primary"
+                android:text="@string/str_precios"/>
+
+            <View
+                android:id="@+id/precios_separator"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/title_precios"
+                android:background="@color/default_background"/>
+
+            <ImageView
+                android:id="@+id/im_precio1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/precios_separator"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_1to3days"/>
+
+            <EditText
+                android:id="@+id/et_precio1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/precios_separator"
+                android:layout_toRightOf="@+id/im_precio1"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_para_3_dias"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:id="@+id/im_precio2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio1"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_4to7days"/>
+
+            <EditText
+                android:id="@+id/et_precio2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio1"
+                android:layout_toRightOf="@+id/im_precio2"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_para_7_dias"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:id="@+id/im_precio3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio2"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_8to15days"/>
+
+            <EditText
+                android:id="@+id/et_precio3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio2"
+                android:layout_toRightOf="@+id/im_precio3"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_para_15_dias"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:id="@+id/im_precio4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio3"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_16to31days"/>
+
+            <EditText
+                android:id="@+id/et_precio4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/im_precio3"
+                android:layout_toRightOf="@+id/im_precio4"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_para_31_dias"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/et_deposito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_precio4"
+                android:layout_toRightOf="@+id/im_precio4"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_deposito"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/et_precio_extras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_deposito"
+                android:layout_toRightOf="@+id/im_precio4"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:selectAllOnFocus="true"
+                android:inputType="numberDecimal"
+                android:hint="@string/str_precio_extras"
+                android:singleLine="true"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/okButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/fab2_background"
+        android:src="@drawable/ic_done_white_24dp"
+        android:elevation="6dp"/>
+
+</FrameLayout>

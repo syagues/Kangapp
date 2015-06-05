@@ -1,10 +1,14 @@
 package projecte.kangapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.CursorAdapter;
@@ -16,7 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +45,8 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import android.support.v7.widget.*;
 
@@ -47,6 +55,10 @@ import java.util.List;
 import java.util.Locale;
 
 import android.database.MatrixCursor;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PrincipalActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
@@ -64,8 +76,8 @@ public class PrincipalActivity extends AppCompatActivity implements
     float bearingActual, zoomActual, tiltActual;
 
     // Preferencies
-    SharedPreferences prefs;
-    String prefsNom = "localitzacio";
+    String prefsLoc = "localitzacio";
+    String prefsUser = "user";
 
     // Cerca
     android.support.v7.widget.SearchView searchView;
@@ -91,7 +103,16 @@ public class PrincipalActivity extends AppCompatActivity implements
 
         // Localitzacio
         buildGoogleApiClient();
-        setUpMapIfNeeded();
+
+        // Publicar button
+        ImageButton publicarButton = (ImageButton)findViewById(R.id.publicarButton);
+        publicarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PublicarActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -112,9 +133,27 @@ public class PrincipalActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return null;
+            }
+        });
+
         // Create a few sample profile
-        // NOTE you have to define the loader logic too. See the CustomApplication for more details
-        final IProfile profile = new ProfileDrawerItem().withName("Usuari user").withEmail("usuari@gmail.com").withIcon(getResources().getDrawable(R.drawable.user1));
+        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url","http://kangapp.com/uploads/gallery/undefined.png"));
 
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
@@ -155,6 +194,12 @@ public class PrincipalActivity extends AppCompatActivity implements
                             switch (drawerItem.getIdentifier()) {
                                 case 2:
                                     intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
+                                    break;
+                                case 3:
+                                    intent = new Intent(getApplicationContext(), ChatActivity.class);
+                                    break;
+                                case 4:
+                                    intent = new Intent(getApplicationContext(), PublicarActivity.class);
                                     break;
                                 case 6:
                                     intent = new Intent(getApplicationContext(), ComoKangerActivity.class);
@@ -212,19 +257,7 @@ public class PrincipalActivity extends AppCompatActivity implements
     }
 
     /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
+     * Inicia el mapa si es possible fer-ho (Play services correctes)
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -234,19 +267,34 @@ public class PrincipalActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
+                new GetAllItemsLocationTask().execute(new ApiConnector());
             }
+        } else {
+            new GetAllItemsLocationTask().execute(new ApiConnector());
         }
     }
 
     /**
      * Per afegir Marcadors al Mapa
      */
-    private void setUpMap() {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(41.615221, 2.087232))
-                .title("Marcador de Prova")
-                .snippet("Modelo Vydo"));
+    private void setUpMap(JSONArray jsonArray) {
+        // Netejem el mapa i tornem a afegir els markers
+        mMap.clear();
+        JSONObject json = null;
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    json = jsonArray.getJSONObject(i);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude")))
+                            .title(json.getString("company") + " " + json.getString("model"))
+                            .snippet(json.getString("category") + ", " + json.getString("type")));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
@@ -342,7 +390,7 @@ public class PrincipalActivity extends AppCompatActivity implements
 
     public void goToLocationInitial(double latitude, double longitude) {
 
-        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsLoc, MODE_PRIVATE);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(prefs.getFloat("latitude", (float) latitude), prefs.getFloat("longitude", (float) longitude)))
@@ -416,7 +464,7 @@ public class PrincipalActivity extends AppCompatActivity implements
 
     public void saveLocation(double latitude, double longitude, float bearing, float zoom, float tilt){
 
-        SharedPreferences prefs = getSharedPreferences(prefsNom, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsLoc, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putFloat("latitude", (float) latitude);
         editor.putFloat("longitude", (float) longitude);
@@ -433,5 +481,19 @@ public class PrincipalActivity extends AppCompatActivity implements
     public void saveActualLocation(){
         CameraPosition mCam = mMap.getCameraPosition();
         saveLocation(mCam.target.latitude, mCam.target.longitude, mCam.bearing, mCam.zoom, mCam.tilt);
+    }
+
+    private class GetAllItemsLocationTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+            // it is executed on Background thread
+            return params[0].GetAllItemsLocation();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setUpMap(jsonArray);
+        }
     }
 }

@@ -40,17 +40,13 @@ public class DetalleArticuloActivity extends AppCompatActivity {
     boolean isForRent;
     int articuloId;
     String nombreArticulo, nombreUsuario;
-    ImageView ivImage;
+    ImageView ivImage, ivUser;
+    int articuloUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_articulo);
-
-        // Round Image
-        ImageView mUserImageView = (ImageView)findViewById(R.id.iv_usuario);
-        RoundImage roundedImage = new RoundImage(BitmapFactory.decodeResource(getResources(), R.drawable.user1));
-        mUserImageView.setImageDrawable(roundedImage);
 
         if(this.getIntent().getExtras() != null){
             Bundle bundle = this.getIntent().getExtras();
@@ -76,10 +72,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
 
                 Bundle bundle = new Bundle();
                 ImageView userImage = (ImageView) findViewById(R.id.iv_usuario);
-                Log.i(TAG, userImage.getDrawable().toString());
-                bundle.putInt("drawable_id", R.drawable.user1);
-                Log.i(TAG, nombreUsuario);
-                bundle.putString("nombre_usuario", nombreUsuario);
+                bundle.putInt("userid", articuloUserId);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -97,6 +90,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
 
     public void setView(JSONArray jsonArray) {
         ivImage = (ImageView) findViewById(R.id.image);
+        ivUser = (ImageView) findViewById(R.id.iv_usuario);
         TextView tvItemName = (TextView) findViewById(R.id.name);
         TextView tvType = (TextView) findViewById(R.id.tv_tipo);
         TextView tvUserName = (TextView) findViewById(R.id.tv_nombre_usuario);
@@ -110,10 +104,17 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         try {
             json = jsonArray.getJSONObject(0);
 
-            LoadImageFromURL loadImage = new LoadImageFromURL();
-            loadImage.execute(getDownloadUrl(json.getString("path_item")));
+            articuloUserId = json.getInt("userid");
+            // Imatge item
+            LoadItemImageFromURL loadItemImage = new LoadItemImageFromURL();
+            if(getDownloadUrl(json.getString("path_item")) != null)
+                loadItemImage.execute(getDownloadUrl(json.getString("path_item")));
+            // Imatge user
+            LoadUserImageFromURL loadUserImage = new LoadUserImageFromURL();
+            if(getDownloadUrl(json.getString("path_user")) != null)
+                loadUserImage.execute(getDownloadUrl(json.getString("path_user")));
             tvItemName.setText(json.getString("company") + " " + json.getString("model"));
-            tvType.setText(json.getString("type"));
+            tvType.setText(json.getString("category") + ", " + json.getString("type"));
             tvUserName.setText(json.getString("username") + " " + json.getString("surname"));
             tvUserCountry.setText(json.getString("geo"));
             tvPrice1.setText(json.getString("price_day") + " €");
@@ -127,12 +128,17 @@ public class DetalleArticuloActivity extends AppCompatActivity {
     }
 
     public String getDownloadUrl(String path){
-        String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238/";
-        for (int i=0; i<pathSplit.length; i++){
-            if(i>4){
-                url += "/" + pathSplit[i];
+        String url;
+        if(path != "null") {
+            String[] pathSplit = path.split("/");
+            url = "http://46.101.24.238";
+            for (int i = 0; i < pathSplit.length; i++) {
+                if (i > 4) {
+                    url += "/" + pathSplit[i];
+                }
             }
+        } else {
+            return null;
         }
         return url;
     }
@@ -152,7 +158,7 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         }
     }
 
-    public class LoadImageFromURL extends AsyncTask<String, Void, Bitmap> {
+    public class LoadItemImageFromURL extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -176,6 +182,35 @@ public class DetalleArticuloActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             ivImage.setImageBitmap(result);
+        }
+
+    }
+
+    public class LoadUserImageFromURL extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            try {
+                URL url = new URL(params[0]);
+                InputStream is = url.openConnection().getInputStream();
+                Bitmap bitMap = BitmapFactory.decodeStream(is);
+                return bitMap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            RoundImage roundedImage = new RoundImage(result);
+            ivUser.setImageDrawable(roundedImage);
         }
 
     }

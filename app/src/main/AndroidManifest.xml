@@ -47,6 +47,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Toolbar"/>
         <activity
+            android:name=".ChatActivity"
+            android:label="@string/str_chat"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".PublicarActivity"
+            android:label="@string/str_publicar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
+            android:name=".SelecLocationActivity"
+            android:label="@string/str_selec_loc"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Toolbar"/>
+        <activity
             android:name=".ComoKangerActivity"
             android:label="@string/str_como_kanger"
             android:screenOrientation="portrait"
