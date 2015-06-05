@@ -158,23 +158,21 @@
                 android:scaleY="0.8"
                 android:src="@drawable/ic_language_grey600_36dp"/>
 
-            <EditText
-                android:id="@+id/ep_et_pais"
+            <Spinner
+                android:id="@+id/ep_sp_pais"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ep_et_telefono"
                 android:layout_toRightOf="@+id/ep_ic_pais"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/str_pais"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"/>
+                android:textSize="12sp"/>
 
             <EditText
                 android:id="@+id/ep_et_localidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ep_et_pais"
+                android:layout_below="@+id/ep_sp_pais"
                 android:layout_toRightOf="@+id/ep_ic_pais"
                 android:layout_marginRight="8dp"
                 android:hint="@string/str_localidad"

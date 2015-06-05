@@ -400,7 +400,7 @@ public class ApiConnector {
         return jsonArray;
     }
 
-    public JSONArray updateUserDetails(int userId, String nombre, String apellidos, String sexo, String nacimiento, String telefono, String pais, String localidad, String codigoPostal, int mostrar, int info, String recomenViaj, String gustViaj, String hobbies, String biografia, String facebook, String twitter, String googlePlus, String idioma, String nivel) {
+    public JSONArray updateUserDetails(int userId, String nombre, String apellidos, String sexo, String nacimiento, String telefono, int pais, String localidad, String codigoPostal, int mostrar, int info, String recomenViaj, String gustViaj, String hobbies, String biografia, String facebook, String twitter, String googlePlus, String idioma, String nivel) {
 
         String url = "http://46.101.24.238/mobile/android/updateUserDetails.php?userId="+userId+
                 "&name="+nombre+
@@ -421,6 +421,46 @@ public class ApiConnector {
                 "&twitter="+twitter+
                 "&googlePlus="+googlePlus;
 
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetAllCountries() {
+
+        String url = "http://46.101.24.238/mobile/android/getAllCountries.php";
         HttpEntity httpEntity = null;
 
         try {

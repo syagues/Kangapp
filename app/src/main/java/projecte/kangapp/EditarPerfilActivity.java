@@ -13,12 +13,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import projecte.kangapp.adapter.DatePickerFragment;
@@ -47,15 +51,28 @@ public class EditarPerfilActivity extends AppCompatActivity {
     int userId;
 
     // Formulari
-    EditText edNombre, edApellidos, edTelefono, edPais, edLocalidad, edCodigoPostal, edRecomenViaj, edGustViaj, edHobbies, edBiografia, edFacebook, edTwitter, edGooglePlus, edIdioma, edNivel;
+    EditText edNombre, edApellidos, edTelefono, edLocalidad, edCodigoPostal, edRecomenViaj, edGustViaj, edHobbies, edBiografia, edFacebook, edTwitter, edGooglePlus, edIdioma, edNivel;
+    Spinner spPais;
     CheckBox cbMostrar, cbInfo;
 
-    String nombre, apellidos, sexo, telefono, pais, localidad, codigoPostal, recomenViaj, gustViaj, hobbies, biografia, facebook, twitter, googlePlus, idioma, nivel, nacimiento;
-    int mostrar, info, dia, mes, any;
+    String nombre, apellidos, sexo, telefono, localidad, codigoPostal, recomenViaj, gustViaj, hobbies, biografia, facebook, twitter, googlePlus, idioma, nivel, nacimiento;
+    int mostrar, info, dia, mes, any, pais;
+
+    // Spinner
+    int indexCountry;
+    ArrayList<Integer> countriesId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Inicialitzacio spinner
+        new GetAllCountriesTask().execute(new ApiConnector());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setContentView(R.layout.activity_editar_perfil);
 
         // Toolbar
@@ -82,7 +99,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         edNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
                     Log.i(TAG, "Naixement onFocus listener");
                     showDatePicker();
                 }
@@ -95,9 +112,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 showDatePicker();
             }
         });
-
-        // Inicialitzacio dels valors
-        new GetUserDetailsByIdTask().execute(new ApiConnector());
 
         // SaveButton
         ImageButton saveButton = (ImageButton) findViewById(R.id.saveButton);
@@ -156,7 +170,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         edApellidos = (EditText) findViewById(R.id.ep_et_apellidos);
         edNacimiento = (EditText) findViewById(R.id.ep_et_nacimiento);
         edTelefono = (EditText) findViewById(R.id.ep_et_telefono);
-        edPais = (EditText) findViewById(R.id.ep_et_pais);
+        spPais = (Spinner) findViewById(R.id.ep_sp_pais);
         edLocalidad = (EditText) findViewById(R.id.ep_et_localidad);
         edCodigoPostal = (EditText) findViewById(R.id.ep_et_codpostal);
         cbMostrar = (CheckBox) findViewById(R.id.cb_mostrar);
@@ -201,7 +215,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     edTelefono.setText(json.getString("phone_number"));
                 // Pais
                 if(!json.getString("geo").equals("null"))
-                    edPais.setText(json.getString("geo"));
+                    spPais.setSelection(json.getInt("geo_id")-1);
                 // Localidad
                 if(!json.getString("location").equals("null"))
                     edLocalidad.setText(json.getString("location"));
@@ -293,10 +307,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         else
             telefono = edTelefono.getText().toString();
         // Pais
-        if(edPais.getText().toString().equals(""))
-            pais = null;
-        else
-            pais = edPais.getText().toString();
+        pais = spPais.getSelectedItemPosition()+1;
         // Localidad
         if(edLocalidad.getText().toString().equals("")) {
             localidad = null;
@@ -400,6 +411,45 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
     }
 
+    public void setUpCountrySpinner(JSONArray jsonArray){
+
+        ArrayList<String> countries = new ArrayList<>();
+        countriesId = new ArrayList<>();
+
+        JSONObject json = null;
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    json = jsonArray.getJSONObject(i);
+                    countries.add(json.getString("name"));
+                    countriesId.add(json.getInt("id"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Spinner sp_cat = (Spinner) findViewById(R.id.ep_sp_pais);
+        ArrayAdapter<String> sp_AA_Uso = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, countries);
+        sp_AA_Uso.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_cat.setAdapter(sp_AA_Uso);
+        sp_cat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                indexCountry = parent.getSelectedItemPosition();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Inicialitzem els valors de tots el camps
+        new GetUserDetailsByIdTask().execute(new ApiConnector());
+    }
+
     public String addBars(String[] strings){
         String string = "";
         for(int i = 0; i < strings.length; i++){
@@ -427,6 +477,20 @@ public class EditarPerfilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             setView(jsonArray);
+        }
+    }
+
+    private class GetAllCountriesTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+            // it is executed on Background thread
+            return params[0].GetAllCountries();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setUpCountrySpinner(jsonArray);
         }
     }
 
