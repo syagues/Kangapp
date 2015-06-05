@@ -7,8 +7,4 @@
         android:title="@string/str_cmb_fp"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_save"
-        android:icon="@drawable/ic_save_white_24dp"
-        android:title="@string/str_guardar"
-        app:showAsAction="ifRoom" />
 </menu>

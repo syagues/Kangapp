@@ -227,15 +227,27 @@ public class PublicarActivity extends AppCompatActivity implements
         // itemtype_id
         itemtype_id = typesId.get(indexTipo);
         // model
-        if(((EditText)findViewById(R.id.et_modelo)).getText().toString().equals(""))
+        if(((EditText)findViewById(R.id.et_modelo)).getText().toString().equals("")) {
             model = null;
-        else
-            model = ((EditText)findViewById(R.id.et_modelo)).getText().toString();
+        } else {
+            String[] modSplt = ((EditText) findViewById(R.id.et_modelo)).getText().toString().split(" ");
+            if(modSplt.length > 1) {
+                model = addBars(modSplt);
+            } else {
+                model = ((EditText) findViewById(R.id.et_modelo)).getText().toString();
+            }
+        }
         // company
-        if(((EditText)findViewById(R.id.et_marca)).getText().toString().equals(""))
+        if(((EditText)findViewById(R.id.et_marca)).getText().toString().equals("")) {
             company = null;
-        else
-            company = ((EditText)findViewById(R.id.et_marca)).getText().toString();
+        } else {
+            String[] comSplt = ((EditText) findViewById(R.id.et_marca)).getText().toString().split(" ");
+            if(comSplt.length > 1){
+                company = addBars(comSplt);
+            } else {
+                company = ((EditText) findViewById(R.id.et_marca)).getText().toString();
+            }
+        }
         // price_day
         if(((EditText) findViewById(R.id.et_precio1)).getText().toString().equals(""))
             price_day = 0;
@@ -262,10 +274,16 @@ public class PublicarActivity extends AppCompatActivity implements
         else
             deposit = Double.parseDouble(((EditText) findViewById(R.id.et_deposito)).getText().toString());
         // extras
-        if(((EditText)findViewById(R.id.et_extras)).getText().toString().equals(""))
+        if(((EditText)findViewById(R.id.et_extras)).getText().toString().equals("")) {
             extras = null;
-        else
-            extras = ((EditText)findViewById(R.id.et_extras)).getText().toString();
+        } else {
+            String[] extSplt = ((EditText)findViewById(R.id.et_extras)).getText().toString().split(" ");
+            if(extSplt.length > 1){
+                extras = addBars(extSplt);
+            } else {
+                extras = ((EditText)findViewById(R.id.et_extras)).getText().toString();
+            }
+        }
         // extras_price
         if(((EditText) findViewById(R.id.et_precio_extras)).getText().toString().equals("")) {
             extras_price = 0;
@@ -274,10 +292,16 @@ public class PublicarActivity extends AppCompatActivity implements
             extras_price = Double.parseDouble(((EditText) findViewById(R.id.et_precio_extras)).getText().toString());
         }
         // comments
-        if(((EditText)findViewById(R.id.et_comentarios)).getText().toString().equals(""))
+        if(((EditText)findViewById(R.id.et_comentarios)).getText().toString().equals("")) {
             comments = null;
-        else
-            comments = ((EditText)findViewById(R.id.et_comentarios)).getText().toString();
+        } else {
+            String[] comSplt = ((EditText) findViewById(R.id.et_comentarios)).getText().toString().split(" ");
+            if(comSplt.length > 1){
+                comments = addBars(comSplt);
+            } else {
+                comments = ((EditText) findViewById(R.id.et_comentarios)).getText().toString();
+            }
+        }
 
         if(model != null && company != null && price_day != 0 && price_week != 0 && price_halfmonth != 0 && price_month != 0 && deposit != 0 && (locActivat || locSeleccionat))
             new InsertItemTask().execute(new ApiConnector());
@@ -355,6 +379,18 @@ public class PublicarActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    public String addBars(String[] strings){
+        String string = "";
+        for(int i = 0; i < strings.length; i++){
+            if(i == 0)
+                string = strings[i];
+            else
+                string = string + "_" + strings[i];
+        }
+
+        return string;
     }
 
     private class GetAllItemCategoriesByLocaleTask extends AsyncTask<ApiConnector,Long,JSONArray> {

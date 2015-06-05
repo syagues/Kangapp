@@ -85,8 +85,6 @@ public class PerfilActivity extends AppCompatActivity {
             userId = bundle.getInt("userid");
             perfilPublic = true;
 
-            new GetUserDetailsByIdTask().execute(new ApiConnector());
-
             mFabButton = (ImageButton) findViewById(R.id.fabButton);
             mFabButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_chat_white_24dp));
             mFabButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +95,6 @@ public class PerfilActivity extends AppCompatActivity {
             });
 
         } else {
-            new GetUserDetailsByIdTask().execute(new ApiConnector());
 
             // Toolbar (Menu lateral)
             setupToolbar();
@@ -113,6 +110,12 @@ public class PerfilActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new GetUserDetailsByIdTask().execute(new ApiConnector());
     }
 
     public void setupToolbar(){
