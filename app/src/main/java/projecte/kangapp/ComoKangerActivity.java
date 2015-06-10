@@ -37,6 +37,7 @@ import java.util.List;
 
 import projecte.kangapp.adapter.CardArticulo;
 import projecte.kangapp.adapter.RecyclerAdapter;
+import projecte.kangapp.database.ApiConnector;
 import projecte.kangapp.listener.HidingScrollListener;
 import projecte.kangapp.listener.RecyclerItemClickListener;
 
@@ -192,7 +193,7 @@ public class ComoKangerActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean("is_for_rent", false);
+                        bundle.putInt("user_id", userId);
                         bundle.putInt("item_id", itemList.get(position - 1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -228,7 +229,21 @@ public class ComoKangerActivity extends AppCompatActivity {
                 JSONObject json = null;
                 try {
                     json = jsonArray.getJSONObject(i);
-                    itemList.add(new CardArticulo(json.getInt("item_id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                    if(!json.getString("start_date").equals("null") && !json.getString("end_date").equals("null")) {
+                        String[] datetimeIni = json.getString("start_date").split(" ");
+                        String[] dateIni = datetimeIni[0].split("-");
+                        int diaIni = Integer.parseInt(dateIni[2]);
+                        int mesIni = Integer.parseInt(dateIni[1]);
+                        int anyIni = Integer.parseInt(dateIni[0]);
+                        String[] datetimeEnd = json.getString("end_date").split(" ");
+                        String[] dateEnd = datetimeEnd[0].split("-");
+                        int diaEnd = Integer.parseInt(dateEnd[2]);
+                        int mesEnd = Integer.parseInt(dateEnd[1]);
+                        int anyEnd = Integer.parseInt(dateEnd[0]);
+                        itemList.add(new CardArticulo(json.getInt("item_id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), json.getString("price") + " €", diaIni + "/" + mesIni + " - " + diaEnd + "/" + mesEnd, json.getString("state")));
+                    } else {
+                        itemList.add(new CardArticulo(json.getInt("item_id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), json.getString("price") + " €", "", json.getString("state")));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

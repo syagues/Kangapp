@@ -88,7 +88,7 @@
                             android:paddingRight="8dp"
                             android:textSize="13sp"
                             android:textColor="@color/light_grey"
-                            android:text="@string/str_encurso"/>
+                            android:text=""/>
 
                     </RelativeLayout>
 
@@ -215,9 +215,54 @@
 
                 </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/card_comentarios"
+                    android:layout_below="@+id/card_usuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/title_comentarios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="13sp"
+                            android:textColor="@color/primary"
+                            android:text="@string/str_comentarios"/>
+
+                        <TextView
+                            android:id="@+id/tv_comentarios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@+id/title_comentarios"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/light_grey"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
                 <LinearLayout
                     android:id="@+id/precios"
-                    android:layout_below="@+id/card_usuario"
+                    android:layout_below="@+id/card_comentarios"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -396,6 +441,63 @@
 
                 </LinearLayout>
 
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/card_extras"
+                    android:layout_below="@+id/precios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/title_extras"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="15dp"
+                            android:textSize="13sp"
+                            android:textColor="@color/primary"
+                            android:text="@string/str_extras"/>
+
+                        <TextView
+                            android:id="@+id/tv_precio_extras"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_extras"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_extras"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_extras"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toLeftOf="@+id/tv_precio_extras"
+                            android:paddingLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/light_grey"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
             </RelativeLayout>
 
         </RelativeLayout>
@@ -425,7 +527,7 @@
         android:layout_gravity="top|right"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/fab_background"
+        android:background="@drawable/fab2_background"
         android:elevation="6dp"/>
 
     <RelativeLayout

@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -36,6 +33,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -51,14 +49,15 @@ import com.squareup.picasso.Picasso;
 import android.support.v7.widget.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import android.database.MatrixCursor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import projecte.kangapp.database.ApiConnector;
 
 public class PrincipalActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener {
@@ -74,6 +73,9 @@ public class PrincipalActivity extends AppCompatActivity implements
     protected Location mLastLocation;
     double latitudeActual, longitudeActual;
     float bearingActual, zoomActual, tiltActual;
+
+    // Markers
+    ArrayList<Integer> markerIds;
 
     // Preferencies
     String prefsLoc = "localitzacio";
@@ -287,6 +289,7 @@ public class PrincipalActivity extends AppCompatActivity implements
     private void setUpMap(JSONArray jsonArray) {
         // Netejem el mapa i tornem a afegir els markers
         mMap.clear();
+        markerIds = new ArrayList<Integer>();
         JSONObject json = null;
         if(jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -297,11 +300,21 @@ public class PrincipalActivity extends AppCompatActivity implements
                             .title(json.getString("company") + " " + json.getString("model"))
                             .snippet(json.getString("category") + ", " + json.getString("type")));
 
+                    markerIds.add(json.getInt("id"));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
+
+        // Markers listener
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
     }
 
     /**

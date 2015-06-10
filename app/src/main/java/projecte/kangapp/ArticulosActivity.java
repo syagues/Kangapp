@@ -1,11 +1,12 @@
 package projecte.kangapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,13 +16,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,14 +39,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import projecte.kangapp.adapter.CardArticulo;
+import projecte.kangapp.adapter.CercaPickerFragment;
 import projecte.kangapp.adapter.RecyclerAdapter;
-import projecte.kangapp.listener.HidingScrollListener;
+import projecte.kangapp.database.ApiConnector;
 import projecte.kangapp.listener.RecyclerItemClickListener;
 
 /**
@@ -71,6 +68,9 @@ public class ArticulosActivity extends AppCompatActivity {
 
     // Cerca
     SearchView searchView;
+
+    // Preferences
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,7 @@ public class ArticulosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        userId = prefs.getInt("id", 0);
         //initialize and create the image loader logic
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
             @Override
@@ -226,6 +227,17 @@ public class ArticulosActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //CercaPickerFragment cercaPicker = new CercaPickerFragment();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void initRecyclerView() {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -240,7 +252,7 @@ public class ArticulosActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean("is_for_rent", false);
+                        bundle.putInt("user_id", userId);
                         bundle.putInt("item_id", itemList.get(position - 1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);

@@ -5,24 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -34,8 +26,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -47,10 +37,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import scrolls.ObservableScrollView;
-import scrolls.ObservableScrollViewCallbacks;
-import scrolls.ScrollState;
-import scrolls.ScrollUtils;
+import projecte.kangapp.database.ApiConnector;
 
 /**
  * Created by sergi on 20/5/15.
@@ -243,6 +230,8 @@ public class PerfilActivity extends AppCompatActivity {
         ivImage = (ImageView) findViewById(R.id.image);
         TextView tvUserName = (TextView) findViewById(R.id.name);
         TextView tvPuntuation = (TextView) findViewById(R.id.tv_puntuacion);
+        TextView tvArticulos = (TextView) findViewById(R.id.tv_articulos);
+        TextView tvTratos = (TextView) findViewById(R.id.tv_tratos);
         TextView tvGeo = (TextView) findViewById(R.id.tv_nombre_pais);
         TextView tvLocation = (TextView) findViewById(R.id.tv_nombre_ciudad);
         TextView tvShowCity = (TextView) findViewById(R.id.tv_quiero_mostrar);
@@ -266,6 +255,10 @@ public class PerfilActivity extends AppCompatActivity {
                 LoadImageFromURL loadImage = new LoadImageFromURL();
                 loadImage.execute(getDownloadUrl(json.getString("path")));
                 tvUserName.setText(json.getString("name") + " " + json.getString("surname"));
+                // Articulos
+                tvArticulos.setText(Integer.toString(json.getInt("items")));
+                // Tratos
+                tvTratos.setText(Integer.toString(json.getInt("deals")));
                 // Puntuacion
                 if(json.getString("rate") != "null")
                     tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));

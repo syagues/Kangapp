@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import projecte.animations.Techniques;
 import projecte.animations.YoYo;
+import projecte.kangapp.database.ApiConnector;
 
 /**
  * Created by sergi on 15/5/15.
@@ -27,7 +28,7 @@ public class PresentacioActivity extends Activity {
     SharedPreferences prefs;
     String prefsUser = "user";
 
-    int userId = 13; // 8
+    int userId = 8; // 13
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

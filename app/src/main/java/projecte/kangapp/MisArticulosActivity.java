@@ -7,12 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -37,10 +35,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import projecte.kangapp.adapter.CardArticulo;
 import projecte.kangapp.adapter.RecyclerAdapter;
+import projecte.kangapp.database.ApiConnector;
 import projecte.kangapp.listener.HidingScrollListener;
 import projecte.kangapp.listener.RecyclerItemClickListener;
 
@@ -207,7 +205,7 @@ public class MisArticulosActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
 
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean("is_for_rent", false);
+                        bundle.putInt("user_id", userId);
                         bundle.putInt("item_id", itemList.get(position-1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);

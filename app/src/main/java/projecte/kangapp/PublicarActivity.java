@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import projecte.kangapp.database.ApiConnector;
+
 /**
  * Created by Raül.
  */
@@ -65,6 +67,8 @@ public class PublicarActivity extends AppCompatActivity implements
     double price_day, price_week, price_halfmonth, price_month, deposit, extras_price, latitude, longitude;
     String model, company, extras, comments;
 
+    int itemId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,7 @@ public class PublicarActivity extends AppCompatActivity implements
 
         new GetAllItemCategoriesByLocaleTask().execute(new ApiConnector());
         new GetAllItemTypesByLocaleTask().execute(new ApiConnector());
+        new GetNextItemIdTask().execute(new ApiConnector());
 
         // Publicar button
         ImageButton publicarButton = (ImageButton)findViewById(R.id.okButton);
@@ -97,6 +102,7 @@ public class PublicarActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
 
         switch (item.getItemId()) {
             case R.id.action_location:
@@ -115,9 +121,14 @@ public class PublicarActivity extends AppCompatActivity implements
                 locActivat = !locActivat;
                 return true;
             case R.id.action_photos:
+                intent = new Intent(getApplicationContext(), UploadToServerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("item_id", itemId);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 return true;
             case R.id.action_selec_location:
-                Intent intent = new Intent(getApplicationContext(), SelecLocationActivity.class);
+                intent = new Intent(getApplicationContext(), SelecLocationActivity.class);
                 startActivityForResult(intent, 1);
                 return true;
             default:
@@ -426,7 +437,7 @@ public class PublicarActivity extends AppCompatActivity implements
         @Override
         protected JSONArray doInBackground(ApiConnector... params) {
             // it is executed on Background thread
-            return params[0].InsertItem(userextend_id,itemcategory_id,itemtype_id,model,company,price_day,price_week,price_halfmonth,price_month,deposit,2,extras,extras_price,comments,latitude,longitude);
+            return params[0].InsertItem(itemId, userextend_id, itemcategory_id, itemtype_id, model, company, price_day, price_week, price_halfmonth, price_month, deposit, 2, extras, extras_price, comments, latitude, longitude);
         }
 
         @Override
@@ -434,6 +445,29 @@ public class PublicarActivity extends AppCompatActivity implements
             Log.i(TAG,"Publicat!!");
             Toast.makeText(getApplicationContext(), "Articulo Publicado!", Toast.LENGTH_SHORT).show();
             onBackPressed();
+        }
+    }
+
+    private class GetNextItemIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+            // it is executed on Background thread
+            return params[0].GetNextItemId();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            JSONObject json = null;
+            if(jsonArray != null) {
+                try {
+                    json = jsonArray.getJSONObject(0);
+                    itemId = json.getInt("id") + 1;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
