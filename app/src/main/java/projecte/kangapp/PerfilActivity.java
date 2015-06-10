@@ -5,24 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -34,8 +26,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -47,10 +37,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import scrolls.ObservableScrollView;
-import scrolls.ObservableScrollViewCallbacks;
-import scrolls.ScrollState;
-import scrolls.ScrollUtils;
+import projecte.kangapp.database.ApiConnector;
 
 /**
  * Created by sergi on 20/5/15.
@@ -243,6 +230,8 @@ public class PerfilActivity extends AppCompatActivity {
         ivImage = (ImageView) findViewById(R.id.image);
         TextView tvUserName = (TextView) findViewById(R.id.name);
         TextView tvPuntuation = (TextView) findViewById(R.id.tv_puntuacion);
+        TextView tvArticulos = (TextView) findViewById(R.id.tv_articulos);
+        TextView tvTratos = (TextView) findViewById(R.id.tv_tratos);
         TextView tvGeo = (TextView) findViewById(R.id.tv_nombre_pais);
         TextView tvLocation = (TextView) findViewById(R.id.tv_nombre_ciudad);
         TextView tvShowCity = (TextView) findViewById(R.id.tv_quiero_mostrar);
@@ -266,9 +255,29 @@ public class PerfilActivity extends AppCompatActivity {
                 LoadImageFromURL loadImage = new LoadImageFromURL();
                 loadImage.execute(getDownloadUrl(json.getString("path")));
                 tvUserName.setText(json.getString("name") + " " + json.getString("surname"));
-                tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
-                tvGeo.setText(json.getString("geo"));
-                tvLocation.setText(json.getString("location"));
+                // Articulos
+                tvArticulos.setText(Integer.toString(json.getInt("items")));
+                // Tratos
+                tvTratos.setText(Integer.toString(json.getInt("deals")));
+                // Puntuacion
+                if(json.getString("rate") != "null")
+                    tvPuntuation.setText(Float.toString((float)json.getDouble("rate")/2));
+                // Pais
+                if(json.getString("geo") != "null") {
+                    tvGeo.setText(json.getString("geo"));
+                } else {
+                    findViewById(R.id.ic_pais).setVisibility(View.GONE);
+                    findViewById(R.id.tv_pais).setVisibility(View.GONE);
+                    tvGeo.setVisibility(View.GONE);
+                }
+                // Ciudad
+                if(json.getString("location") != "null") {
+                    tvLocation.setText(json.getString("location"));
+                } else {
+                    findViewById(R.id.ic_ciudad).setVisibility(View.GONE);
+                    findViewById(R.id.tv_ciudad).setVisibility(View.GONE);
+                    tvLocation.setVisibility(View.GONE);
+                }
                 // Quiero mostrar ciudad
                 if(json.getInt("want_show_city") != 1)
                     tvShowCity.setVisibility(View.GONE);
@@ -283,6 +292,9 @@ public class PerfilActivity extends AppCompatActivity {
                     findViewById(R.id.tv_biografia).setVisibility(View.GONE);
                     tvBiography.setVisibility(View.GONE);
                 }
+                // Control Tarjeta Perfil
+                if(json.getString("geo").equals("null") && json.getString("location").equals("null") && json.getString("want_show_city").equals("0") && json.getString("want_inform_city").equals("0") && json.getString("biography").equals("null"))
+                    findViewById(R.id.card_perfil).setVisibility(View.GONE);
                 // Hobbies
                 if(json.getString("hobbies") != "null") {
                     tvHobbies.setText(json.getString("hobbies"));
@@ -307,6 +319,9 @@ public class PerfilActivity extends AppCompatActivity {
                 }
                 if(json.getString("destination_suggesstions") == "null" && json.getString("destination_wishes") == "null")
                     findViewById(R.id.ic_viajar).setVisibility(View.GONE);
+                // Control Tarjeta Intereses Personales
+                if(json.getString("hobbies").equals("null") && json.getString("destination_suggesstions").equals("null") && json.getString("destination_wishes").equals("null"))
+                    findViewById(R.id.card_intereses).setVisibility(View.GONE);
                 // Facebook
                 if(json.getString("facebook") != "null") {
                     tvFacebook.setText(json.getString("facebook"));
@@ -331,6 +346,9 @@ public class PerfilActivity extends AppCompatActivity {
                     findViewById(R.id.tv_googleplus).setVisibility(View.GONE);
                     tvGooglePlus.setVisibility(View.GONE);
                 }
+                // Control tarjeta Redes Sociales
+                if(json.getString("facebook").equals("null") && json.getString("twitter").equals("null") && json.getString("googlePlus").equals("null"))
+                    findViewById(R.id.card_social).setVisibility(View.GONE);
                 // Languages
                 if(json.getString("language") != "null") {
                     tvLang.setText(json.getString("language"));

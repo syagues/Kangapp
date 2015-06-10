@@ -3,7 +3,9 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/default_background">
+
     <projecte.kangapp.view.ObservableScrollViewWithFling
         android:id="@+id/observable_sv"
         android:layout_height="match_parent"

@@ -1,19 +1,25 @@
 package projecte.kangapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,18 +43,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projecte.kangapp.adapter.CardArticulo;
+import projecte.kangapp.adapter.CercaPickerFragment;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.database.ApiConnector;
-import projecte.kangapp.listener.HidingScrollListener;
 import projecte.kangapp.listener.RecyclerItemClickListener;
 
 /**
- * Created by sergi on 26/5/15.
+ * Created by sergi on 5/6/15.
  */
-public class MisArticulosActivity extends AppCompatActivity {
+public class ArticulosActivity extends AppCompatActivity {
 
     // Log
-    protected static final String TAG = "MisArticulosActivity";
+    protected static final String TAG = "ArticulosActivity";
+
+    // Preferencies
+    String prefsUser = "user";
 
     // Toolbar
     Bundle savedInstanceState = null;
@@ -57,20 +66,21 @@ public class MisArticulosActivity extends AppCompatActivity {
     // Items List
     List<CardArticulo> itemList;
 
-    // Preferencies
-    String prefsUser = "user";
-    int userId;
+    // Cerca
+    SearchView searchView;
 
+    // Preferences
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        setContentView(R.layout.activity_mis_articulos);
+        setContentView(R.layout.activity_articulos);
 
         // Toolbar (Menu lateral)
         setupToolbar();
-        new GetItemByUserIdTask().execute(new ApiConnector());
+        new GetItemsByLocaleTask().execute(new ApiConnector());
 
         // Publicar button
         ImageButton publicarButton = (ImageButton)findViewById(R.id.publicarButton);
@@ -81,14 +91,25 @@ public class MisArticulosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Mapas button
+        ImageButton mapaButton = (ImageButton)findViewById(R.id.mapaButton);
+        mapaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+            }
+        });
     }
 
     public void setupToolbar(){
         // Handle Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        userId = prefs.getInt("id", 0);
         //initialize and create the image loader logic
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
             @Override
@@ -108,7 +129,7 @@ public class MisArticulosActivity extends AppCompatActivity {
         });
 
         // Create a few sample profile
-        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url", "http://kangapp.com/uploads/gallery/undefined.png"));
+        final IProfile profile = new ProfileDrawerItem().withName(prefs.getString("name","Usuario User")).withEmail(prefs.getString("email","usuario@gmail.com")).withIcon(prefs.getString("url","http://kangapp.com/uploads/gallery/undefined.png"));
 
         // Create the AccountHeader
         AccountHeader.Result headerResult = new AccountHeader()
@@ -126,8 +147,8 @@ public class MisArticulosActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.str_buscar).withIdentifier(1).withIcon(R.drawable.ic_place_grey600_36dp).withCheckable(false),
-                        new PrimaryDrawerItem().withName(R.string.str_mis_articulos).withIdentifier(2).withIcon(R.drawable.ic_store_mall_directory_orange_36dp).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_buscar).withIdentifier(1).withIcon(R.drawable.ic_place_orange_36dp).withCheckable(false),
+                        new PrimaryDrawerItem().withName(R.string.str_mis_articulos).withIdentifier(2).withIcon(R.drawable.ic_store_mall_directory_grey600_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_chat).withIdentifier(3).withIcon(R.drawable.ic_chat_grey600_36dp).withCheckable(false),
                         new PrimaryDrawerItem().withName(R.string.str_publicar).withIdentifier(4).withIcon(R.drawable.ic_add_circle_grey600_36dp).withCheckable(false),
                         new SectionDrawerItem().withName(R.string.str_mis_tratos).withIdentifier(5),
@@ -146,9 +167,9 @@ public class MisArticulosActivity extends AppCompatActivity {
 
                         if (drawerItem != null) {
                             Intent intent = null;
-                            switch (drawerItem.getIdentifier()){
-                                case 1:
-                                    intent = new Intent(getApplicationContext(), PrincipalActivity.class);
+                            switch (drawerItem.getIdentifier()) {
+                                case 2:
+                                    intent = new Intent(getApplicationContext(), MisArticulosActivity.class);
                                     break;
                                 case 3:
                                     intent = new Intent(getApplicationContext(), ChatActivity.class);
@@ -174,8 +195,9 @@ public class MisArticulosActivity extends AppCompatActivity {
                                 default:
                                     break;
                             }
-                            if(intent != null)
+                            if (intent != null) {
                                 startActivity(intent);
+                            }
                         }
 
                     }
@@ -187,7 +209,32 @@ public class MisArticulosActivity extends AppCompatActivity {
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 1
-            result.setSelectionByIdentifier(2, false);
+            result.setSelectionByIdentifier(1, false);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_articulos, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getResources().getString(R.string.str_buscar));
+
+        setupSearchView();
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //CercaPickerFragment cercaPicker = new CercaPickerFragment();
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -206,32 +253,12 @@ public class MisArticulosActivity extends AppCompatActivity {
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("user_id", userId);
-                        bundle.putInt("item_id", itemList.get(position-1).getArticuloId());
+                        bundle.putInt("item_id", itemList.get(position - 1).getArticuloId());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 })
         );
-
-        recyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                hideViews();
-            }
-
-            @Override
-            public void onShow() {
-                showViews();
-            }
-        });
-    }
-
-    private void hideViews() {
-        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-    }
-
-    private void showViews() {
-        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
     private void createItemList(JSONArray jsonArray) {
@@ -241,7 +268,8 @@ public class MisArticulosActivity extends AppCompatActivity {
                 JSONObject json = null;
                 try {
                     json = jsonArray.getJSONObject(i);
-                    itemList.add(new CardArticulo(json.getInt("id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                    itemList.add(new CardArticulo(json.getInt("item_id"), getDownloadUrl(json.getString("path")), json.getString("company") + " " + json.getString("model"), json.getString("category") + ", " + json.getString("type"), json.getString("username") + " " + json.getString("surname"), "", "", ""));
+                    // Log.i(TAG, json.getInt("item_id") + ", " + getDownloadUrl(json.getString("path")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -269,15 +297,17 @@ public class MisArticulosActivity extends AppCompatActivity {
         return url;
     }
 
-    private class GetItemByUserIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+    private void setupSearchView() {
+
+    }
+
+    private class GetItemsByLocaleTask extends AsyncTask<ApiConnector,Long,JSONArray> {
 
         @Override
         protected JSONArray doInBackground(ApiConnector... params) {
 
             // it is executed on Background thread
-            SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
-            userId = prefs.getInt("id", 0);
-            return params[0].GetItemByUserId(userId);
+            return params[0].GetItemsByLocale("es");
         }
 
         @Override

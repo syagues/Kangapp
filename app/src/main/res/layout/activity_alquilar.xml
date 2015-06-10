@@ -51,8 +51,7 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/item1"/>
+                        android:layout_margin="16dp"/>
 
                     <TextView
                         android:id="@+id/alq_tv_nombre_articulo"
@@ -61,8 +60,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/alq_iv_articulo"
                         android:layout_marginTop="16dp"
-                        android:textSize="18sp"
-                        android:text="@string/str_marca_mod"/>
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/alq_tv_tipo_articulo"
@@ -73,8 +71,7 @@
                         android:layout_marginTop="5dp"
                         android:paddingBottom="15dp"
                         android:textSize="16sp"
-                        android:textColor="@color/light_grey"
-                        android:text="@string/str_tipo1"/>
+                        android:textColor="@color/light_grey"/>
 
                 </RelativeLayout>
 
@@ -104,8 +101,7 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/user1"/>
+                        android:layout_margin="16dp"/>
 
                     <TextView
                         android:id="@+id/alq_tv_nombre_usuario"
@@ -114,8 +110,7 @@
                         android:layout_toRightOf="@+id/alq_iv_usuario"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="16dp"
-                        android:textSize="18sp"
-                        android:text="@string/str_nombre"/>
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/alq_tv_pais_usuario"
@@ -125,8 +120,7 @@
                         android:layout_toRightOf="@+id/alq_iv_usuario"
                         android:layout_marginTop="5dp"
                         android:textSize="16sp"
-                        android:textColor="@color/light_grey"
-                        android:text="@string/str_pais"/>
+                        android:textColor="@color/light_grey"/>
 
                     <TextView
                         android:id="@+id/alq_tv_user_articulos"
@@ -139,7 +133,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="6dp"
                         android:textSize="15sp"
-                        android:text="3"/>
+                        android:text="0"/>
 
                     <ImageView
                         android:id="@+id/alq_ic_user_articulos"
@@ -162,7 +156,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="15sp"
-                        android:text="1"/>
+                        android:text="0"/>
 
                     <ImageView
                         android:id="@+id/alq_ic_user_tratos"
@@ -186,7 +180,7 @@
                         android:layout_marginRight="15dp"
                         android:paddingBottom="10dp"
                         android:textSize="15sp"
-                        android:text="2.5"/>
+                        android:text="0"/>
 
                     <ImageView
                         android:id="@+id/alq_ic_user_puntuacion"
@@ -335,14 +329,14 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/fabButton"
+                android:id="@+id/alquilarButton"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_below="@+id/alq_fechas"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="32dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/fab_background"
+                android:background="@drawable/fab2_background"
                 android:elevation="6dp"
                 android:src="@drawable/ic_play_arrow_white_24dp"/>
 

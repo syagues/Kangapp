@@ -1,4 +1,4 @@
-package projecte.kangapp;
+package projecte.kangapp.database;
 
 import android.util.Log;
 
@@ -344,10 +344,11 @@ public class ApiConnector {
         return jsonArray;
     }
 
-    public JSONArray InsertItem(int userextend_id, int itemcategory_id, int itemtype_id, String model, String company, double price_day, double price_week, double price_halfmonth, double price_month, double deposit, int state, String extras, double extras_price, String comments, double latitude, double longitude) {
+    public JSONArray InsertItem(int itemId, int userextend_id, int itemcategory_id, int itemtype_id, String model, String company, double price_day, double price_week, double price_halfmonth, double price_month, double deposit, int state, String extras, double extras_price, String comments, double latitude, double longitude) {
 
         String url = "http://46.101.24.238/mobile/android/insertItem.php?"
-                +"userextend_id="+userextend_id
+                +"item_id="+itemId
+                +"&userextend_id="+userextend_id
                 +"&itemcategory_id="+itemcategory_id
                 +"&itemtype_id="+itemtype_id
                 +"&model="+model
@@ -461,6 +462,174 @@ public class ApiConnector {
     public JSONArray GetAllCountries() {
 
         String url = "http://46.101.24.238/mobile/android/getAllCountries.php";
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetItemsByLocale(String locale) {
+
+        String url = "http://46.101.24.238/mobile/android/getItemsByLocale.php?locale="+locale;
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetItemsAsKangerByUserId(int userId, String locale) {
+
+        // URL for getting all customers
+        String url = "http://46.101.24.238/mobile/android/getItemsAsKangerByUserId.php?user_id="+userId+"&locale="+locale;
+        // Get HttpResponse Object from url.
+        // Get HttpEntity from Http Response Object
+
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetItemsAsArrenderByUserId(int userId, String locale) {
+
+        // URL for getting all customers
+        String url = "http://46.101.24.238/mobile/android/getItemsAsArrenderByUserId.php?user_id="+userId+"&locale="+locale;
+        // Get HttpResponse Object from url.
+        // Get HttpEntity from Http Response Object
+
+        HttpEntity httpEntity = null;
+
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();  // Default HttpClient
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+
+        } catch (ClientProtocolException e) {
+
+            // Signals error in http protocol
+            e.printStackTrace();
+            //Log Errors Here
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert HttpEntity into JSON Array
+        JSONArray jsonArray = null;
+
+        if (httpEntity != null) {
+            try {
+                String entityResponse = EntityUtils.toString(httpEntity);
+                Log.e("Entity Response  : ", entityResponse);
+                jsonArray = new JSONArray(entityResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JSONArray GetNextItemId() {
+
+        String url = "http://46.101.24.238/mobile/android/getNextItemId.php";
         HttpEntity httpEntity = null;
 
         try {

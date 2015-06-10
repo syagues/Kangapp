@@ -1,17 +1,16 @@
 package projecte.kangapp;
 
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,10 +18,8 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -33,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import projecte.kangapp.adapter.DatePickerFragment;
+import projecte.kangapp.database.ApiConnector;
 
 /**
  * Created by sergi on 22/5/15.
@@ -61,14 +59,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
     // Spinner
     int indexCountry;
     ArrayList<Integer> countriesId;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Inicialitzacio spinner
-        new GetAllCountriesTask().execute(new ApiConnector());
-    }
 
     @Override
     protected void onResume() {
@@ -121,6 +111,9 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 save();
             }
         });
+
+        // Inicialitzacio spinner
+        new GetAllCountriesTask().execute(new ApiConnector());
     }
 
     private void showDatePicker() {
@@ -151,6 +144,21 @@ public class EditarPerfilActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_editar_perfil, menu);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_image:
+                Intent intent = new Intent(getApplicationContext(), UploadToServerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id", userId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void setupBackButton(){

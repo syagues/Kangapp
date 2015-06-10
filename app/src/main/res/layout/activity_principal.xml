@@ -28,18 +28,18 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="130dp"
+            android:layout_marginBottom="80dp"
             android:layout_marginRight="12dp"
             android:background="@drawable/fab2_background"
             android:src="@drawable/ic_add_white_24dp"
             android:elevation="6dp"/>
 
         <ImageButton
-            android:id="@+id/fabButton"
+            android:id="@+id/articulosButton"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="65dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="12dp"
             android:background="@drawable/fab_background"
             android:src="@drawable/ic_view_list_white_24dp"
