@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,5 +11,13 @@
         android:background="@color/primary"
         android:theme="@style/TemaProva"
         android:elevation="6dp"/>
+
+    <ListView
+        android:id="@+id/lista_ajustes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textAlignment="center"
+        android:padding="20dp"></ListView>
 
 </LinearLayout>

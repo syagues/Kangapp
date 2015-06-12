@@ -77,4 +77,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
+
+    public void addItem(int position, CardArticulo card) {
+        mArticuloList.add(position, card);
+        notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        mArticuloList.remove(position);
+        notifyItemRemoved(position);
+    }
 }

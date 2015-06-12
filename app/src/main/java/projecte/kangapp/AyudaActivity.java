@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -50,6 +52,32 @@ public class AyudaActivity extends AppCompatActivity {
 
         // Toolbar (Menu lateral)
         setupToolbar();
+
+        // Llista
+        ListView llista = (ListView)findViewById(R.id.lista_sugerencias);
+        final String[] opcions = {getResources().getString(R.string.str_siguenos_twitter), getResources().getString(R.string.str_visita_blog), getResources().getString(R.string.str_terminos_y_condiciones), ""};
+        llista.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, opcions));
+        llista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                switch (i) {
+                    case 0:
+                        startTwitter(getApplicationContext());
+                        break;
+                    case 1:
+                        Intent blogIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://blog.kangapp.com/es/"));
+                        startActivity(blogIntent);
+                        break;
+                    case 2:
+                        Intent termsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://kangapp.com/terms"));
+                        startActivity(termsIntent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     public void setupToolbar(){
@@ -158,6 +186,21 @@ public class AyudaActivity extends AppCompatActivity {
             // set the selection to the item with the identifier 1
             result.setSelectionByIdentifier(10, false);
         }
+    }
+
+    public void startTwitter(Context context) {
+
+        Intent intent = null;
+        try {
+            // get the Twitter app if possible
+            context.getPackageManager().getPackageInfo("com.twitter.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=Kangapp"));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            // no Twitter app, revert to browser
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/Kangapp"));
+        }
+        startActivity(intent);
     }
 }
 

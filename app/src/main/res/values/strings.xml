@@ -8,15 +8,18 @@
 
     <!-- Login i Registre -->
     <string name="str_nombre">Nombre</string>
+    <string name="str_nombre_usuario">Nombre de usuario</string>
     <string name="str_contraseña">Contraseña</string>
     <string name="str_confirmar_contraseña">Confirmar Contraseña</string>
     <string name="str_registrarse">Registrarse</string>
     <string name="str_acceder">Acceder</string>
+    <string name="str_entrar">Entrar</string>
     <string name="str_acceso">Acceso</string>
     <string name="str_correo_electronico">Correo Electrónico</string>
-    <string name="str_nick">Nick</string>
+    <string name="str_nick">Nombre de usuario</string>
     <string name="str_enviar_datos">Enviar Datos</string>
     <string name="str_apellidos">Apellidos</string>
+    <string name="str_no_cuenta">¿No tienes cuenta?</string>
 
     <!-- Menu Lateral -->
     <string name="str_buscar">Buscar</string>
@@ -32,6 +35,10 @@
 
     <!-- Articulos -->
     <string name="str_opciones">Opciones</string>
+    <string name="str_buscar_por">Buscar por:</string>
+    <string name="str_por_marca">por Marca</string>
+    <string name="str_por_tipo">por Tipo</string>
+    <string name="str_por_categroia">por Categoría</string>
 
     <!-- Mis Articulos -->
 
@@ -86,7 +93,8 @@
     <string name="str_fechaini">Fecha inicio</string>
     <string name="str_fechafin">Fecha fin</string>
     <string name="str_aceptar">Aceptar</string>
-    <string name="str_alert_fecha">La fecha no puede ser anterior a la actual</string>
+    <string name="str_alert_fecha_anterior">Las fechas introducidas no pueden ser anteriores a la actual.</string>
+    <string name="str_alert_fecha_incorr">Las fechas introducidas son incorrectas, el periodo debe ser de 1 a 31 dias.</string>
 
     <!-- Perfil -->
     <string name="str_miperfil">Mi perfil</string>
@@ -122,6 +130,17 @@
     <string name="str_preg_mostrar">¿Quieres mostrar tu ciudad?</string>
     <string name="str_preg_info">¿Quieres informar sobre tu ciudad?</string>
     <string name="str_foto_perfil">Mi foto de perfil</string>
+
+    <!-- Ajustes -->
+    <string name="str_cerrar_sesion">Cerrar sesión</string>
+    <string name="str_seguro_cerrar_sesion">¿Seguro que deseas cerrar la sesión?</string>
+    <string name="str_si">Si</string>
+    <string name="str_no">No</string>
+    
+    <!-- Ayuda y Sugerencias -->
+    <string name="str_siguenos_twitter">Síguenos en Twitter</string>
+    <string name="str_visita_blog">Visita el nuestro Blog</string>
+    <string name="str_terminos_y_condiciones">Términos legales y privacidad</string>
 
     <!-- Test text -->
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu ultrices nibh, ut hendrerit elit. Praesent in dolor varius, ultricies augue semper, euismod quam. Fusce et ultricies leo, nec pulvinar sapien. Nullam sollicitudin porttitor dui, at venenatis nisl commodo nec. Etiam ac felis tincidunt, imperdiet massa ut, finibus urna. Donec velit massa, tristique et magna eget, bibendum condimentum nisi. Sed pretium pretium ultricies. Nunc sapien nulla, aliquet quis commodo eu, egestas tempor velit. Fusce egestas, massa nec aliquam lobortis, odio arcu volutpat quam, sit amet pulvinar est dolor a sem. Curabitur id commodo ligula. Maecenas sodales orci lorem, non dapibus mauris pharetra non. Integer in nisi at ex lobortis pulvinar. Fusce nec purus odio. Maecenas sit amet elit venenatis, lobortis ex at, mattis velit. Aliquam dictum dictum metus, et pharetra urna egestas eget. Mauris vitae leo sit amet ex ultricies molestie eu et ligula. Proin placerat commodo nulla in vestibulum. Maecenas vel ornare arcu. Duis tristique tincidunt nisl vitae iaculis. Curabitur placerat pulvinar odio, nec euismod turpis vehicula eget. Phasellus vel posuere dolor. Maecenas auctor quam eros, eget tristique nulla pharetra sed. Nullam at nunc at dolor lacinia cursus. Suspendisse sed dui neque. Donec molestie nec tellus id posuere. Duis sit amet porta sapien, ut vehicula leo. Maecenas laoreet quam nec quam eleifend cursus. Phasellus tincidunt aliquet tortor vitae mattis. Proin risus turpis, rhoncus eget interdum eu, bibendum eu purus. Etiam elementum dolor cursus ante vulputate ullamcorper. Integer efficitur dui risus, ut viverra massa pharetra vel. Nulla eget eros felis. Etiam faucibus ex et orci elementum, sed lobortis quam ultricies. Sed sit amet risus metus. Donec vel libero velit. Maecenas ullamcorper quam a tellus maximus mollis. Curabitur quis elit mi. Nam vel nibh maximus, maximus nunc ut, efficitur arcu. Praesent sed consequat libero. Sed vulputate elit iaculis dolor fermentum dictum. Pellentesque eget purus malesuada, euismod enim fermentum, varius mauris. Donec gravida aliquam tempus. Morbi eros ex, pretium eget interdum nec, ultricies eget est. Proin in condimentum odio. Mauris tempor non risus vel dictum. Nulla quis lobortis nunc. Ut vulputate, odio in sagittis tempor, arcu metus venenatis purus, porttitor feugiat orci ante ac lacus. In eget lectus molestie, faucibus nisl porta, ornare tortor. Vestibulum ligula ligula, porta a arcu in, semper eleifend nunc. Praesent mattis sit amet tellus ac rhoncus. Aenean et ipsum volutpat, tristique nulla et, consectetur enim. Nulla ligula ligula, elementum ac risus ac, mattis placerat elit. Phasellus a orci ligula. Nam convallis aliquam interdum. Duis vel libero sed justo semper porta. Nullam feugiat pellentesque est nec vulputate. Mauris ut nisl elit. Donec luctus lorem vitae dui maximus tincidunt. Curabitur ultrices felis ut mauris accumsan, vitae tincidunt nulla pharetra. Phasellus ultrices fermentum imperdiet. Pellentesque tristique nulla sit amet dolor pellentesque, eu tincidunt turpis volutpat. Vestibulum sollicitudin ipsum a justo viverra convallis. Nunc accumsan bibendum consequat. Phasellus nisi massa, pellentesque posuere vehicula eu, mollis quis purus. Quisque porttitor mi at suscipit feugiat. Suspendisse potenti. Vestibulum dapibus euismod nulla ac tempus. Aliquam quis egestas nibh. Donec ornare turpis eget leo lobortis.</string>

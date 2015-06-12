@@ -117,7 +117,11 @@ public class DetalleArticuloActivity extends AppCompatActivity {
             tvItemName.setText(json.getString("company") + " " + json.getString("model"));
             tvType.setText(json.getString("category") + ", " + json.getString("type"));
             tvUserName.setText(json.getString("username") + " " + json.getString("surname"));
-            tvUserCountry.setText(json.getString("geo"));
+            // Control Pais
+            if(!json.getString("geo").equals("null"))
+                tvUserCountry.setText(json.getString("geo"));
+            else
+                tvUserCountry.setVisibility(View.GONE);
             tvUserItems.setText(Integer.toString(json.getInt("items")));
             tvUserDeals.setText(Integer.toString(json.getInt("deals")));
             if(!json.getString("rate").equals("null"))

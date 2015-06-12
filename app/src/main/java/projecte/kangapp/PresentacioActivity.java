@@ -28,14 +28,10 @@ public class PresentacioActivity extends Activity {
     SharedPreferences prefs;
     String prefsUser = "user";
 
-    int userId = 8; // 13
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presentacio);
-
-        new GetUserByIdTask().execute(new ApiConnector());
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -47,66 +43,26 @@ public class PresentacioActivity extends Activity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        iniciarApp();
+                        isLogged();
                     }
                 }, 1000);
             }
         }, 2000);
     }
 
-    public void iniciarApp() {
-        Intent intent = new Intent(this, PrincipalActivity.class);
+    public void isLogged(){
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        int userId = prefs.getInt("id", 0);
+        if(userId == 0){
+            iniciarApp(RegistreActivity.class);
+        } else {
+            iniciarApp(PrincipalActivity.class);
+        }
+    }
+
+    public void iniciarApp(Class clase) {
+        Intent intent = new Intent(this, clase);
         startActivity(intent);
         finish();
-    }
-
-    public void saveUserPreferences(JSONArray jsonArray){
-        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        JSONObject json = null;
-
-        try {
-            if(jsonArray != null) {
-                json = jsonArray.getJSONObject(0);
-                Log.i(TAG, "UserId: " + json.getInt("id"));
-                editor.putInt("id", json.getInt("id"));
-                editor.putString("name", json.getString("name") + " " + json.getString("surname"));
-                editor.putString("email", json.getString("email"));
-                editor.putString("url", getDownloadUrl(json.getString("path")));
-
-                editor.commit();
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public String getDownloadUrl(String path){
-        String[] pathSplit = path.split("/");
-        String url = "http://46.101.24.238";
-        for (int i=0; i<pathSplit.length; i++){
-            if(i>4){
-                url += "/" + pathSplit[i];
-            }
-        }
-        return url;
-    }
-
-    private class GetUserByIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
-
-        @Override
-        protected JSONArray doInBackground(ApiConnector... params) {
-
-            // it is executed on Background thread
-            return params[0].GetUserById(userId);
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            saveUserPreferences(jsonArray);
-        }
     }
 }

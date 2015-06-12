@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="projecte.kangapp.ArticulosActivity">
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/action_por_marca"
+            android:title="@string/str_por_marca"
+            app:showAsAction="never"/>
+
+        <item android:id="@+id/action_por_tipo"
+            android:title="@string/str_por_tipo"
+            app:showAsAction="never"/>
+
+        <item android:id="@+id/action_por_categoria"
+            android:title="@string/str_por_categroia"
+            app:showAsAction="never"/>
+
+    </group>
+</menu>

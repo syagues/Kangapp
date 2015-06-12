@@ -5,75 +5,94 @@
     android:background="@color/primary"
     android:layout_height="match_parent">
 
-
-
-    <Button
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/bRegistre"
-        android:text="@string/str_registrarse"
-        android:layout_width="150dp"
-        android:background="@color/white"
-        android:textColor="@color/primary"
-        android:layout_height="20dp"
-        android:elevation="20dp"
-        android:layout_weight="1"/>
-
     <ImageView
         android:id="@+id/imageViewPetit"
-        android:layout_width="159dp"
-        android:layout_height="159dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
         android:src="@drawable/logo"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/str_no_cuenta"/>
+
+        <Button
+            android:id="@+id/bRegistre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:text="@string/str_registrarse"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
     <EditText
-        android:layout_gravity="center_horizontal"
-        android:hint="@string/str_nombre"
-        android:layout_weight="1"
         android:id="@+id/etNom"
-        android:padding="10sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:selectAllOnFocus="true"
+        android:hint="@string/str_nombre_usuario"
         android:singleLine="true"
-        android:elevation="0dp"
-        android:background="#ffffff"
-        android:layout_width="240dp"
-        android:textSize="12sp"
-        android:layout_margin="10dp"
-        android:layout_height="10dp" />
+        android:elevation="2dp"
+        android:background="@color/white"
+        android:textSize="15sp" />
 
 
     <EditText
+        android:id="@+id/etContrasenya"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:layout_gravity="center_horizontal"
         android:hint="@string/str_contraseña"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:id="@+id/etContrasenya"
         android:inputType="textPassword"
         android:background="@color/white"
-        android:layout_width="240dp"
-        android:textSize="12sp"
-        android:padding="10sp"
-        android:layout_margin="10dp"
-        android:elevation="0dp"
-        android:selectAllOnFocus="true"
-        android:layout_height="10dp" />
+        android:textSize="15sp"
+        android:singleLine="true"
+        android:elevation="2dp"
+        android:selectAllOnFocus="true" />
 
     <Button
-        android:layout_gravity="center_horizontal"
-        android:text="@string/str_acceder"
-        android:layout_margin="20dp"
-        android:elevation="20dp"
         android:id="@+id/bAcces"
-        android:layout_weight="1"
-        android:layout_width="150dp"
-        android:background="#ffffff"
-        android:textColor="@color/primary"
-        android:enabled="false"
-        android:layout_marginBottom="50dp"
-        android:layout_height="20dp" />
-
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/white"
+        android:text="@string/str_entrar"
+        android:elevation="6dp" />
 
 </LinearLayout>
