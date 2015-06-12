@@ -359,15 +359,15 @@ public class PrincipalActivity extends AppCompatActivity implements
     }
 
     private void showViews() {
-        articulosButton.animate().translationY(-(articulosButton.getHeight()-15)).setInterpolator(new AccelerateInterpolator(2)).start();
-        publicarButton.animate().translationY(-(publicarButton.getHeight() - 15)).setInterpolator(new AccelerateInterpolator(2)).start();
+        articulosButton.animate().translationY(-(articulosButton.getHeight()-15)).setInterpolator(new AccelerateInterpolator(1)).start();
+        publicarButton.animate().translationY(-(publicarButton.getHeight() - 15)).setInterpolator(new AccelerateInterpolator(1)).start();
         articuloCard.animate().translationX(0).setInterpolator(new DecelerateInterpolator(1)).start();
     }
 
     private void hideViews() {
-        articulosButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-        publicarButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
         articuloCard.animate().translationX(articuloCard.getWidth() + 16).setInterpolator(new AccelerateInterpolator(1)).start();
+        articulosButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(1)).start();
+        publicarButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(1)).start();
     }
 
     /**

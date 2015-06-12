@@ -145,6 +145,7 @@ public class RegistreActivity extends Activity {
     }
 
     public void iniciarApp() {
+        Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, PrincipalActivity.class);
         startActivity(intent);
         finish();

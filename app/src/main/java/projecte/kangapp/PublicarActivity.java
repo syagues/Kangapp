@@ -143,7 +143,7 @@ public class PublicarActivity extends AppCompatActivity implements
             if (resultCode==RESULT_OK){
                 latitude = data.getDoubleExtra("Latitude",0);
                 longitude = data.getDoubleExtra("Longitude",0);
-                Toast.makeText(this, "Posicion: " + Double.toString(data.getDoubleExtra("Latitude",0)) + ", " + Double.toString(data.getDoubleExtra("Longitude",0)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Posicion activada", Toast.LENGTH_SHORT).show();
                 if(!locSeleccionat){
                     ((ActionMenuItemView) findViewById(R.id.action_selec_location)).setIcon(getResources().getDrawable(R.drawable.ic_place_green_24dp));
                     locSeleccionat = true;
@@ -206,7 +206,7 @@ public class PublicarActivity extends AppCompatActivity implements
         if (mLastLocation != null) {
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
-            Toast.makeText(this, "Posición: " + mLastLocation.getLatitude() + ", " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Localización activada", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "No data about Location", Toast.LENGTH_SHORT).show();
         }

@@ -265,6 +265,9 @@ public class PerfilActivity extends AppCompatActivity {
                 // Pais
                 if(json.getString("geo") != "null") {
                     tvGeo.setText(json.getString("geo"));
+                    findViewById(R.id.ic_pais).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_pais).setVisibility(View.VISIBLE);
+                    tvGeo.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_pais).setVisibility(View.GONE);
                     findViewById(R.id.tv_pais).setVisibility(View.GONE);
@@ -273,6 +276,9 @@ public class PerfilActivity extends AppCompatActivity {
                 // Ciudad
                 if(json.getString("location") != "null") {
                     tvLocation.setText(json.getString("location"));
+                    findViewById(R.id.ic_ciudad).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_ciudad).setVisibility(View.VISIBLE);
+                    tvLocation.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_ciudad).setVisibility(View.GONE);
                     findViewById(R.id.tv_ciudad).setVisibility(View.GONE);
@@ -281,12 +287,19 @@ public class PerfilActivity extends AppCompatActivity {
                 // Quiero mostrar ciudad
                 if(json.getInt("want_show_city") != 1)
                     tvShowCity.setVisibility(View.GONE);
+                else
+                    tvShowCity.setVisibility(View.VISIBLE);
                 // Quiero informar ciudad
                 if(json.getInt("want_inform_city") != 1)
                     tvShareInfo.setVisibility(View.GONE);
+                else
+                    tvShareInfo.setVisibility(View.VISIBLE);
                 // Biografia
                 if(json.getString("biography") != "null") {
                     tvBiography.setText(json.getString("biography"));
+                    findViewById(R.id.ic_biografia).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_biografia).setVisibility(View.VISIBLE);
+                    tvBiography.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_biografia).setVisibility(View.GONE);
                     findViewById(R.id.tv_biografia).setVisibility(View.GONE);
@@ -295,9 +308,14 @@ public class PerfilActivity extends AppCompatActivity {
                 // Control Tarjeta Perfil
                 if(json.getString("geo").equals("null") && json.getString("location").equals("null") && json.getString("want_show_city").equals("0") && json.getString("want_inform_city").equals("0") && json.getString("biography").equals("null"))
                     findViewById(R.id.card_perfil).setVisibility(View.GONE);
+                else
+                    findViewById(R.id.card_perfil).setVisibility(View.VISIBLE);
                 // Hobbies
                 if(json.getString("hobbies") != "null") {
                     tvHobbies.setText(json.getString("hobbies"));
+                    findViewById(R.id.ic_hobbies).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_hobbies).setVisibility(View.VISIBLE);
+                    tvHobbies.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_hobbies).setVisibility(View.GONE);
                     findViewById(R.id.tv_hobbies).setVisibility(View.GONE);
@@ -306,6 +324,8 @@ public class PerfilActivity extends AppCompatActivity {
                 // Donde recomiendo viajar
                 if(json.getString("destination_suggesstions") != "null") {
                     tvRecomendTravel.setText(json.getString("destination_suggesstions"));
+                    findViewById(R.id.tv_recom_viaj).setVisibility(View.VISIBLE);
+                    tvRecomendTravel.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.tv_recom_viaj).setVisibility(View.GONE);
                     tvRecomendTravel.setVisibility(View.GONE);
@@ -313,18 +333,27 @@ public class PerfilActivity extends AppCompatActivity {
                 // Donde me gustaria viajar
                 if(json.getString("destination_wishes") != "null") {
                     tvWishTravel.setText(json.getString("destination_wishes"));
+                    findViewById(R.id.tv_gust_viaj).setVisibility(View.VISIBLE);
+                    tvWishTravel.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.tv_gust_viaj).setVisibility(View.GONE);
                     tvWishTravel.setVisibility(View.GONE);
                 }
                 if(json.getString("destination_suggesstions") == "null" && json.getString("destination_wishes") == "null")
                     findViewById(R.id.ic_viajar).setVisibility(View.GONE);
+                else
+                    findViewById(R.id.ic_viajar).setVisibility(View.VISIBLE);
                 // Control Tarjeta Intereses Personales
                 if(json.getString("hobbies").equals("null") && json.getString("destination_suggesstions").equals("null") && json.getString("destination_wishes").equals("null"))
                     findViewById(R.id.card_intereses).setVisibility(View.GONE);
+                else
+                    findViewById(R.id.card_intereses).setVisibility(View.VISIBLE);
                 // Facebook
                 if(json.getString("facebook") != "null") {
                     tvFacebook.setText(json.getString("facebook"));
+                    findViewById(R.id.ic_facebook).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_facebook).setVisibility(View.VISIBLE);
+                    tvFacebook.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_facebook).setVisibility(View.GONE);
                     findViewById(R.id.tv_facebook).setVisibility(View.GONE);
@@ -333,6 +362,9 @@ public class PerfilActivity extends AppCompatActivity {
                 // Twitter
                 if(json.getString("twitter") != "null") {
                     tvTwitter.setText(json.getString("twitter"));
+                    findViewById(R.id.ic_twitter).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_twitter).setVisibility(View.VISIBLE);
+                    tvTwitter.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_twitter).setVisibility(View.GONE);
                     findViewById(R.id.tv_twitter).setVisibility(View.GONE);
@@ -341,6 +373,9 @@ public class PerfilActivity extends AppCompatActivity {
                 // Google +
                 if(json.getString("googlePlus") != "null") {
                     tvGooglePlus.setText(json.getString("googlePlus"));
+                    findViewById(R.id.ic_googleplus).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tv_googleplus).setVisibility(View.VISIBLE);
+                    tvGooglePlus.setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.ic_googleplus).setVisibility(View.GONE);
                     findViewById(R.id.tv_googleplus).setVisibility(View.GONE);
@@ -349,10 +384,13 @@ public class PerfilActivity extends AppCompatActivity {
                 // Control tarjeta Redes Sociales
                 if(json.getString("facebook").equals("null") && json.getString("twitter").equals("null") && json.getString("googlePlus").equals("null"))
                     findViewById(R.id.card_social).setVisibility(View.GONE);
+                else
+                    findViewById(R.id.card_social).setVisibility(View.VISIBLE);
                 // Languages
                 if(json.getString("language") != "null") {
                     tvLang.setText(json.getString("language"));
                     tvLangLevel.setText(json.getString("level"));
+                    findViewById(R.id.card_idiomas).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.card_idiomas).setVisibility(View.GONE);
                 }
