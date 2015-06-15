@@ -11,10 +11,9 @@ Además de esto, incluye mapas, geolocalización, gestión de bases de datos rem
 Si quieres hecharle un vistazo puedes descargar la APK en "https://drive.google.com/file/d/0B1xyTG3P-_E9aGNCclJsYlR4a28/view?usp=sharing".
 <br/>
 # Preview
-<IMG src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap1.gif"/>
-<IMG src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap2.gif"/>
+<IMG width="250" src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap1.gif"/>
+<IMG width="250" src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap2.gif"/>
+<IMG width="250" src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap3.gif"/>
 <br/>
-<IMG src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap3.gif"/>
-<IMG src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap4.gif"/>
-<br/>
-<IMG src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap5.gif"/>
+<IMG width="250" src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap4.gif"/>
+<IMG width="250" src="https://github.com/syagues/Kangapp/blob/master/readme/Kangapp_cap5.gif"/>
