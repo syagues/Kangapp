@@ -3,6 +3,7 @@ package projecte.kangapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -16,44 +17,83 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import projecte.animations.Techniques;
 import projecte.animations.YoYo;
+import projecte.kangapp.database.ApiConnector;
 
 /**
  * Created by RAÜL on 18/05/2015.
  */
 
-public class DadesActivity extends Activity  {
+public class DadesActivity extends Activity {
 
     // Log
     protected static final String TAG = "DadesActivity";
 
-    boolean eNom=false;
-    boolean eCognom=false;
-    boolean eContras=false;
-    boolean eNick=false;
-    boolean eCorreu=false;
+    boolean eNom = false;
+    boolean eCognom = false;
+    boolean eContras = false;
+    boolean eNick = false;
+    boolean eCorreu = false;
+
+    public EditText etNick;
+    public EditText etCorreu;
+
+    public String mail;
+    public String name;
+    public String pwd;
+    public String surname;
+    public String nick;
+    public String usuariValidat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dades);
 
-
-
         final Button benvDades = (Button) findViewById(R.id.bEnviarDades);
         final EditText etNom = (EditText) findViewById(R.id.etNomDades);
         final EditText etContrasenya = (EditText) findViewById(R.id.etContrasenyaDades);
         etContrasenya.setTypeface(Typeface.DEFAULT);
         etContrasenya.setTransformationMethod(new PasswordTransformationMethod());
-        final EditText etCorreu = (EditText) findViewById(R.id.etCorreuElectronicDades);
+        etCorreu = (EditText) findViewById(R.id.etCorreuElectronicDades);
         final EditText etConfCont = (EditText) findViewById(R.id.etConfirmaContrasenya);
         etConfCont.setTypeface(Typeface.DEFAULT);
         etConfCont.setTransformationMethod(new PasswordTransformationMethod());
-        final EditText etNick = (EditText) findViewById(R.id.etNick);
+        etNick = (EditText) findViewById(R.id.etNick);
         final EditText etCognoms = (EditText) findViewById(R.id.etApellido);
 
+        etCorreu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (etCorreu.getText().toString().length() != 0) {
+                    if (!isValidEmail(etCorreu.getText().toString())) {
+                        etCorreu.setBackgroundColor(getResources().getColor(R.color.light_red));
+                    } else {
+                        etCorreu.setBackgroundColor(getResources().getColor(R.color.light_green));
+                        eCorreu = true;
+                    }
+                } else eCorreu = false;
+                if (eNom && eCognom && eContras && eCorreu && eNick) {
+                    benvDades.setVisibility(View.VISIBLE);
+                } else benvDades.setVisibility(View.INVISIBLE);
+            }
+        });
 
         etNom.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,12 +111,10 @@ public class DadesActivity extends Activity  {
 
                 if (etNom.getText().toString().length() != 0) {
                     eNom = true;
-                }
-                else eNom = false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
+                } else eNom = false;
+                if (eNom && eCognom && eContras && eCorreu && eNick) {
                     benvDades.setVisibility(View.VISIBLE);
-                }
-                else benvDades.setVisibility(View.INVISIBLE);
+                } else benvDades.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -93,65 +131,15 @@ public class DadesActivity extends Activity  {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (etCognoms.getText().toString().length()!=0){
-                    eCognom=true;
-                }
-                else eCognom = false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
+                if (etCognoms.getText().toString().length() != 0) {
+                    eCognom = true;
+                } else eCognom = false;
+                if (eNom && eCognom && eContras && eCorreu && eNick) {
                     benvDades.setVisibility(View.VISIBLE);
-                }
-                else benvDades.setVisibility(View.INVISIBLE);
+                } else benvDades.setVisibility(View.INVISIBLE);
             }
         });
 
-        etContrasenya.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (etContrasenya.getText().toString().length()!=0 && etContrasenya.getText().toString().equals(etConfCont.getText().toString())){
-                    eContras=true;
-                }
-                else eContras=false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
-                    benvDades.setVisibility(View.VISIBLE);
-                }
-                else benvDades.setVisibility(View.INVISIBLE);
-            }
-        });
-        etCorreu.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if (etCorreu.getText().toString().length()!=0){
-                    eCorreu=true;
-                    etCorreu.setBackgroundColor(getResources().getColor(android.R.color.white));
-                }
-                else eCorreu = false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
-                    benvDades.setVisibility(View.VISIBLE);
-                }
-                else benvDades.setVisibility(View.INVISIBLE);
-            }
-        });
         etNick.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -165,21 +153,20 @@ public class DadesActivity extends Activity  {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (etNick.getText().toString().length()!=0){
+                if (etNick.getText().toString().length() != 0) {
                     etNick.setBackgroundColor(getResources().getColor(android.R.color.white));
-                    eNick=true;
-                }
-                else eNick=false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
+                    eNick = true;
+                } else eNick = false;
+                if (eNom && eCognom && eContras && eCorreu && eNick) {
                     benvDades.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     benvDades.setVisibility(View.INVISIBLE);
 
                 }
             }
         });
+
         etConfCont.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -193,14 +180,17 @@ public class DadesActivity extends Activity  {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (etContrasenya.getText().toString().length()!=0 && etContrasenya.getText().toString().equals(etConfCont.getText().toString())){
-                    eContras=true;
+                if (etContrasenya.getText().toString().length() != 0 && etContrasenya.getText().toString().equals(etConfCont.getText().toString())) {
+                    etContrasenya.setBackgroundColor(getResources().getColor(R.color.light_green));
+                    etConfCont.setBackgroundColor(getResources().getColor(R.color.light_green));
+                    eContras = true;
+                } else {
+                    etConfCont.setBackgroundColor(getResources().getColor(R.color.light_red));
+                    eContras = false;
                 }
-                else eContras = false;
-                if (eNom && eCognom && eContras && eCorreu && eNick){
+                if (eNom && eCognom && eContras && eCorreu && eNick) {
                     benvDades.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     benvDades.setVisibility(View.INVISIBLE);
                 }
             }
@@ -209,40 +199,46 @@ public class DadesActivity extends Activity  {
         benvDades.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isValidEmail(etCorreu.getText().toString())){
-                    YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etCorreuElectronicDades));
-                    Toast toast = Toast.makeText(getApplicationContext(), "EL MAIL INTRODUICIDO NO ES CORRECTO", Toast.LENGTH_LONG);
-                    LinearLayout linearLayout = (LinearLayout) toast.getView();
-                    TextView messageTextView = (TextView) linearLayout.getChildAt(0);
-                    messageTextView.setTextSize(12);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    etCorreu.setBackground(getResources().getDrawable(R.drawable.validacioincorrecta));
-                } else {
-                    if (etNick.getText().toString().equals("raul")) {
-                        Toast tolast = Toast.makeText(getApplicationContext(), "EL NICK ELEGIDO YA HA SIDO ELEGIDO POR OTRO USUARIO", Toast.LENGTH_LONG);
-                        LinearLayout linearLayout = (LinearLayout) tolast.getView();
-                        TextView messageTextView = (TextView) linearLayout.getChildAt(0);
-                        messageTextView.setTextSize(12);
-                        tolast.setGravity(Gravity.CENTER,0,0);
-                        tolast.show();
-                        YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etNick));
-                        etNick.setBackground(getResources().getDrawable(R.drawable.validacioincorrecta));
-                    }
-                    else{
-                        Intent email = new Intent(Intent.ACTION_SEND);
-                        email.putExtra(Intent.EXTRA_EMAIL,etCorreu.getText().toString());
-                        email.putExtra(Intent.EXTRA_SUBJECT, "Bienvenido " + etNick.getText().toString());
-                        email.putExtra(Intent.EXTRA_TEXT, "Hola " + etNick.getText().toString() + "!!\bPara completar la validación de la cuenta visita el link.");
-                        email.setType("message/rfc822");
-                        startActivity(Intent.createChooser(email, "Tria: "));
-                    }
 
-                }
+                nick = etNick.getText().toString();
+                pwd = etContrasenya.getText().toString();
+                name = etNom.getText().toString();
+                mail = etCorreu.getText().toString();
+                surname = etCognoms.getText().toString();
+
+                new setDataTask().execute(new ApiConnector());
             }
         });
 
 
+    }
+
+    public void isValidated(JSONArray jsonAr) {
+        if ((jsonAr == null)) {
+            Toast.makeText(getApplicationContext(), "El nombre de usuario ya existe", Toast.LENGTH_LONG).show();
+            YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etNick));
+            etNick.setBackgroundColor(getResources().getColor(R.color.light_red));
+        } else {
+            JSONObject json = null;
+
+            try {
+                json = jsonAr.getJSONObject(0);
+                if (json.has("id")) {
+                    Toast.makeText(getApplicationContext(), "Registro completado!", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                if (json.has("email")) {
+                    Toast.makeText(getApplicationContext(), "El correo electrónico introducido ya esta registrado", Toast.LENGTH_LONG).show();
+                    YoYo.with(Techniques.Shake).duration(500).playOn(findViewById(R.id.etCorreuElectronicDades));
+                    etCorreu.setBackgroundColor(getResources().getColor(R.color.light_red));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     public final static boolean isValidEmail(CharSequence target) {
@@ -253,5 +249,17 @@ public class DadesActivity extends Activity  {
         }
     }
 
+    private class setDataTask extends AsyncTask<ApiConnector, Long, JSONArray> {
 
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+            //return params[0].GetItemByUserId();
+            return params[0].setData(nick, pwd, mail, name, surname);
+        }
+
+        protected void onPostExecute(JSONArray jsonArray) {
+            isValidated(jsonArray);
+        }
+
+    }
 }

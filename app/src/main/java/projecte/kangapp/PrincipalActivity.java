@@ -3,6 +3,8 @@ package projecte.kangapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,9 +19,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +55,11 @@ import com.squareup.picasso.Picasso;
 import android.support.v7.widget.*;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,6 +67,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import projecte.kangapp.adapter.RoundImage;
 import projecte.kangapp.database.ApiConnector;
 
 public class PrincipalActivity extends AppCompatActivity implements
@@ -75,17 +86,26 @@ public class PrincipalActivity extends AppCompatActivity implements
     float bearingActual, zoomActual, tiltActual;
 
     // Markers
-    ArrayList<Integer> markerIds;
+    HashMap<Marker,Integer> idMarkerMap;
 
     // Preferencies
     String prefsLoc = "localitzacio";
     String prefsUser = "user";
+    int userId;
 
     // Cerca
     android.support.v7.widget.SearchView searchView;
 
     // Toolbar
     Bundle savedInstanceState = null;
+    Toolbar toolbar;
+
+    // Animacions
+    ImageButton publicarButton;
+    ImageButton articulosButton;
+    CardView articuloCard;
+    int articuloId;
+    ImageView ivArticulo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +116,11 @@ public class PrincipalActivity extends AppCompatActivity implements
         // Toolbar (Menu lateral)
         setupToolbar();
 
-        // Fab button
-        setupFabButton();
-
         // Localitzacio
         buildGoogleApiClient();
 
         // Publicar button
-        ImageButton publicarButton = (ImageButton)findViewById(R.id.publicarButton);
+        publicarButton = (ImageButton)findViewById(R.id.publicarButton);
         publicarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,13 +130,29 @@ public class PrincipalActivity extends AppCompatActivity implements
         });
 
         // Articulos button
-        ImageButton articulosButton = (ImageButton)findViewById(R.id.articulosButton);
+        articulosButton = (ImageButton)findViewById(R.id.articulosButton);
         articulosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ArticulosActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+            }
+        });
+
+        // Articulo card
+        articuloCard = (CardView) findViewById(R.id.card_articulo);
+        articuloCard.setVisibility(View.INVISIBLE);
+        articuloCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DetalleArticuloActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id", userId);
+                bundle.putInt("item_id", articuloId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -139,10 +172,11 @@ public class PrincipalActivity extends AppCompatActivity implements
 
     public void setupToolbar(){
         // Handle Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        userId = prefs.getInt("id", 0);
         //initialize and create the image loader logic
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
             @Override
@@ -247,10 +281,6 @@ public class PrincipalActivity extends AppCompatActivity implements
         }
     }
 
-    public void setupFabButton(){
-        ImageButton fabButton = (ImageButton) findViewById(R.id.fabButton);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -289,18 +319,16 @@ public class PrincipalActivity extends AppCompatActivity implements
     private void setUpMap(JSONArray jsonArray) {
         // Netejem el mapa i tornem a afegir els markers
         mMap.clear();
-        markerIds = new ArrayList<Integer>();
+        idMarkerMap = new HashMap<>();
         JSONObject json = null;
         if(jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     json = jsonArray.getJSONObject(i);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude")))
-                            .title(json.getString("company") + " " + json.getString("model"))
-                            .snippet(json.getString("category") + ", " + json.getString("type")));
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(json.getDouble("latitude"), json.getDouble("longitude"))));
 
-                    markerIds.add(json.getInt("id"));
+                    idMarkerMap.put(marker, json.getInt("id"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -312,9 +340,34 @@ public class PrincipalActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                //Toast.makeText(getApplicationContext(), "Marker id: " + idMarkerMap.get(marker), Toast.LENGTH_SHORT).show();
+                articuloId = idMarkerMap.get(marker);
+                new GetItemDetailsByIdTask().execute(new ApiConnector());
+                if(articuloCard.getVisibility() == View.INVISIBLE)
+                    articuloCard.setVisibility(View.VISIBLE);
+                showViews();
                 return false;
             }
         });
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                hideViews();
+            }
+        });
+    }
+
+    private void showViews() {
+        articulosButton.animate().translationY(-(articulosButton.getHeight()-15)).setInterpolator(new AccelerateInterpolator(1)).start();
+        publicarButton.animate().translationY(-(publicarButton.getHeight() - 15)).setInterpolator(new AccelerateInterpolator(1)).start();
+        articuloCard.animate().translationX(0).setInterpolator(new DecelerateInterpolator(1)).start();
+    }
+
+    private void hideViews() {
+        articuloCard.animate().translationX(articuloCard.getWidth() + 16).setInterpolator(new AccelerateInterpolator(1)).start();
+        articulosButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(1)).start();
+        publicarButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(1)).start();
     }
 
     /**
@@ -503,6 +556,72 @@ public class PrincipalActivity extends AppCompatActivity implements
         saveLocation(mCam.target.latitude, mCam.target.longitude, mCam.bearing, mCam.zoom, mCam.tilt);
     }
 
+    public void setCard(JSONArray jsonArray){
+        ivArticulo = (ImageView) findViewById(R.id.iv_articulo);
+        TextView tvNombreArticulo = (TextView) findViewById(R.id.tv_nombre_articulo);
+        TextView tvTipoArticulo = (TextView) findViewById(R.id.tv_tipo_articulo);
+
+        JSONObject json = null;
+        try {
+            json = jsonArray.getJSONObject(0);
+            // Imatge item
+            LoadItemImageFromURL loadItemImage = new LoadItemImageFromURL();
+            if(getDownloadUrl(json.getString("path_item")) != null)
+                loadItemImage.execute(getDownloadUrl(json.getString("path_item")));
+            tvNombreArticulo.setText(json.getString("company") + " " + json.getString("model"));
+            tvTipoArticulo.setText(json.getString("category") + ", " + json.getString("type"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getDownloadUrl(String path){
+        String url;
+        if(path != "null") {
+            String[] pathSplit = path.split("/");
+            url = "http://46.101.24.238";
+            for (int i = 0; i < pathSplit.length; i++) {
+                if (i > 4) {
+                    url += "/" + pathSplit[i];
+                }
+            }
+        } else {
+            return null;
+        }
+        return url;
+    }
+
+    public class LoadItemImageFromURL extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            try {
+                URL url = new URL(params[0]);
+                InputStream is = url.openConnection().getInputStream();
+                Bitmap bitMap = BitmapFactory.decodeStream(is);
+                return bitMap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            RoundImage roundedImage = new RoundImage(result);
+            ivArticulo.setImageDrawable(roundedImage);
+        }
+
+    }
+
     private class GetAllItemsLocationTask extends AsyncTask<ApiConnector,Long,JSONArray> {
 
         @Override
@@ -514,6 +633,21 @@ public class PrincipalActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             setUpMap(jsonArray);
+        }
+    }
+
+    private class GetItemDetailsByIdTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemDetailsById(articuloId);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            setCard(jsonArray);
         }
     }
 }

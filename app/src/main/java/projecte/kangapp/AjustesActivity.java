@@ -1,16 +1,20 @@
 package projecte.kangapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -23,6 +27,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import projecte.kangapp.adapter.CardArticulo;
@@ -50,6 +55,24 @@ public class AjustesActivity extends AppCompatActivity {
 
         // Toolbar (Menu lateral)
         setupToolbar();
+
+        // Llista
+        ListView llista = (ListView)findViewById(R.id.lista_ajustes);
+        final String[] opcions = {getResources().getString(R.string.str_cerrar_sesion), ""};
+        llista.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, opcions));
+        llista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                switch (i){
+                    case 0:
+                        showAlertDialog();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     public void setupToolbar(){
@@ -158,5 +181,35 @@ public class AjustesActivity extends AppCompatActivity {
             // set the selection to the item with the identifier 1
             result.setSelectionByIdentifier(9, false);
         }
+    }
+
+    public void showAlertDialog(){
+
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.str_seguro_cerrar_sesion)
+                .setPositiveButton(R.string.str_si, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        cerrarSesion();
+                    }
+                })
+                .setNegativeButton(R.string.str_no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No fer res
+                    }
+                })
+                .show();
+
+    }
+
+    public void cerrarSesion(){
+        SharedPreferences prefs = getSharedPreferences(prefsUser, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putInt("id", 0);
+        editor.commit();
+
+        Intent intent = new Intent(getApplicationContext(), RegistreActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

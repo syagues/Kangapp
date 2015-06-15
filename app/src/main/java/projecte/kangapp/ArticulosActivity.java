@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -43,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projecte.kangapp.adapter.CardArticulo;
-import projecte.kangapp.adapter.CercaPickerFragment;
 import projecte.kangapp.adapter.RecyclerAdapter;
 import projecte.kangapp.database.ApiConnector;
 import projecte.kangapp.listener.RecyclerItemClickListener;
@@ -68,6 +68,12 @@ public class ArticulosActivity extends AppCompatActivity {
 
     // Cerca
     SearchView searchView;
+    boolean perMarca = false;
+    boolean perTipo = false;
+    boolean perCategoria = false;
+    String search;
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
 
     // Preferences
     int userId;
@@ -101,6 +107,9 @@ public class ArticulosActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
             }
         });
+
+        // ItemList
+        itemList = new ArrayList<>();
     }
 
     public void setupToolbar(){
@@ -232,7 +241,41 @@ public class ArticulosActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                //CercaPickerFragment cercaPicker = new CercaPickerFragment();
+                View menuItemView = findViewById(R.id.action_settings);
+                final PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+                popupMenu.inflate(R.menu.menu_search_filter);
+                popupMenu.show();
+
+                // Item seleccionat
+                if(perMarca){
+                    popupMenu.getMenu().findItem(R.id.action_por_marca).setChecked(true);
+                } else if(perTipo){
+                    popupMenu.getMenu().findItem(R.id.action_por_tipo).setChecked(true);
+                } else if(perCategoria){
+                    popupMenu.getMenu().findItem(R.id.action_por_categoria).setChecked(true);
+                }
+                // Listener al clicar item
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_por_marca:
+                                perMarca = true;
+                                perTipo = perCategoria = false;
+                                return true;
+                            case R.id.action_por_tipo:
+                                perTipo = true;
+                                perMarca = perCategoria = false;
+                                return true;
+                            case R.id.action_por_categoria:
+                                perCategoria = true;
+                                perMarca = perTipo = false;
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -240,9 +283,9 @@ public class ArticulosActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(getItemList());
+        recyclerAdapter = new RecyclerAdapter(getItemList());
         recyclerView.setAdapter(recyclerAdapter);
 
         recyclerView.addOnItemTouchListener(
@@ -262,7 +305,6 @@ public class ArticulosActivity extends AppCompatActivity {
     }
 
     private void createItemList(JSONArray jsonArray) {
-        itemList = new ArrayList<>();
         if(jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject json = null;
@@ -299,6 +341,29 @@ public class ArticulosActivity extends AppCompatActivity {
 
     private void setupSearchView() {
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                itemList.clear();
+                search = query;
+                if(perMarca){
+                    new GetItemsByCompanyNameTask().execute(new ApiConnector());
+                } else if(perTipo){
+                    new GetItemsByTypeNameTask().execute(new ApiConnector());
+                } else if(perCategoria){
+                    new GetItemsByCategoryNameTask().execute(new ApiConnector());
+                } else {
+                    new GetItemsByLocaleTask().execute(new ApiConnector());
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
     }
 
     private class GetItemsByLocaleTask extends AsyncTask<ApiConnector,Long,JSONArray> {
@@ -314,6 +379,54 @@ public class ArticulosActivity extends AppCompatActivity {
         protected void onPostExecute(JSONArray jsonArray) {
             createItemList(jsonArray);
             initRecyclerView();
+        }
+    }
+
+    private class GetItemsByCompanyNameTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemsByCompanyName(search, "es");
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            createItemList(jsonArray);
+            recyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class GetItemsByTypeNameTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemsByTypeName(search, "es");
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            createItemList(jsonArray);
+            recyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class GetItemsByCategoryNameTask extends AsyncTask<ApiConnector,Long,JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(ApiConnector... params) {
+
+            // it is executed on Background thread
+            return params[0].GetItemsByCategoryName(search, "es");
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            createItemList(jsonArray);
+            recyclerAdapter.notifyDataSetChanged();
         }
     }
 }
