@@ -3,7 +3,7 @@ Android Material APP - Projecte Final Grau
 
 Este es mi proyecto final de CFGS en Desarrollo de Aplicaciones Multiplataforma. Se trata de una versión para dispositivos Android de la página www.kangapp.com (Aún en desarrollo).
 <br/><br/>
-Kangapp es un Marketplace p2p de alquiler de articulos para bebés i niños de poca edad, dirigido pricipalmente a famílias o usuarios que viajan con sus hijos.
+Kangapp es un Marketplace p2p de alquiler de articulos para bebés i niños de poca edad, dirigido principalmente a famílias o usuarios que viajan con sus hijos.
 <br/><br/>
 Se trata de una aplicación con un diseño basado en "Material Design", con elementos como Navigation Drawer, Card Views, Recycler Views o Animaciones.
 Además de esto, incluye mapas, geolocalización, gestión de bases de datos remotas y más.
